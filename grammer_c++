@@ -26,6 +26,17 @@ double d;
 cin >> text;
 cin >> d;
 
+行を受け取る
+string s, t;
+getline(cin, s); //1行目を受け取る
+getline(cin, t); //2行目を受け取る
+
+cin >> vec.at(0) >> vec.at(1) >> vec.at(2);    //配列で入力を受けることもできる
+
+for (int i = 0; i < 100; i++) {                //for文と配列で入力を受けることもできる
+    cin >> vec.at(i);
+}
+
 
 ▪️if文
 
@@ -73,9 +84,33 @@ for (int i = 0; i < N; i++) {
 
 ▪️文字列関係
 
+string型 ： ""
+char型 : ''
 str.size()  //文字列の長さ
+"Hello"s.size()  //変数じゃ無い場合はこのように末尾にsをつける
 str.at(i)   //i文字目にアクセス
 
+文字列の一部を書き換えるときはchar型を使う
+str = "Hello"
+str.at(0) = 'M';
+
+string型、char型は全角文字はうまく使えない
+stringとcharは==とかで比較できない
+　でも+とかで文字列を結合することはできる
+
+
+▪️配列
+vector<int> vec;          //配列の宣言
+vec = { 25, 100, 64 };    //配列への代入
+vec.size()                //配列の要素数
+vec.at(i)                 //配列のi番目にアクセス
+
+vector<int> vec(3);   //要素数3の配列{0,0,0}を宣言
+vector<string> vec(3);   //要素数3の配列{"","",""}を宣言
+vector<int> vec(3, 5);   //{5,5,5}で初期化された配列を宣言
+
+vec.push_back(10);   //末尾に追加(この場合10)
+vec.pop_back();      //末尾の要素を削除
 
 
 

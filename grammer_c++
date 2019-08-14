@@ -1,0 +1,79 @@
+▪️include関係 (最初に記述するとライブラリとか全部入る)
+
+#include <bits/stdc++.h>
+using namespace std;
+
+int main() {
+
+}
+
+
+▪️print文
+
+cout << "Hello, world!" << endl;  //改行あり
+cout << "Hello, world!" ;  //改行なし
+cout << "c" << "d";  //こういう書き方もできる
+cout << "c" << 100 << "d";  //こういう書き方もできる
+
+
+▪️標準入力　スペースか改行で区切ってくれる
+
+int a, b, c;
+cin >> a >> b >> c;
+
+string text;
+double d;
+cin >> text;
+cin >> d;
+
+
+▪️if文
+
+if(){
+
+}else if(){
+
+}else{
+
+}
+
+
+▪️演算子
+
+x == y	//xとyは等しい
+x != y	//xとyは等しくない
+x > y	  //xはyより大きい
+x < y	  //xはyより小さい
+x >= y	//xはy以上
+x <= y	//xはy以下
+
+!( )         //条件式の結果の反転 条件式が偽
+( ) && ( )   //and演算子
+( ) || ( )	 //or演算子
+
+
+▪️変数のスコープ
+
+変数は{}の中でしか有効ではない
+
+
+▪️while文
+
+while(){
+
+}
+
+
+▪️for文
+
+for (int i = 0; i < N; i++) {
+  
+}
+
+
+
+
+
+
+
+

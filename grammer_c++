@@ -112,6 +112,47 @@ vector<int> vec(3, 5);   //{5,5,5}で初期化された配列を宣言
 vec.push_back(10);   //末尾に追加(この場合10)
 vec.pop_back();      //末尾の要素を削除
 
+vector<vector<要素の型>> 変数名(縦の要素数, vector<要素の型>(横の要素数));
 
+
+▪️参照
+int a = 3;
+int &b = a;  // bは変数aの参照
+
+int a = 123;
+int& b = a;  // 変数aへの参照
+int& c = b;  // 変数aへの参照
+
+int g(int& x) {
+  x = x * 2;  // xを2倍 (参照によって"呼び出す側の変数"が変更される)
+  return x;
+} 
+int main() {
+  int a = 3;  // 関数を呼び出す側の変数
+  int b = g(a);  // xの参照先がaになる
+  cout << "a: " << a << endl;       // 6
+  cout << "b: " << b << endl;       // 6
+}
+
+関数で複数の値を返したいときとかに使えるらしい
+// a,b,cの最大値、最小値をそれぞれminimumの参照先、maximumの参照先に代入する
+void min_and_max(int a, int b, int c, int &minimum, int &maximum) {
+  minimum = min(a, min(b, c));  // 最小値をminimumの参照先に代入
+  maximum = max(a, max(b, c));  // 最大値をmaximumの参照先に代入
+}
+int main() {
+  int minimum, maximum;
+  min_and_max(3, 1, 5, minimum, maximum);  // minimum, maximumを参照渡し
+  cout << "minimum: " <<  minimum << endl;  // 最小値
+  cout << "maximum: " <<  maximum << endl;  // 最大値
+}
+
+配列を複数回渡す時、普通のやり方だとコピーが発生して時間がかかる
+
+vector<int> a = {1, 3, 2, 5};
+for (int &x : a) {
+  x = x * 2;
+}
+// aは{2, 6, 4, 10}となる
 
 

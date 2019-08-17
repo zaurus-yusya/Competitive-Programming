@@ -156,3 +156,15 @@ for (int &x : a) {
 // aは{2, 6, 4, 10}となる
 
 
+▪️再帰
+int sum(int n) {
+  // ベースケース
+  if (n == 0) {
+    return 0;
+  }
+
+  // 再帰ステップ
+  int s = sum(n - 1);
+  return s + n;
+}
+

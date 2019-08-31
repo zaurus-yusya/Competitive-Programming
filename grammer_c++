@@ -212,5 +212,10 @@ map<Keyの型, Valueの型> 変数名;
 変数名.at(key)
 変数名.count(key)
 変数名.size()
+//mapの要素の出力
+for(auto i: mp){
+    cout << i.first << endl;  //key
+    cout << i.second << endl; //value
+}
 
 

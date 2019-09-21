@@ -7,6 +7,9 @@ int main() {
 
 }
 
+▪️vscodeでターミナル起動
+ctrl shift '
+
 
 ▪️print文
 cout << "Hello, world!" << endl;  //改行あり

@@ -5,6 +5,7 @@
 #define mp make_pair
 #define all(x) x.begin(),x.end()
 using namespace std;
+using Graph = vector<vector<int>>;
 typedef long long ll;
 
 int main() {

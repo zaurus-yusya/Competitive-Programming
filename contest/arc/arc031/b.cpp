@@ -6,10 +6,10 @@ typedef long long ll;
 #define mp make_pair
 #define all(x) x.begin(),x.end()
 using namespace std;
-ll INF = 1000000007;
 
 
 int main() {
+    
 
 
 }

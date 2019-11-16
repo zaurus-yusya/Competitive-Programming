@@ -118,6 +118,10 @@ vec.push_back(10);   //末尾に追加(この場合10)
 vec.pop_back();      //末尾の要素を削除
 
 vector<vector<要素の型>> 変数名(縦の要素数, vector<要素の型>(横の要素数));
+//例 vector<vector<string>> vec(h, vector<string>(w));
+
+vec.resize(n)             //配列の要素数変更
+vec.resize(h, vector<string>(w));　　　　//二次元配列の要素数変更
 
 sort(配列変数.begin(), 配列変数.end()); //小さい順にソート
 

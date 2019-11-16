@@ -11,20 +11,40 @@ typedef long long ll;
 //途中
 
 bool seen[600][600];
+int h, w;
+vector<vector<string>> vec(h, vector<string>(w));
 
-void dfs(const &s, int h, int w)
+vector<int> next_y = {-1,1,0,0};
+vector<int> next_x = {0,0,-1,1};
+
+
+void dfs(int height, int width)
 {
+    seen[height][width] = true;
 
+    rep(i,4){
+        int next_height = height + next_y.at(i);
+        int next_width = width + next_x.at(i);
+
+        if(next_height < 0 || next_height >= h || next_width < 0 || next_width >= w){
+            continue;
+        }
+        if(seen[next_height][next_width] == true){
+            continue;
+        }
+        if(vec[next_height][next_width] != "#"){
+            dfs(next_height, next_width);
+        }
+    }
 }
 
 
+
 int main() {
-    int h, w;
     cin >> h >> w;
-    //vector<vector<string>> vec[h][w];
-    vector<vector<string>> vec(h, vector<string>(w));
-    vector<vector<string>> vec2(h, vector<string>(w));
-    int up = 0, down = 0, left = 0, right = 0;
+
+    vec.resize(h, vector<string>(w));
+
     int sh = 0, sw = 0;
     int gh = 0, gw = 0;
 
@@ -33,72 +53,27 @@ int main() {
         cin >> s;
         rep(j,w){
             vec[i][j] = s[j];
-            if(s[j] == "s"){
+            if(s[j] == 's'){
                 sh = i;
-                sw = w;
+                sw = j;
             }
-            if(s[j] == "g"){
+            if(s[j] == 'g'){
                 gh = i;
-                gw = w;        
+                gw = j;        
             }
         }
     }
 
-    dfs(s,sh,sw);
 
-    //のちにコメントアウト
-    rep(i,h){
-        rep(j,w){
-            cout << vec[i][j];
-        }
-        cout << "" << endl;
+    dfs(sh,sw);
+
+
+    if(seen[gh][gw]){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
     }
 
-/*
-    rep(i,h){
-        rep(j,w){
-            //up判定
-            if(i != 0){
-                if(vec[i-1][j] != "#"){
-                    up = 1;
-                    vec2[i][j].pb(1);
-                }        
-            }else{
-                up = 0;
-                vec2[i][j].pb(0);
-            }
-            //down判定
-            if(i != h-1){
-                if(vec[i+1][j] != "#"){
-                    down = 1;
-                    vec2[i][j].pb(1);
-                }
-            }else{
-                down = 0;
-                vec2[i][j].pb(0);
-            }
-            //left判定
-            if(j != 0){
-                if(vec[i][j-1] != "#"){
-                    left = 1;
-                    vec2[i][j].pb(1);
-                }
-            }else{
-                left = 0;
-                vec2[i][j].pb(0);
-            }
-            //right判定
-            if(j != w-1){
-                if(vec[i][j+1] != "#"){
-                    right = 1;
-                    vec2[i][j].pb(1);
-                }
-                right = 0;
-                vec2[i][j].pb(0);
-            }
-        }
-    }
-*/
 
 
 }

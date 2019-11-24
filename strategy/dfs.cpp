@@ -5,8 +5,8 @@
 #define mp make_pair
 #define all(x) x.begin(),x.end()
 using namespace std;
-using Graph = vector<vector<int>>;
 typedef long long ll;
+using Graph = vector<vector<ll>>;
 
 //深さ優先探索(グラフを用いたもの)
 

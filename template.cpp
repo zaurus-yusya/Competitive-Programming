@@ -7,6 +7,7 @@ typedef long long ll;
 #define all(x) x.begin(),x.end()
 using namespace std;
 ll INF = 1000000007;
+using Graph = vector<vector<ll>>;
 
 // 0 false, 1 true
 

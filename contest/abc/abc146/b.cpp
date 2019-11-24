@@ -12,6 +12,20 @@ ll INF = 1000000007;
 
 
 int main() {
+    int n;
+    cin >> n;
+    string s;
+    cin >> s;
+
+    rep(i,s.size()){
+        if(s.at(i) + n > 90){
+            printf("%c", s.at(i)+n-26);
+        }else{
+            printf("%c", s.at(i)+n);
+        }
+    }
+
+    printf("\n");
 
 
 }

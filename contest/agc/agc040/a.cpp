@@ -8,21 +8,21 @@ using namespace std;
 typedef long long ll;
 //二次元配列
 //vector<vector<int>> vec(h, vector<int>(w));
-
+ 
 int main() {
-
+ 
     string s;
-
+ 
     cin >> s;
-
+ 
     vector<ll> vec_num;
     vector<string> vec_str;
-
+ 
     int first_dainari = -1;
-
+ 
     int dainari_count = 0;
     int shonari_count = 0;
-
+ 
     for(int i = 0; i < s.size(); i++){
         if(s.at(i) == '<'){
             shonari_count++;
@@ -48,21 +48,34 @@ int main() {
         vec_num.pb(dainari_count);
         vec_str.pb(">");
     }
-
-
+ 
+ 
+    /*
+    for(int i = 0; i < vec_num.size(); i++){
+        cout << vec_num.at(i);
+    }
+    cout << "" << endl;
+    for(int i = 0; i < vec_str.size(); i++){
+        cout << vec_str.at(i);
+    }
+    cout << "" << endl;
+    */
+    
+ 
+    
     ll ans = 0;
     ll tmp = 0;
-
+ 
     if(vec_num.size() == 1){
         ans = (0 + vec_num.at(0)) * (vec_num.at(0)+1) / 2;
         cout << ans << endl;
         return 0;
     }
-
+ 
     
     for(int i = 0; i < vec_num.size(); i++){
         tmp = (0 + vec_num.at(i)) * (vec_num.at(i)+1) / 2;
-
+ 
         if(i == 0){
             if(vec_str.at(i) == "<"){
                 if(vec_num.at(i) <= vec_num.at(i+1)){
@@ -74,7 +87,7 @@ int main() {
                 ans += tmp;
             }
         }
-
+ 
         if(i == vec_num.size()-1){
             if(vec_str.at(i) == ">"){
                 if(vec_num.at(i) < vec_num.at(i-1)){
@@ -86,7 +99,7 @@ int main() {
                 ans += tmp;
             }
         }
-
+ 
         if(i != 0 && i != vec_num.size()-1){
             if(vec_str.at(i) == ">"){
                 if(vec_num.at(i) < vec_num.at(i-1)){
@@ -103,13 +116,12 @@ int main() {
                 }
             }
         }
-
+ 
     }
     
-
+ 
     cout << ans << endl;
     return 0;
-
-
+ 
+ 
 }
-

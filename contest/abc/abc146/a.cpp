@@ -8,7 +8,7 @@ typedef long long ll;
 using namespace std;
 ll INF = 1000000007;
 
-// bool 0 false, 1 true 
+// bool 0 false, 1 true
 
 
 int main() {

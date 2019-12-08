@@ -212,13 +212,13 @@ tie(s, a) = p;
 //型エイリアス
 using pii = pair<int, int>;
 
-map
-map<Keyの型, Valueの型> 変数名;
-変数名[key] = value;
-変数名.erase(key);	
-変数名.at(key)
-変数名.count(key)
-変数名.size()
+//map
+//map<Keyの型, Valueの型> 変数名;
+//変数名[key] = value;
+//変数名.erase(key);	
+//変数名.at(key)
+//変数名.count(key)
+//変数名.size()
 //mapの要素の出力
 for(auto i: mp){
     cout << i.first << endl;  //key
@@ -226,3 +226,9 @@ for(auto i: mp){
 }
 
 
+//キュー
+//宣言
+queue<int> que;
+que.push(0); //queの一番後ろに値(この場合0を追加)
+que.front(); //queの先頭の値を取り出す(削除はされない)
+que.pop(); //queの先頭を削除

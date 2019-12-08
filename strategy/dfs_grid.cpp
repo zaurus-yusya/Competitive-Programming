@@ -13,6 +13,9 @@ bool seen[100][100];
 vector<int> next_y = {-1,1,0,0};
 vector<int> next_x = {0,0,-1,1};
 
+int h, w;
+vector<vector<string>> vec(h, vector<string>(w));
+
 void dfs(ll x, ll y)
 {
     seen[x][y] = true;
@@ -26,7 +29,7 @@ void dfs(ll x, ll y)
             continue;
         }
 
-        if(seen[new_x][new_y] == true){
+        if(seen[new_y][new_x] == true){
             continue;
         }
 
@@ -34,12 +37,37 @@ void dfs(ll x, ll y)
         //今見てるノードに対する処理
         ////////////
 
-        dfs(new_x, new_y);
+        dfs(new_y, new_x);
     }
 
 }
 
 int main() {
+
+    // h: 縦 , w: 横
+    cin >> h >> w;
+
+    vec.resize(h, vector<string>(w));
+
+    int sh = 0, sw = 0;
+    int gh = 0, gw = 0;
+
+    //グリッドの読み込み(sをスタート,gをゴールとしている)
+    string s;
+    rep(i,h){
+        cin >> s;
+        rep(j,w){
+            vec[i][j] = s[j];
+            if(s[j] == 's'){
+                sh = i;
+                sw = j;
+            }
+            if(s[j] == 'g'){
+                gh = i;
+                gw = j;        
+            }
+        }
+    }
 
 
     ll x, y;
@@ -48,7 +76,7 @@ int main() {
     y = 0;
 
     //x,yマスからスタート
-    //dfs(x,y);
+    //dfs(y,x);
         
     
 }

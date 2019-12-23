@@ -24,6 +24,9 @@ int main() {
     cin >> h >> w;
     vec.resize(h, vector<string>(w));
 
+    //全マスを未訪問(-1)に初期化
+    vector<vector<ll>> dist(h, vector<ll>(w, -1));
+
     //グリッドの読み込み
     string s;
     queue< pair<ll,ll> > black;
@@ -33,73 +36,52 @@ int main() {
             vec.at(i).at(j) = s[j];
             if(vec.at(i).at(j) == "#"){
                 black.push(make_pair(i,j));
+                dist[i][j] = 0;
             }
         }
     }
 
-    //答え用
-    vector<vector<ll>> dist_ans(h, vector<ll>(w, -1));
-
     while(!black.empty()){
+
         pair<ll,ll> black_pos = black.front();
         ll black_y = black_pos.first;
         ll black_x = black_pos.second;
         black.pop();
 
-        //全マスを未訪問(-1)に初期化
-        vector<vector<ll>> dist(h, vector<ll>(w, -1));
-        //queはpairで作る
-        queue< pair<ll,ll> > que;
-
-        dist[black_y][black_x] = 0;
-        dist_ans[black_y][black_x] = 0;
-        que.push(make_pair(black_y,black_x));
-
-        while(!que.empty()){
-            pair<ll,ll> now_pos = que.front();
-            ll now_pos_y = now_pos.first;
-            ll now_pos_x = now_pos.second;
-            que.pop();
-
-            //上下左右いけるか
-            rep(i,4){
-                //次に行くマス
-                ll next_pos_y = now_pos_y + next_y.at(i);
-                ll next_pos_x = now_pos_x + next_x.at(i);
-                
-                //場外なら何もしない
-                if(next_pos_x < 0 || next_pos_x >= w || next_pos_y < 0 || next_pos_y >= h){
-                    continue;
-                }
-                
-                //既に訪問済みなら何もしない
-                if(dist[next_pos_y][next_pos_x] != -1){
-                    continue;
-                }
-
-                if(vec[next_pos_y][next_pos_x] == "#"){
-                    continue;
-                }
-
-                //now_posから訪問できるノードをqueに追加
-                dist[next_pos_y][next_pos_x] = dist[now_pos_y][now_pos_x] + 1;
-                que.push(make_pair(next_pos_y,next_pos_x));
-
-                if(dist_ans[next_pos_y][next_pos_x] == -1){
-                    dist_ans[next_pos_y][next_pos_x] = dist[next_pos_y][next_pos_x];
-                }
-                if(dist[next_pos_y][next_pos_x] != -1 && dist[next_pos_y][next_pos_x] < dist_ans[next_pos_y][next_pos_x]){
-                    dist_ans[next_pos_y][next_pos_x] = dist[next_pos_y][next_pos_x];
-                }
-                
+        rep(i,4){
+            //次に行くマス
+            ll next_pos_y = black_y + next_y.at(i);
+            ll next_pos_x = black_x + next_x.at(i);
+            
+            //場外なら何もしない
+            if(next_pos_x < 0 || next_pos_x >= w || next_pos_y < 0 || next_pos_y >= h){
+                continue;
             }
-        }
+            
+            //既に訪問済みなら小さい方にする
+            if(dist[next_pos_y][next_pos_x] != -1){
+                continue;
+            }
 
+            //壁なら何もしない
+            if(vec[next_pos_y][next_pos_x] == "#"){
+                continue;
+            }
+
+            //訪問できるノードの距離を記録し、queに格納
+            dist[next_pos_y][next_pos_x] = dist[black_y][black_x] + 1;
+            black.push(make_pair(next_pos_y,next_pos_x));
+            
+        }
+        
     }
 
     ll ans = 0;
+
     rep(i,h){
-        ans = max(ans, (ll)*max_element(dist_ans[i].begin(), dist_ans[i].end()));
+        rep(j,w){
+            ans = max(ans, dist[i][j]);
+        }
     }
 
     cout << ans << endl;

@@ -123,6 +123,8 @@ vector<vector<要素の型>> 変数名(縦の要素数, vector<要素の型>(横
 vec.resize(n)             //配列の要素数変更
 vec.resize(h, vector<string>(w));　　　　//二次元配列の要素数変更
 
+vec.assign(3,1)   //vecの内容は{1,1,1}
+
 sort(配列変数.begin(), 配列変数.end()); //小さい順にソート
 
 

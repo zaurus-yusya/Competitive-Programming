@@ -127,6 +127,11 @@ vec.assign(3,1)   //vecの内容は{1,1,1}
 
 sort(配列変数.begin(), 配列変数.end()); //小さい順にソート
 
+bool cmp(ll a, ll b){
+  return a < b;
+}
+sort(配列変数.begin(), 配列変数.end(), cmp); //自作関数でソート(自作関数はbool)
+
 
 //参照
 int a = 3;

@@ -14,5 +14,20 @@ using Graph = vector<vector<ll>>;
 
 
 int main() {
+    ll x, y;
+    cin >> x >> y;
+
+    ll tmp = x;
+    ll ans = 1;
+    while(true){
+        tmp = tmp * 2;
+        if(tmp > y){
+            break;
+        }else{
+            ans++;
+        }
+    }
+
+    cout << ans << endl;
 
 }

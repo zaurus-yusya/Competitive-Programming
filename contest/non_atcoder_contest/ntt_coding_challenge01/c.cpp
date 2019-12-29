@@ -11,7 +11,6 @@ using Graph = vector<vector<ll>>;
 
 // 0 false, 1 true 
 // stringの数字をint型にしてアスキーコードになったら -48する
-// 切り上げ　ceil(a)
 
 
 int main() {

@@ -11,9 +11,15 @@ using Graph = vector<vector<ll>>;
 
 // 0 false, 1 true 
 // stringの数字をint型にしてアスキーコードになったら -48する
-// 切り上げ　ceil(a)
 
 
 int main() {
+    ll a;
+    cin >> a;
 
+    ll ans = 0;
+
+    ans = 180 - ((180-a) / 2);
+
+    cout << ans << endl;
 }

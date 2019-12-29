@@ -113,6 +113,7 @@ vec.at(i)                 //配列のi番目にアクセス
 vector<int> vec(3);   //要素数3の配列{0,0,0}を宣言
 vector<string> vec(3);   //要素数3の配列{"","",""}を宣言
 vector<int> vec(3, 5);   //{5,5,5}で初期化された配列を宣言
+vector<vector<string>> vec(h, vector<string>(w));  //二次元配列の宣言例
 
 vec.push_back(10);   //末尾に追加(この場合10)
 vec.pop_back();      //末尾の要素を削除

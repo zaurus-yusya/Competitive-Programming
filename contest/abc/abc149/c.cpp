@@ -43,6 +43,7 @@ int main() {
     ll x;
     cin >> x;
 
+    
     if(x > 99991){
         cout << 100003 << endl;
         return 0;
@@ -53,6 +54,6 @@ int main() {
             cout << i << endl;
             break;
         }
-    }
+    } 
 
 }

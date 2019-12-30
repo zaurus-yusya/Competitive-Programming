@@ -5,7 +5,7 @@ typedef long long ll;
 #define pb push_back
 #define mp make_pair
 #define all(x) x.begin(),x.end()
-#define br cout << endl;
+#define br cout << endl
 using namespace std;
 ll INF = 1000000007;
 using Graph = vector<vector<ll>>;
@@ -16,5 +16,8 @@ using Graph = vector<vector<ll>>;
 
 
 int main() {
+    string s, t;
+    cin >> s >> t;
+    cout << t << s << endl;
 
 }

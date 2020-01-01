@@ -16,9 +16,35 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // 0 false, 1 true 
 // stringの数字をint型にしてアスキーコードになったら -48する
 // 切り上げ　ceil(a)
-
+// vectorに対して[ ]でアクセスするとout of rangeのエラーが出ない
 
 int main() {
-    
+    ll n;
+    cin >> n;
+    vector<ll> vec(n);
+    vector<ll> h(n);
+    rep(i,n){
+        cin >> vec.at(i);
+        h.at(i) = vec.at(i);
+    }
+
+    vector<ll> dp(n, INF);
+
+    rep(i, dp.size()){
+        if(i == 0){
+            dp.at(i) = 0;
+            continue;
+        }
+
+        if(i == 1){
+            dp.at(i) = dp.at(i-1) + abs(vec.at(i) - vec.at(i-1));
+            continue;
+        }
+
+        chmin(dp.at(i), dp.at(i-1) + abs(vec.at(i) - vec.at(i-1)));
+        chmin(dp.at(i), dp.at(i-2) + abs(vec.at(i) - vec.at(i-2)));
+    }
+
+    cout << dp.at(dp.size() - 1) << endl;
 
 }

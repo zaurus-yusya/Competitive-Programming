@@ -10,8 +10,8 @@ using namespace std;
 const int INF = 1e9;
 const int MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
-template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
-template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+template<class T> inline bool chmin(T &a, T &b) { if(a > b){ a = b; return true;} return false;}
+template<class T> inline bool chmax(T &a, T &b) { if(a < b){ a = b; return true;} return false;}
 
 // 0 false, 1 true 
 // stringの数字をint型にしてアスキーコードになったら -48する
@@ -19,6 +19,5 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
-    
 
 }

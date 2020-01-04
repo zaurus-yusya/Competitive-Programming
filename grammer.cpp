@@ -132,6 +132,7 @@ bool cmp(ll a, ll b){
   return a < b;
 }
 sort(配列変数.begin(), 配列変数.end(), cmp); //自作関数でソート(自作関数はbool)
+sort(all(vec),greater<ll>());  //sort 降順
 
 
 //参照

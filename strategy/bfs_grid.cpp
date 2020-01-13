@@ -63,6 +63,11 @@ int main() {
             if(next_pos_x < 0 || next_pos_x >= w || next_pos_y < 0 || next_pos_y >= h){
                 continue;
             }
+
+            //壁なら何もしない
+            if(vec[next_pos_y][next_pos_x] == "#"){
+                continue;
+            }
             
             //既に訪問済みなら何もしない
             if(dist[next_pos_y][next_pos_x] != -1){

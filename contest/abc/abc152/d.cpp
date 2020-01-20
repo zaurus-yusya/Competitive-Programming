@@ -24,5 +24,21 @@ int main() {
     int n = stoi(s);
     int size = s.size();
 
+    vector<ll> vec(100);
+
+    rep(i,n){
+        string tmp = to_string(i+1);
+        ll first = tmp.at(0) - 48;
+        ll last = tmp.at(tmp.size()-1) - 48;
+        vec.at(10*first + last)++;
+    }
+
+    ll ans = 0;
+    for(ll i = 1; i < 10; i++){
+        for(ll j = 1; j < 10; j++){
+            ans += vec.at(i*10 + j) * vec.at(j*10 + i);
+        }
+    }
+
     cout << ans << endl;
 }

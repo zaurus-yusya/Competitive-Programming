@@ -17,28 +17,21 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // stringの数字をint型にしてアスキーコードになったら -48する
 // 切り上げ　ceil(a)
 
-bool dp[110][10010];
 
 int main() {
     ll n;
     cin >> n;
-    vector<ll> vec(n);
 
-    map<ll,ll> mp;
-    mp.emplace(0,1);
-
-    rep(i,n){
-        ll num;
-        cin >> num;
-        vector<ll> tmp;
-        for(auto x : mp){
-            tmp.pb(x.first + num);
+    ll ans = 0;
+    if(n % 2 != 0){
+        cout << 0 << endl;
+    }else{
+        ll tmp = 10;
+        while(n >= tmp){
+            ans += n / tmp;
+            tmp *= 5;
         }
-        rep(j,tmp.size()){
-            mp.emplace(tmp.at(j), 1);
-        }
+        cout << ans << endl;
     }
-
-    cout << mp.size() << endl;
 
 }

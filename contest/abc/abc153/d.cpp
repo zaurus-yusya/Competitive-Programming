@@ -19,6 +19,17 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
+    ll h;
+    cin >> h;
     
+    ll tmp = 1;
+    ll ans = 0;
+    while(h >= 1){
+        ans += tmp;
+        h = h / 2;
+        tmp = tmp * 2;
+    }
+
+    cout << ans << endl;
 
 }

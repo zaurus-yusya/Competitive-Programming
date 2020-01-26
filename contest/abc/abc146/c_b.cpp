@@ -19,13 +19,27 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
-    ll h, a;
-    cin >> h >> a;
-    if(h % a == 0){
-        cout << h /a << endl;
-    }else{
-        cout << (h / a) + 1 << endl;
+    ll a, b, x;
+    cin >> a >> b >> x;
+
+    //10億買えたら10が答え
+    if(a * 1e9 + b * 10 <= x){
+        cout << 1000000000 << endl;
+        return 0;
     }
 
+    ll max = 1e9;
+    ll min = 0;
+    while(max - min > 1){
+        ll tmp = (max + min) / 2;
+        ll d_tmp = to_string(tmp).size();
+
+        if(a * tmp + b * d_tmp <= x){
+            min = tmp;
+        }else{
+            max = tmp;
+        }
+    }
+    cout << min << endl;
 
 }

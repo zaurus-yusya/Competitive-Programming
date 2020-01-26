@@ -19,6 +19,20 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
+    ll h, n;
+    cin >> h >> n;
+    vector<ll> vec(n);
+    ll tmp = 0;
+    rep(i,n){
+        cin >> vec.at(i);
+        tmp += vec.at(i);
+    }
+
+    if(tmp >= h){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
     
 
 }

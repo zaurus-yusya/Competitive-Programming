@@ -62,6 +62,8 @@ x <= y	//xはy以下
 ( ) && ( )   //and演算子
 ( ) || ( )	 //or演算子
 
+// ( 条件式 ? 真 : 偽)
+
 
 //変数のスコープ
 //変数は{}の中でしか有効ではない
@@ -241,3 +243,7 @@ queue<int> que;
 que.push(0); //queの一番後ろに値(この場合0を追加)
 que.front(); //queの先頭の値を取り出す(削除はされない)
 que.pop(); //queの先頭を削除
+
+//priority_que
+priority_queue<int> que; //降順
+priority_queue<int, vector<int>, greater<int>> que;

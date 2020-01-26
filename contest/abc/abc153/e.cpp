@@ -19,13 +19,31 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
-    ll h, a;
-    cin >> h >> a;
-    if(h % a == 0){
-        cout << h /a << endl;
-    }else{
-        cout << (h / a) + 1 << endl;
+    
+    ll h, n;
+    cin >> h >> n;
+
+    vector<pair<ll,ll>> vec(n);
+    rep(i,n){
+        ll a, b;
+        cin >> a >> b;
+        vec.at(i) = make_pair(a,b);
     }
 
+    vector<ll> dp(h+1, INF);
+    dp[0] = 0;
+
+    
+    rep(i,n){
+        rep(j,h){
+            ll tmp = min(j+vec.at(i).first, h);
+            dp[tmp] = min(dp[tmp], dp[j] + vec.at(i).second);
+        }
+    }
+
+    cout << dp[h] << endl;
+
+
+    
 
 }

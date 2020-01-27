@@ -21,42 +21,28 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 int main() {
     ll h, n;
     cin >> h >> n;
-    vector<pair<ll,ll>> vec2(n);
-    ll max = 0;
+    vector<ll> a(n);
+    vector<ll> b(n);
+
     rep(i,n){
-        ll a, b;
-        cin >> a >> b;
-        vec2.at(i) = make_pair(a,b);
-        chmax(max, vec2.at(i).first);
-    }
+        cin >> a.at(i) >> b.at(i);
+    } 
 
-    cout << max << endl;
-
-    vector<ll> dp(1000100, INF);
-
-    ll flag = 0;
-    while(true){
-        rep(i, max + 1){
-            if(flag == 0){
-                flag = 1;
-                rep(j, n){
-                    dp[vec2.at(j).first] = vec2.at(j).second;
-                }
+    vector<ll> dp(h+1, INF);
+    dp.at(0) = 0;
+    rep(i,n){
+        rep(j,h+1){
+            ll tmp;
+            if(j + a.at(i) > h){
+                tmp = h;
             }else{
-                if(dp[i] != 0){
-                    rep(j,n){
-                        chmin(dp[i + vec2.at(j).first], dp[i] + vec2.at(j).second);
-                    }
-                }
+                tmp = j + a.at(i);
             }
+            chmin(dp[tmp], dp[j] + b.at(i));
         }
-        max += max;
     }
-    
 
-    rep(i,20){
-        cout << "i = " << i << " " << dp[i] << endl;
-    }
+    cout << dp[h] << endl;
     
 
 }

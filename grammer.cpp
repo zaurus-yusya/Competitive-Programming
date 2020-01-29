@@ -116,6 +116,10 @@ vector<int> vec(3);   //要素数3の配列{0,0,0}を宣言
 vector<string> vec(3);   //要素数3の配列{"","",""}を宣言
 vector<int> vec(3, 5);   //{5,5,5}で初期化された配列を宣言
 vector<vector<string>> vec(h, vector<string>(w));  //二次元配列の宣言例
+vector<vector<ll>> vec(h, vector<ll>(w));
+vector<vector<vector<char>>> data(N, vector<vector<char>>(3, vector<char>(3))); //3次元配列
+
+ll dp[n+1][w+1] = {}; //ただの配列0初期化
 
 vec.push_back(10);   //末尾に追加(この場合10)
 vec.pop_back();      //末尾の要素を削除

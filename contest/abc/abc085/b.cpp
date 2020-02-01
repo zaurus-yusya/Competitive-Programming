@@ -20,6 +20,15 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
-    
+    ll n;
+    cin >> n;
+    set<int> st;
+    rep(i,n){
+        ll tmp;
+        cin >> tmp;
+        st.insert(tmp);
+    }
+
+    cout << st.size() << endl;
 
 }

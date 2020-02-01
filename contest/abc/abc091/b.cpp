@@ -20,6 +20,26 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 
 int main() {
-    
+    ll n, m;
+    cin >> n;
+    map<string, ll> s1;
+    rep(i,n){
+        string s_str;
+        cin >> s_str;
+        s1[s_str]++;
+    }
+    cin >> m;
+    rep(i,m){
+        string t_str;
+        cin >> t_str;
+        s1[t_str]--;
+    }
+
+    ll ans = 0;
+    for(auto i: s1){
+        chmax(ans, i.second);
+    }
+    cout << ans << endl;
+
 
 }

@@ -254,3 +254,13 @@ que.pop(); //queの先頭を削除
 //priority_que
 priority_queue<int> que; //降順
 priority_queue<int, vector<int>, greater<int>> que;
+
+//set
+// 順序つき配列(重複無し)
+
+set<int> st;
+st.insert(tmp);
+//中身表示
+for (auto itr = st.begin(); itr != st.end(); ++itr) {
+        cout << *itr;
+    }

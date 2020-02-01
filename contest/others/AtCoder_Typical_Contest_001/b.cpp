@@ -18,8 +18,23 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // 切り上げ　ceil(a)
 // コンパイル　g++ -std=c++17 a.cpp
 
+vector<ll> vec(n);
+
+ll root(ll x){
+    if(vec.at(x) == x){
+        return x;
+    }else{
+        return 
+    }
+}
 
 int main() {
+    ll n, q;
+    cin >> n >> q;
     
+    rep(i,n){
+        vec.at(i) = i;
+    }
+
 
 }

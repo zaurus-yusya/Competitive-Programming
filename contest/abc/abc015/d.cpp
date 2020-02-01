@@ -38,8 +38,10 @@ int main() {
                 if(j_r - a.at(i_r) >= 0){
                     chmax(dp[i_r + 1][k_r + 1][j_r], dp[i_r][k_r][j_r - a.at(i_r)] + b.at(i_r));
                 }
-                //chmax(dp[i_r + 1][k_r][j_r], dp[i_r][k_r][j_r]);
-                chmax(dp[i_r + 1][k_r + 1][j_r], dp[i_r][k_r + 1][j_r]);
+                chmax(dp[i_r + 1][k_r][j_r], dp[i_r][k_r][j_r]);
+                if(k_r == k-1){
+                    chmax(dp[i_r + 1][k_r + 1][j_r], dp[i_r][k_r + 1][j_r]);
+                }
             }
         }
     }

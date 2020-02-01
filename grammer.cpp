@@ -10,6 +10,9 @@ int main() {
 //vscodeでターミナル起動
 //ctrl shift '
 
+//c++ 17 コンパイルコマンド
+//g++ -std=c++1z test.cpp
+
 
 //print文
 cout << "Hello, world!" << endl;  //改行あり

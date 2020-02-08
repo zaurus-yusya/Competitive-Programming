@@ -204,7 +204,7 @@ int64_t -9223372036854775808 ~ 9223372036854775807
 
 //double型を出力するとき
 cout << 3.14159265358979 << endl;
-cout << fixed << setprecision(桁数);
+cout << fixed << setprecision(桁数) << 3.14159265358979; //少数以下の桁数を指定
 
 //キャスト
 (double)a
@@ -243,8 +243,15 @@ for(auto i: mp){
     cout << i.second << endl; //value
 }
 
+//スタック LILO
+stack<ll> s;
+s.push(1);
+s.push(2);
+s.pop();  //2が取れる
+s.top() //1番上を見る(削除はされない)
 
-//キュー
+
+//キュー FIFO
 //宣言
 queue<int> que;
 que.push(0); //queの一番後ろに値(この場合0を追加)

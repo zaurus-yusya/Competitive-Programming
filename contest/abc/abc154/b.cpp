@@ -19,6 +19,10 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // コンパイル　g++ -std=c++17 a.cpp
 
 int main() {
-    
+    string s;
+    cin >> s;
+    rep(i,s.size()){
+        cout << "x";
+    }
 
 }

@@ -31,80 +31,64 @@ long nCr(int n, int r) {
 
 int main() {
     string n;
-    ll x;
+    ll k;
     cin >> n;
-    cin >> x;
+    cin >> k;
 
     ll size = n.size(); //最大101 最小1
 
     ll ans = 0;
-    //桁数でループ
-    /*
-    
-    for(ll i = 1; i <= size; i++){
-        if(i < k) continue;
-        if(i == k){
-            ll tmp = 1;
-            rep(i,k){
-                tmp*=9;
-            }
-            ans += tmp;
-        }
-
-        if(i == size){
-            for(ll j = 1; j <= (int)n.at(0) -48; j++){
-                if(j == (int)n.at(0) -48){
-                    if(k == 1){
-                        ans++; //kが1のとき、最初の1ケタで残り全部0
-                    }else{
-
-                    }
-                    nCr(size-1, k-1);
-                }
-            }
-        }else{
-            ll tmp = nCr(i, k);
-
-        }
-    }
-    */
 
 
-    long long dp[ size+1 ][ 2 ][2][ x+1 ]; //桁数,未満フラグ,数字入ったかフラグ,kの数
+    long long dp[ size+1 ][ 2 ][k+1]; //桁数,未満フラグ,kの数
     memset(dp, 0, sizeof(dp));
-    dp[0][0][0][0] = 1;
+    dp[0][0][0] = 1;
 
     for(int i = 0; i < size; i++){
         const int D = (int)n.at(i) - 48;
         for(int j = 0; j < 2; j++){
-            for(int y = 0; y < 2; y++){
-
-                for(int k = 0; k < x; k++){
-                    for(int d = 0; d <= ( j ? 9 : D ); ++d  ){
-
-                        if(y == 0){
-                            if(d != 0){
-                                dp[ i + 1 ][ j || ( d < D ) ][y+1][k+1] += dp[ i ][ j ][y][k];
-                            }else{
-                                dp[ i + 1 ][ j || ( d < D ) ][y][k] += dp[ i ][ j ][y][k];
-                            }
-                        }else{
-                            if(d != 0){
-                                dp[ i + 1 ][ j || ( d < D ) ][y][k+1] += dp[ i ][ j ][y][k];
-                            }else{
-                                dp[ i + 1 ][ j || ( d < D ) ][y][k] += dp[ i ][ j ][y][k];
-                            }
-                        }
-
+            for(int x = 0; x < k+1; x++){
+                for(int y = 0; y < 10; y++){
+                    if(j == 0){
+                        dp[i+1][j][x] += 
                     }
                 }
 
+
+
+                /*
+                if(D == 0){
+                    dp[i+1][0][x]  += dp[i][0][x];
+                    dp[i+1][1][x+1] += (dp[i][1][x] * 9);    
+                    dp[i+1][1][x] += dp[i][1][x] + dp[i][0][x];
+                }
+                if(D != 0){
+                    dp[i+1][0][x+1] += dp[i][0][x];
+                    dp[i+1][1][x+1] += (dp[i][1][x] * 9) + (dp[i][0][x] * (D-1));                  
+                    dp[i+1][1][x] += dp[i][1][x] + dp[i][0][x];
+                }
+                
+                    cout << "i=" << i << "x=" << x <<endl;//100 1
+                    cout << dp[i+1][0][0] << endl;  //未満フラグあり0以外0つ
+                    cout << dp[i+1][0][1] << endl;  //未満フラグあり0以外1つ
+                    cout << dp[i+1][1][0] << endl;  //未満フラグなし0以外0つ
+                    cout << dp[i+1][1][1] << endl;  //未満フラグなし0以外1つ
+                    cout << "------------" << endl;
+                */
             }
         }
     }
 
-    cout << dp[size][0][1][x] + dp[size][1][1][x] << endl;
-    
+    cout << "------------" << endl;
+    cout << dp[1][0][0] << endl;
+    cout << dp[1][0][1] << endl;
+    cout << dp[1][1][0] << endl;
+    cout << dp[1][1][1] << endl;
+    cout << "------------" << endl;
 
+    cout << dp[size][0][k] << endl;
+    cout << dp[size][1][k] << endl;
+
+    cout << dp[size][0][k] + dp[size][1][k] << endl;
 
 }

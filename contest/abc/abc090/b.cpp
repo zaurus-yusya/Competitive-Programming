@@ -14,22 +14,18 @@ template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 
 // 0 false, 1 true 
-// stringの数字をint型にしてアスキーコードになったら -48する
-// 切り上げ　ceil(a)
-// コンパイル　g++ -std=c++17 a.cpp
-
+// string to int : -48
+// ceil(a)  1.2->2.0
+// c++17	g++ -std=c++17 a.cpp
 
 int main() {
-    ll n;
-    cin >> n;
-
-    set<int> st;
-    rep(i,n){
-        ll tmp;
-        cin >> tmp;
-        st.insert(tmp);
+    ll a, b;
+    cin >> a >> b;
+    ll ans = 0;
+    for(ll i = a; i <= b; i++){
+        if(i % 10 == (i / 10000) % 10 && (i / 10) % 10 == (i / 1000) % 10){
+            ans++;
+        }
     }
-
-    cout << st.size() << endl;
-
+    cout << ans << endl;
 }

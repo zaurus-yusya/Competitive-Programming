@@ -16,7 +16,14 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // 0 false, 1 true 
 // stringの数字をint型にしてアスキーコードになったら -48する
 // 切り上げ　ceil(a)
-
+long long d(long long N){
+    long long res=0;
+    while(N>0){
+        res++;
+        N/=10;
+    }
+    return res;
+}
 
 int main() {
     ll a, b, x;
@@ -28,18 +35,18 @@ int main() {
         return 0;
     }
 
-    ll max = 1e9;
-    ll min = 0;
-    while(max - min > 1){
-        ll tmp = (max + min) / 2;
-        ll d_tmp = to_string(tmp).size();
+    ll left = 0;
+    ll right = 1000000000;
 
-        if(a * tmp + b * d_tmp <= x){
-            min = tmp;
+    while(right - left > 1){
+        ll mid = (right + left) / 2;
+        if(a * mid + b * d(mid) <= x){
+            left = mid;
         }else{
-            max = tmp;
+            right = mid;
         }
     }
-    cout << min << endl;
+
+    cout << left << endl;
 
 }

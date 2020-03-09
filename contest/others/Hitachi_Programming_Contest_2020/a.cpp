@@ -19,6 +19,13 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // c++17	g++ -std=c++17 a.cpp
 
 int main() {
-    
+    string s;
+    cin >> s;
 
+    if(s == "hi" || s =="hihi" || s == "hihihi" || s == "hihihihi" || s == "hihihihihi"){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
+    
 }

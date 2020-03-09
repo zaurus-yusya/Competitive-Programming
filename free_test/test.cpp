@@ -28,5 +28,9 @@ long long digit_sum(long long n){
 }
 
 int main() {
-    cout << digsum(123) << endl;  
+    ll ans = 0;
+    rep(i,200001){
+        ans += i;
+    }
+    cout << ans << endl;
 }

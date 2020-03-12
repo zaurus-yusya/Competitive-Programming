@@ -5,76 +5,72 @@ typedef long long ll;
 #define pb push_back
 #define mp make_pair
 #define all(x) x.begin(),x.end()
+#define br cout << endl;
 using namespace std;
+const int INF = 1e9;
+const int MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
-ll INF = 1000000007;
+template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
+template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 
-// 0 false, 1 true
+// 0 false, 1 true 
+// string to int : -48
+// ceil(a)  1.2->2.0
+// c++17	g++ -std=c++17 a.cpp
 
-//通ったか通ってないかを判定する配列(mainでfalseに初期化)
+
+vector<vector<pair<ll, ll>>> to;
 vector<bool> seen;
+vector<ll> ans;
+ll ans_max = 0;
 
-Graph Hen(0);
-
-void dfs(const Graph &G, int v)
-{
+void dfs(ll v, ll color = -1, ll p = -1){
     seen[v] = true;
-
-    for(int next_node : G[v]){
-        if(seen[next_node]){
+    ll k = 1;
+    for(ll i = 0; i < to[v].size(); i++){
+        ll next_node = to[v][i].first;
+        ll edge_id = to[v][i].second;
+        
+        if(seen[next_node] == true){
             continue;
         }else{
-            ///////
-            //今見てるnodeに対する処理
-            ll num = 1;
-            while(true){
-                
-                Hen[a].pb(num);
-                Hen[b].pb(num);
-
-                cout << num << endl;
-                
+            if(color == k){
+                k++;
             }
-            ///////
-            dfs(G, next_node);
+            ans[edge_id] = k;
+            if(k > ans_max){
+                ans_max = k;
+            }
+            k++;
+            
+            dfs(next_node, ans[edge_id], v);
         }
     }
 
 }
 
-
 int main() {
     ll n;
     cin >> n;
+    to.resize(n);
+    ans.resize(n);
 
-    Graph G(n+1);
-    Hen.resize(n+1);
-    
     rep(i,n-1){
         ll a, b;
         cin >> a >> b;
-
-        G[a].push_back(b); G[b].push_back(a);
-
-        ll num = 1;
-        while(true){
-            Hen[a]
-
-
-            break;
-            num++;
-        }
-
-        Hen[a].push_back();
-
+        a--; b--;
+        to[a].pb(make_pair(b, i));
+        to[b].pb(make_pair(a, i));
     }
-
-    rep(i,n-1){
-        Hen()
-    }
-
+    
     seen.assign(n,false);
-    dfs(G, 1);
-
+    dfs(0);
+    
+    cout << ans_max << endl;
+    rep(i,n-1){
+        cout << ans[i] << endl;
+    }
+    
+    
 
 }

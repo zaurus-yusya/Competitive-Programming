@@ -20,6 +20,33 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll h, w;
+    cin >> h >> w;
 
+    if(h == 1 || w == 1){
+        cout << 1 << endl;
+        return 0;
+    }
+
+    if(w % 2 == 0){
+        cout << w / 2 * h << endl;
+    }else{
+        if(h % 2 == 0){
+            cout << h / 2 * w << endl; 
+        }else{
+            cout << ((h / 2) * w ) + (w/2)+1 << endl;
+        }
+    }
+
+    /*
+    if(h == w){
+        cout << h << endl;
+    }else if(h % 2 != 0 && ){
+        cout << (h*w / 2) << endl;
+    }else{
+        cout << ((h / 2) * (w / 2)) + 1 << endl;
+    }
+    ll a = 1000000000 * 1000000000;
+    cout << a << endl;
+    */
 }

@@ -18,8 +18,31 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
+vector<char> vec{'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'};
+
+void dfs(ll n, ll v, string s){
+    if(v == n){
+        cout << s << endl;
+    }else{
+
+    }
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n;
+    cin >> n;
     
+
+    char c = 'a';
+    c = c + 1;
+    cout << c << endl;
+
+    string s = "";
+    s += 'a';
+    cout << s  << endl;
+
+    s += 'b';
+    cout << s  << endl;
 
 }

@@ -23,54 +23,12 @@ int main() {
     long double a, b, c;
     cin >> a >> b >> c;
 
-    if(a + b + 2 * sqrtl((long double)a * (long double) b) < c){
+    if(c - a - b < 0){
+        cout << "No" << endl;
+    }else if((c - a - b) * (c - a - b) > 4 * a * b){
         cout << "Yes" << endl;
     }else{
         cout << "No" << endl;
     }
-
-
-    /*
-    long double tmp_a = sqrtl((long double)a);
-    long double tmp_b = sqrtl((long double)b);
-    long double tmp_c = sqrtl((long double)c);
-    */
-
-    /*
-    if(sqrtl((long double)c) - sqrtl((long double)a) - sqrtl((long double)b) > 0){
-        cout << "Yes" << endl;
-    }else{
-        cout << "No" << endl;
-    }
-    */
-
-    /*
-    if(a + b + (2 * sqrt(a*b)) < c){
-        cout << "Yes" << endl;
-    }else{
-        cout << "No" << endl;
-    }
-    */
-
-    
-    /*
-    double tmp_a = sqrt(a);
-    double tmp_b = sqrt(b);
-    double tmp_c = sqrt(c);
-    
-    cout << tmp_a << endl;
-    cout << tmp_b << endl;
-    cout << tmp_c << endl;
-    
-    if(tmp_a + tmp_b < tmp_c){
-        cout << "Yes" << endl;
-    }else{
-        cout << "No" << endl;
-    }
-
-    double x = 1000000000 * 1000000000;
-    cout << x << endl;
-    */
-    
 
 }

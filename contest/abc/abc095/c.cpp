@@ -5,7 +5,7 @@ typedef long long ll;
 #define pb push_back
 #define mp make_pair
 #define all(x) x.begin(),x.end()
-#define br cout << endl;
+#define br cout << "\n";
 using namespace std;
 const int INF = 1e9;
 const int MOD = 1e9+7;
@@ -19,17 +19,30 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // c++17	g++ -std=c++17 a.cpp
 
 int main() {
-    ll a, b, x;
-    cin >> a >> b >> x;
+    std::cout << std::fixed << std::setprecision(15);
+    ll a, b, c, x, y;
+    cin >> a >> b >> c >> x >> y;
+    c = c * 2;
+
     ll ans = 0;
 
-    ans += (b/x);
+    if(x < y){
+        swap(x, y);
+        swap(a, b);
+    }
 
-    if(a % x == 0){
-        ans -= (a/x) - 1;
+    if(a + b > c){
+        ans += c * y;
     }else{
-        ans -= (a/x);
+        ans += (a + b) * y;
+    }
+
+    if(a > c){
+        ans += c * (x - y);
+    }else{
+        ans += a * (x - y);
     }
 
     cout << ans << endl;
+
 }

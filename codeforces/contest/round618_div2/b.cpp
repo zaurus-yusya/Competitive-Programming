@@ -14,23 +14,27 @@ template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 
 // 0 false, 1 true 
-// string to int : -48
-// ceil(a)  1.2->2.0
-// c++17	g++ -std=c++17 a.cpp
-
-long long digit_sum(long long n){
-    long long res = 0;
-    while(n > 0) {
-        res += n % 10;
-        n /= 10;
-    }
-    return res;
-}
+// stringの数字をint型にしてアスキーコードになったら -48する
+// 切り上げ　ceil(a)
+// コンパイル　g++ -std=c++17 a.cpp
 
 int main() {
-    ll ans = 0;
-    rep(i,200001){
-        ans += i;
+    ll t;
+    cin >> t;
+
+    for(ll times = 0; times < t; times++){
+        ll n;
+        cin >> n;
+        vector<ll> vec(2*n);
+
+        rep(i,2*n){
+            cin >> vec.at(i);
+        }
+        sort(all(vec));
+        
+
+
+        cout << vec.at(n) - vec.at(n-1) << endl;
     }
-    cout << ans << endl;
+
 }

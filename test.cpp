@@ -5,7 +5,7 @@ typedef long long ll;
 #define pb push_back
 #define mp make_pair
 #define all(x) x.begin(),x.end()
-#define br cout << endl;
+#define br cout << "\n";
 using namespace std;
 const int INF = 1e9;
 const int MOD = 1e9+7;
@@ -14,11 +14,12 @@ template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 
 // 0 false, 1 true 
-// stringの数字をint型にしてアスキーコードになったら -48する
-// 切り上げ　ceil(a)
-// コンパイル　g++ -std=c++17 a.cpp
-
+// string to int : -48
+// ceil(a)  1.2->2.0
+// c++17	g++ -std=c++17 a.cpp
 
 int main() {
-    
+    std::cout << std::fixed << std::setprecision(15);
+    cout << clamp(0,2,7) << endl;
+
 }

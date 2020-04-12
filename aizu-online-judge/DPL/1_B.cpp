@@ -22,23 +22,28 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, w;
     cin >> n >> w;
+
     vector<ll> weight(n);
     vector<ll> value(n);
-
     vector<vector<ll>> dp(n+1, vector<ll>(w+1));
+    
 
     rep(i,n){
         cin >> value[i] >> weight[i];
     }
+    
+    rep(i, n){
 
-    rep(i,n){
         for(ll j = 0; j <= w; j++){
             if(j - weight[i] >= 0){
                 chmax(dp[i+1][j], dp[i][j-weight[i]] + value[i]); 
             }
-            chmax(dp[i+1][j], dp[i][j]);
+            chmax(dp[i+1][j], dp[i][j]); 
         }
     }
+    
+    
+    
 
     cout << dp[n][w] << endl;
 

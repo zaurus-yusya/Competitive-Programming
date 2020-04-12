@@ -1,9 +1,8 @@
 #include <bits/stdc++.h>
 typedef long long ll;
+typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define pb push_back
-#define mp make_pair
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
@@ -20,27 +19,6 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, w;
-    cin >> n >> w;
-    vector<ll> value(n);
-    vector<ll> weight(n);
-    vector<vector<ll>> dp(n+1, vector<ll>(w+1));
-    rep(i,n){
-        cin >> value[i] >> weight[i];
-    }
-
-    rep(i,n){
-        for(ll j = 0; j <= w; j++){
-            if(j - weight[i] >= 0){
-                dp[i+1][j] = max(dp[i][j], dp[i+1][j - weight[i]] + value[i]);
-                //chmax(dp[i+1][j], dp[i][j - weight[i]] + value[i]);
-            }else{
-                dp[i+1][j] = dp[i][j];
-            }
-            
-        }
-    }
-
-    cout << dp[n][w] << endl;
+    
 
 }

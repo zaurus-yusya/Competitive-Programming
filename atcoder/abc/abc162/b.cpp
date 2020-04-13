@@ -19,6 +19,13 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
-
+    ll n;
+    cin >> n;
+    ll ans = 0;
+    for(ll i = 1; i <= n; i++){
+        if(i % 3 != 0 && i % 5 != 0){
+            ans += i;
+        }
+    }    
+    cout << ans << endl;
 }

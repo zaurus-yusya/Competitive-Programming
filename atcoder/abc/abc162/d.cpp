@@ -19,6 +19,45 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll n;
+    cin >> n;
+    string s;
+    cin >> s;
+    map<char,ll> mp;
+
+    rep(i,s.size()){
+        //cout << s[i] << endl;
+        mp[s[i]]++;
+    }
+
+
+    ll ans = 0;
+
+    ans = mp['R'] * mp['G'] * mp['B'];
+
+    rep(i,n){
+        char tmp = s[i];
+        ll itr = i;
+        ll left = i-1;
+        ll right = i+1;
+
+        while(true){
+            if(left < 0){
+                break;
+            }
+            if(right >= s.size()){
+                break;
+            }
+            if(s[i] != s[left] && s[i] != s[right] && s[left] != s[right]){
+                ans--;
+            }
+            left--;
+            right++;
+        }
+    }
+
+    cout << ans << endl;
+
+
 
 }

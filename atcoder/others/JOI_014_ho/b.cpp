@@ -27,24 +27,12 @@ ll calc_sec(ll l, ll r){
         return dp[l][r];
     }
     if(l == r){
-        /*
-        if(n % 2 == 0){
-            dp[l][r] = 0;   
-        }else{
-            dp[l][r] = vec[l];
-        }
-        */
         dp[l][r] = vec[l];
         return dp[l][r];
     }
     if(r - l == 1){
-        if(n % 2 == 0){
-            ll tmp = max(vec[l], vec[r]);
-            dp[l][r] = tmp;
-        }else{
-            ll tmp = min(vec[l], vec[r]);
-            dp[l][r] = tmp;
-        }
+        ll tmp = max(vec[l], vec[r]);
+        dp[l][r] = tmp;
         return dp[l][r];
     }
 

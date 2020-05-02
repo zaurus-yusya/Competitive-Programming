@@ -36,6 +36,7 @@ int main() {
                 char c;
                 cin >> c;
                 vec[i] = c;
+                
             }
 
             for(ll i = 0; i < 10; i++){
@@ -46,6 +47,7 @@ int main() {
             string res;
             cin >> res;
             if(res == "Y"){
+                cerr << "TEST" << endl;
                 continue;
             }else{
                 exit(0);

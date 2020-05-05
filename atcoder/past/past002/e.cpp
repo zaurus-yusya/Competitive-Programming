@@ -22,26 +22,25 @@ int main() {
     ll n;
     cin >> n;
     vector<long long> vec(n);
-    vector<long long> vec2(n);
-    ll ans = 0;
-
-    map<ll,ll> mp;
-
     for(long long i = 0; i < n; i ++){
-        ll a;
-        cin >> a;
-        vec[i] = a + i;
-        vec2[i] = i - a;
-        mp[i-a]++;
+        ll tmp;
+        cin >> tmp; tmp--;
+        vec[i] = tmp;
     }
-
     
-
     rep(i,n){
-        ans += mp[vec[i]];
+        ll count = 1;
+        ll tmp = i;
+        while(true){
+            if(vec[tmp] == i){
+                cout << count << " ";
+                break;
+            }else{
+                tmp = vec[tmp];
+                count++;
+            }
+        }
     }
-
-
-    cout << ans << endl;
+    cout << endl;
 
 }

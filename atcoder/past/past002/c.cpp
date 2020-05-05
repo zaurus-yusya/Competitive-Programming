@@ -21,27 +21,29 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n;
     cin >> n;
-    vector<long long> vec(n);
-    vector<long long> vec2(n);
-    ll ans = 0;
-
-    map<ll,ll> mp;
-
-    for(long long i = 0; i < n; i ++){
-        ll a;
-        cin >> a;
-        vec[i] = a + i;
-        vec2[i] = i - a;
-        mp[i-a]++;
+    vector<vector<string>> vec(n, vector<string>(2*n-1));
+    rep(i,n){
+        string s;
+        cin >> s;
+        rep(j,2*n-1){
+            vec[i][j] = s[j];
+        }
     }
 
-    
+    for(ll i = n-2; i >= 0; i--){
+        for(ll j = 0; j < 2*n-1; j++){
+            if(vec[i][j] == ".") continue;
+            if(vec[i+1][j-1] == "X" || vec[i+1][j] == "X" || vec[i+1][j+1] == "X"){
+                vec[i][j] = "X";
+            }
+        }
+    }
 
     rep(i,n){
-        ans += mp[vec[i]];
+        rep(j,2*n-1){
+            cout << vec[i][j];
+        }
+        cout << endl;
     }
-
-
-    cout << ans << endl;
 
 }

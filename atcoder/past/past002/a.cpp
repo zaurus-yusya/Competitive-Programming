@@ -19,34 +19,21 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n;
-    cin >> n;
+    string s, t;
+    cin >> s >> t;
+    ll a, b;
 
-    ll ans = 0;
-    
-    vector<ll> vec(n);
-    vector<ll> vec2(n);
-    rep(i, n){
-        ll a;
-        cin >> a;
-        vec[i] = a+i;
-        vec2[i] = a-i;
+    if(s[0] == 'B'){
+        a = (s[1] - '0') * (-1) + 9;
+    }else{
+        a = s[0] - '0' + 8;
+    }
+    if(t[0] == 'B'){
+        b = (t[1] - '0') * (-1) + 9;
+    }else{
+        b = t[0] - '0' + 8;
     }
 
-    rep(i,n){
-        cout << vec[i] << " ";
-    }
-    cout << endl;
-    rep(i,n){
-        cout << vec2[i] << " ";
-    }
-    cout << endl;
-
-
-    cout << ans << endl;
-    
-
-
-
+    cout << abs(b - a) << endl;
 
 }

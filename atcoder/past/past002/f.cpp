@@ -21,27 +21,37 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n;
     cin >> n;
-    vector<long long> vec(n);
-    vector<long long> vec2(n);
-    ll ans = 0;
-
-    map<ll,ll> mp;
-
-    for(long long i = 0; i < n; i ++){
-        ll a;
-        cin >> a;
-        vec[i] = a + i;
-        vec2[i] = i - a;
-        mp[i-a]++;
-    }
-
-    
-
+    vector<pair<ll,ll>> vec(n);
     rep(i,n){
-        ans += mp[vec[i]];
+        ll a, b;
+        cin >> a >> b;
+        vec[i] = make_pair(a, b);
     }
 
+    sort(all(vec));
 
-    cout << ans << endl;
+    ll ans = 0;
+    priority_queue<ll> que;
+    ll count = 1;
+
+    ll day = 1;
+    ll itr = 0;
+    rep(i,n){
+
+        for(ll j = itr; j < n; j++){
+            if(vec[j].first == day){
+                que.push(vec[j].second);
+            }else{
+                itr = j;
+                break;
+            }
+        }
+        day++;
+
+        ans += que.top();
+        cout << ans << endl;
+        que.pop();
+
+    }
 
 }

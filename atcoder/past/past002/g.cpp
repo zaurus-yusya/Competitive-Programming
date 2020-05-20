@@ -23,7 +23,6 @@ int main() {
     cin >> q;
     deque<pair<char,ll>> deq;
 
-    vector<ll> res;
     rep(i,q){
         ll t;
         cin >> t;
@@ -31,49 +30,55 @@ int main() {
             char c;
             ll x;
             cin >> c >> x;
-            deq.push_back(make_pair(c, x));
+            //deq.push_back(make_pair(c, x));
+            if(!deq.empty()){
+                char b = deq.back().first;
+                ll num = deq.back().second;
+                if(b == c){
+                    deq.pop_back();
+                    deq.push_back({c,x+num});
+                }else{
+                    deq.push_back({c,x});
+                }
+            }else{
+                deq.push_back({c,x});
+            }
+            
         }else{
             ll d;
             ll ans = 0;
             cin >> d;
 
             if(deq.empty()){
-                //res.push_back(0);
                 cout << 0 << endl;
-                continue;
-            }
+            }else{
 
-            while(true){
-                if(deq.empty()){
-                    //res.push_back(ans);
-                    cout << ans << endl;
-                    break;
-                }else{
-                    pair<char, ll> top = deq.front();
-                    if(top.second >= d){
-                        ans += (d * d);
-                        //res.push_back(ans);
-                        cout << ans << endl;
-                        deq.pop_front();
-                        if(top.second != d){
-                            deq.push_front(make_pair(top.first, top.second - d));
-                        }
+                map<char, ll> mp;
+
+                while(!deq.empty()){
+                    char now = deq.front().first;
+                    ll num = deq.front().second;
+                    deq.pop_front();
+                    if(num > d){
+                        mp[now] += d;
+                        deq.push_front({now,num-d});
+                        break;
+                    }else if(num == d){
+                        mp[now] += d;
                         break;
                     }else{
-                        ans += (top.second * top.second);
-                        d -= top.second;
-                        deq.pop_front();
+                        mp[now] += num;
+                        d = d - num;
                     }
                 }
-            }
 
+                for(auto i: mp){
+                    ans += i.second*i.second;
+                }
+                cout << ans << endl;
+            }
         }
     }
 
-    /*
-    rep(i,res.size()){
-        cout << res[i] << endl;
-    }
-    */
 
 }

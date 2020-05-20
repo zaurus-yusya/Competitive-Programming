@@ -241,8 +241,8 @@ using pii = pair<int, int>;
 //変数名.size()
 //mapの要素の出力
 for(auto i: mp){
-    cout << i.first << " " << i.second << endl;  //key, value
-}
+      cout << i.first << " " << i.second << endl;  //key, value
+    }
 
 //スタック LILO
 stack<ll> s;

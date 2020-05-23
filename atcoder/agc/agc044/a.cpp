@@ -20,35 +20,6 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m;
-    cin >> n >> m;
-
-    vector<long long> vec(n);
-    vector<long long> sum(n + 1);
-    map<long long, long long> mp;
-    rep(i, n){
-        cin >> vec[i];
-        vec[i] = vec[i] % m;
-        sum[i+1] = vec[i] + sum[i];
-        sum[i+1] = sum[i+1] % m;
-        mp[sum[i+1]]++;
-    }
-
-    ll ans = 0;
-    ll tmp = 0;
-    for(ll i = 1; i <  n/2; i++){
-        ll count = 0;
-        for(ll j = i; j < n/2; j++){
-            if((sum[j] - sum[count]) % m > ans){
-                ans = (sum[j] - sum[count]) % m;
-            }
-            count++;
-        }
-        tmp += sum[i];
-    }
-
-    cout << ans << endl;
-    
     
 
 }

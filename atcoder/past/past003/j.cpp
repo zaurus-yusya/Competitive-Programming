@@ -20,35 +20,39 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m;
-    cin >> n >> m;
-
-    vector<long long> vec(n);
-    vector<long long> sum(n + 1);
-    map<long long, long long> mp;
-    rep(i, n){
+    ll n, m; cin >> n >> m;
+    vector<long long> vec(m);
+    for(long long i = 0; i < m; i ++){
         cin >> vec[i];
-        vec[i] = vec[i] % m;
-        sum[i+1] = vec[i] + sum[i];
-        sum[i+1] = sum[i+1] % m;
-        mp[sum[i+1]]++;
     }
 
-    ll ans = 0;
-    ll tmp = 0;
-    for(ll i = 1; i <  n/2; i++){
-        ll count = 0;
-        for(ll j = i; j < n/2; j++){
-            if((sum[j] - sum[count]) % m > ans){
-                ans = (sum[j] - sum[count]) % m;
-            }
-            count++;
+    
+    vector<ll> child;
+
+    rep(i, m){
+        if(i == 0){
+            child.push_back(vec[i]);
+            cout << 1 << endl;
+            continue;
         }
-        tmp += sum[i];
-    }
 
-    cout << ans << endl;
-    
-    
+        auto itr = lower_bound(all(child), vec[i]);
+
+        if(itr - child.begin() == 0){
+            if(child.size() < n){
+
+                auto itr = child.begin();
+                child.insert(itr, vec[i]);
+
+                cout << child.size() << endl;
+            }else{
+                cout << -1 << endl;
+            }
+        }else{
+            child[itr - child.begin() -1] = vec[i];
+            cout << child.size() - (itr - child.begin()) + 1 << endl;
+        }
+
+    }
 
 }

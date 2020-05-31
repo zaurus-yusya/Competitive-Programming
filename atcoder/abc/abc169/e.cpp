@@ -26,31 +26,23 @@ int main() {
     vector<ll> A(n);
     vector<ll> B(n);
 
-    vector<pair<ll,ll>> vec(n);
-
-    vector<ll> test;
-
+    ll med_min = 0;
+    ll med_max = 0;
     rep(i, n){
-        ll x, y; cin >> x >> y;
-        vec[i] = make_pair(x, y);
-        test.push_back(x);
-        test.push_back(y);
+        cin >> A[i] >> B[i];
     }
 
-    sort(vec.begin(), vec.end(), cmp);
-    sort(all(test));
+    sort(all(A));
+    sort(all(B));
 
-    ll ans = 0;
     if(n % 2 == 0){
-        ans += test[1] - test[0];
-        ans += test[test.size() - 1] - test[test.size() - 2];
-
-        cout << ((test[test.size() - 2] - test[1]) * 2) + 1 + ans << endl;
+        cout << ((B[n/2] + B[n/2 - 1]) - (A[n/2] + A[n/2 - 1])) + 1 << endl;
     }
 
     if(n % 2 == 1){
-        cout << test[test.size() - 2] - test[1] + 1 << endl;
+        cout << B[n/2] - A[n/2] + 1 << endl;
     }
 
+    
 
 }

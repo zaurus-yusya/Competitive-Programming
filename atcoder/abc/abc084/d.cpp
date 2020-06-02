@@ -54,41 +54,42 @@ struct PrimeNumber
     }
 
     //O(n log log n)
-    vector<long long> eratosthenes(long long n){
-        vector<long long> prime;
+    map<long long, ll> eratosthenes(long long n){
+        map<long long, ll> prime;
         vector<bool> is_prime(n + 1, true);
         long long p = 0;
         is_prime[0] = false; is_prime[1] = false;
         for(long long i = 2; i <= n; i++){
-            if(is_prime[i]) prime.push_back(i);
+            if(is_prime[i]) prime[i]++;
             for(long long j = 2 * i; j <= n; j += i) is_prime[j] = false;
         }
         return prime;
     }
 };
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll N;
-    cin >> N;
-
+    ll Q; cin >> Q;
     PrimeNumber num;
-    map<ll, ll> mp = num.prime_factor(N);
-    ll ans = 0;
-    for(auto i: mp){
-        ll tmp = i.second;
-        ll j = 1;
-        while(true){
-            if(tmp >= j){
-                tmp -= j;
-                ans++;
-                j++;
-            }else{
-                break;
-            }
+    map<ll, ll> primes = num.eratosthenes(100000);
+
+    vector<ll> like_2017(100000);
+    vector<bool> is_like_2017(100000, false);
+    ll count = 0;
+    
+    for(ll i = 1; i <= 100001; i += 2){
+        if(primes.count(i) >= 1 && primes.count((i+1) / 2) >= 1){
+            count++;
+            like_2017[i] = count;
+            is_like_2017[i] = true;
+        }else{
+            like_2017[i] = count;
         }
     }
 
-    cout << ans << endl;
+    rep(q, Q){
+        ll l, r; cin >> l >> r;
+        cout << like_2017[r] - like_2017[l] + is_like_2017[l] << endl;
+    }
+    
 }

@@ -68,27 +68,10 @@ struct PrimeNumber
 };
 
 
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll N;
-    cin >> N;
 
     PrimeNumber num;
-    map<ll, ll> mp = num.prime_factor(N);
-    ll ans = 0;
-    for(auto i: mp){
-        ll tmp = i.second;
-        ll j = 1;
-        while(true){
-            if(tmp >= j){
-                tmp -= j;
-                ans++;
-                j++;
-            }else{
-                break;
-            }
-        }
-    }
 
-    cout << ans << endl;
 }

@@ -20,26 +20,6 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, w; cin >> n >> w;
-    vector<ll> weight(n);
-    vector<ll> value(n);
-
-    rep(i, n){
-        cin >> weight[i] >> value[i];
-    }
-
-    vector<vector<ll>> dp(n+1, vector<ll>(w+1));
-
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j <= w; j++){
-            if(j - weight[i] >= 0){
-                chmax(dp[i+1][j], dp[i][j - weight[i]] + value[i]);
-            }
-            chmax(dp[i+1][j], dp[i][j]);
-        }
-    }
-
-    cout << dp[n][w] << endl;
-
+    
 
 }

@@ -13,8 +13,16 @@ using Graph = vector<vector<ll>>;
 // stringの数字をint型にしてアスキーコードになったら -48する
 
 bool cmp(pair<ll,ll> a, pair<ll,ll> b){
+    if(a.second == b.second){
+        return a.first > b.first;
+    }else{
+        return a.second > b.second;
+    }
+}
+
+bool cmp2(pair<ll,ll> a, pair<ll,ll> b){
     if(a.first == b.first){
-        return a.second < b.second;
+        return a.second > b.second;
     }else{
         return a.first < b.first;
     }
@@ -38,25 +46,29 @@ int main() {
     }
 
     sort(all(red), cmp);
-    sort(all(blue), cmp);
-
-    /*
-    rep(i, red.size()){
-        cout << red.at(i).first << " " << red.at(i).second << endl;
-    }
-    */
-
+    sort(all(blue));
+    
+    
     ll ans = 0;
-    rep(i,red.size()){
-        rep(j, blue.size()){
-            if(red.at(i).first < blue.at(i).first && red.at(i).second < blue.at(i).second){
+    vector<ll> res_r(n, 0);
+    vector<ll> res_b(n, 0);
+    rep(j ,blue.size()){
+        rep(i, red.size()){
+            if(res_r[i] == 1){
+                continue;
+            }
+            if(res_b[j] == 1){
+                break;
+            }
+            if(red.at(i).first < blue.at(j).first && red.at(i).second < blue.at(j).second){
                 ans++;
-                blue.at(i).first = -1;
-                blue.at(i).second = -1;
+                res_r[i] = 1;
+                res_b[j] = 1;
             }
         }
     }
 
     cout << ans << endl;
+    
 
 }

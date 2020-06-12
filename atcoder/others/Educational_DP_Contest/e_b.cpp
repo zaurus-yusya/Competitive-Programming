@@ -7,7 +7,7 @@ typedef long long ll;
 #define all(x) x.begin(),x.end()
 #define br cout << endl;
 using namespace std;
-const int INF = 1e9;
+const ll INF = 1e10;
 const int MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -26,8 +26,26 @@ int main() {
     rep(i,n){
         cin >> weight.at(i) >> value.at(i);
     }
+    vector<vector<ll>> dp(n+1, vector<ll>((n * 1000) + 1, INF));
+    dp[0][0] = 0;
 
-    
-    
+    for(ll i = 0; i < n; i++){
+        for(ll j = 0; j <= n * 1000; j++){
+            if(j - value[i] >= 0){
+                dp[i+1][j] = min(dp[i][j], dp[i][j - value[i]] + weight[i]);
+            }else{
+                dp[i+1][j] = min(dp[i+1][j], dp[i][j]);
+            }
+        }
+    }
+
+    ll ans = 0;
+    rep(i, n * 1000 + 1){
+        if(dp[n][i] <= w){
+            ans = i;
+        }
+    }
+    cout << ans << endl;
+
 
 }

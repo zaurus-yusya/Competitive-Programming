@@ -291,3 +291,7 @@ st.insert(tmp);
 for (auto itr = st.begin(); itr != st.end(); ++itr) {
         cout << *itr;
 }
+
+//lower_bound, upper_bound
+ll x;
+lower_bound(vec.begin(), vec.end(), x) - vec.begin()  //x以上の中で一番左のものの先頭からの距離

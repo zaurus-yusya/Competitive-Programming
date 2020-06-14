@@ -9,7 +9,6 @@ using namespace std;
 const long long INF = 1e10;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
-using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 
@@ -21,12 +20,8 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    priority_queue<ll> que;
-    ll sum = 0;
-    rep(i, 3*n){
-        ll a; cin >> a;
-        que.push(a);
-    }
+    string s;
+    cin >> s;
+    cout << s[0] << s[1] << s[2] << endl;
 
 }

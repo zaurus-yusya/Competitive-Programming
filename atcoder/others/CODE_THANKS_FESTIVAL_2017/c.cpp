@@ -12,6 +12,7 @@ using Graph = vector<vector<ll>>;
 using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+bool operator> (const pll a, const pll b){return a.first > b.first;};
 
 // 0 false, 1 true 
 // string to int : -48
@@ -21,12 +22,26 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    priority_queue<ll> que;
-    ll sum = 0;
-    rep(i, 3*n){
-        ll a; cin >> a;
-        que.push(a);
+    ll n, k; cin >> n >> k;
+    priority_queue<pll, vector<pll>, greater<pll>> que;
+
+    vector<ll> key(n);
+    rep(i, n){
+        ll a, b; cin >> a >> b;
+        key[i] = b;
+        que.push(make_pair(a, i));
     }
+
+    ll ans = 0;
+    rep(i, k){
+        pll tmp = que.top();
+        que.pop();
+        ans += tmp.first;
+        tmp.first += key[tmp.second];
+        que.push(tmp);
+    }
+
+    cout << ans << endl;
+    
 
 }

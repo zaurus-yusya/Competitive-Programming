@@ -21,12 +21,16 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    priority_queue<ll> que;
-    ll sum = 0;
-    rep(i, 3*n){
-        ll a; cin >> a;
-        que.push(a);
+    vector<long long> vec(5);
+    for(long long i = 0; i < 5; i ++){
+        cin >> vec[i];
     }
+
+    rep(i, 5){
+        if(vec[i] == 0){
+            cout << i+1 << endl;
+        }
+    }
+
 
 }

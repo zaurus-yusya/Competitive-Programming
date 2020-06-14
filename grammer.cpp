@@ -273,8 +273,18 @@ que.front(); //queの先頭の値を取り出す(削除はされない)
 que.pop(); //queの先頭を削除
 
 //priority_que
-priority_queue<int> que; //降順
-priority_queue<int, vector<int>, greater<int>> que;
+priority_queue<ll> que; //降順
+priority_queue<ll, vector<ll>, greater<ll>> que;
+
+//priority_que pair使う時
+//pair の1つ目の要素に従って降順に処理したい
+bool operator< (const pll a, const pll b){return a.first < b.first;};
+//pair の1つ目の要素に従って昇順に処理したい
+bool operator> (const pll a, const pll b){return a.first > b.first;};
+//pair の2つ目の要素に従って降順に処理したい
+bool operator< (const pll a, const pll b){return a.second < b.second;};
+//pair の2つ目の要素に従って昇順に処理したい
+bool operator> (const pll a, const pll b){return a.second > b.second;};
 
 //deque //前にも後ろにも
 deque<string> deq;

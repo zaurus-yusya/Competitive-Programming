@@ -22,15 +22,17 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, q; cin >> n >> q;
-    vector<ll> enzi_rate(n);
-    vector<ll> enzi_at(n);
 
-    vector<map<ll, ll>> vecmap(200000);
+    vector<ll> enzi_rate(n); //園児のレートにO(1)でアクセス用
+    vector<ll> enzi_at(n);   //園児の今いる幼稚園
+    multiset<ll> higher; //各幼稚園の最も高いレートの集合
+    vector<multiset<ll>> youchien(200000); //幼稚園ごとにmultiset
+
     rep(i, n){
         ll a, b; cin >> a >> b; b--;
         enzi_rate[i] = a;
         enzi_at[i] = b;
-        vecmap[b][a]++;
+        youchien[b].insert(a);
     }
 
     vector<pll> query(q);
@@ -38,76 +40,49 @@ int main() {
         ll c, d; cin >> c >> d; c--; d--;
         query[i] = {c, d};
     }
-    
-    /*
-    for(auto i: vecmap[0]){
-        cout << i.first << " " << i.second << endl;
-    }
-    変数名.size()
-    */
-    ll ans = INF;
-    ll ans_itr = -1;
-    rep(i, vecmap.size()){
-        if(vecmap[i].size() != 0){
-            ll maxv = vecmap[i].rbegin()->first;
-            ans = min(ans, maxv);
-        }   
-    }
 
+
+    //初期処理
+    rep(i, 200000){
+        if(!youchien[i].empty()){
+            higher.insert(*youchien[i].rbegin());
+        }
+    }
+    
+    //クエリ処理
     rep(i, q){
         ll enzi = query[i].first;
-        ll youchi = query[i].second;
-        
         ll rate = enzi_rate[enzi];
         ll before = enzi_at[enzi];
-
-        ll maxv_b = 0, maxv_a = 0;
-
-        //前いた幼稚園から消す
-        maxv_b = vecmap[before].rbegin()->first;
-        ll bflag = 0;
-        if(ans == maxv_b){
-            bflag = 1;
-        }
-        vecmap[before][rate]--;
-        if(vecmap[before][rate] == 0){
-            vecmap[before].erase(rate);
-        }
-
-        //次の幼稚園に足す
-        ll aflag = 0;
-        if(vecmap[youchi].size() != 0){
-            maxv_a = vecmap[youchi].rbegin()->first;
-            if(ans == maxv_a){
-                aflag = 1;
-            }
-        }
-        vecmap[youchi][rate]++;
-
-        //ansの計算
+        ll next = query[i].second;
         
-        if(vecmap[before].size() != 0 && bflag == 1){
-            maxv_b = vecmap[before].rbegin()->first;
-            ans = min(ans, maxv_b);
+        //出る
+        bool before_f = false;
+        if(rate == *youchien[before].rbegin()){
+            //higherから抜く
+            higher.erase(higher.find(rate));
+            before_f = true;
         }
-        
-        if(vecmap[youchi].size() != 0 && aflag == 1){
-            maxv_a = vecmap[youchi].rbegin()->first;
-            ans = min(ans, maxv_a);
+        youchien[before].erase(youchien[before].find(rate));
+        if(!youchien[before].empty() && before_f){
+            //higherに入れる
+            higher.insert(*youchien[before].rbegin());
+        }
+        //入る
+        if(!youchien[next].empty() && rate > *youchien[next].rbegin()){
+            higher.erase(higher.find(*youchien[next].rbegin()));
+            youchien[next].insert(rate);
+            higher.insert(*youchien[next].rbegin());
+        }else if(youchien[next].empty()){
+            youchien[next].insert(rate);
+            higher.insert(*youchien[next].rbegin());
+        }else{
+            youchien[next].insert(rate);
         }
 
-        cout << ans << endl;
+        enzi_at[enzi] = next;
+
+        cout << *higher.begin() << endl;
     }
-
-    //cout << ans << endl;
-    
-
-    
-    
-    
-    
-
-    
-
 
 }

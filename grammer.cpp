@@ -1,7 +1,7 @@
 //include関係 (最初に記述するとライブラリとか全部入る)
 
 #include <bits/stdc++.h>
-using namespace std;
+using namespace std
 
 int main() {
 

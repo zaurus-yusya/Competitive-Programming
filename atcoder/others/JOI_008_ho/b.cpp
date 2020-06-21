@@ -18,48 +18,31 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
-ll n, q;
-vector<vector<ll>> to(n);
-vector<bool> seen(n);
-vector<ll> score(n);
-vector<ll> ans(n);
-
-void dfs(ll node, ll num){
-    seen[node] = true;
-    ans[node] = num;
-
-    for(ll next : to[node]){
-        if(seen[next]){
-            continue;
-        }else{
-            dfs(next, num + score[next]);
-        }
-    }
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    cin >> n >> q;
-    to.resize(n);
+    ll d; cin >> d;
+    ll n; cin >> n;
+    ll m; cin >> m;
+    vector<ll> store(n-1);
     rep(i, n-1){
-        ll a, b; cin >> a >> b; a--; b--;
-        to[a].push_back(b);
-        to[b].push_back(a);
+        cin >> store[i];
     }
-    score.resize(n);
-    rep(i, q){
-        ll p, x; cin >> p >> x; p--;
-        score[p] += x;
+    store.push_back(0);
+    store.push_back(d);
+    sort(all(store));
+    vector<ll> order(m);
+    rep(i, m){
+        cin >> order[i];
     }
-
-    seen.resize(n);
-    ans.resize(n);
-    dfs(0, score[0]);
-
-    rep(i, ans.size()){
-        cout << ans[i] << " ";
+    
+    ll ans = 0;
+    
+    rep(i, m){
+        ll tmp = lower_bound(store.begin(), store.end(), order[i]) - store.begin();
+        ans += min(abs(order[i] - store[tmp]), abs(order[i] - store[tmp-1]));
     }
-    br;
+    cout << ans << endl;
 
 
 }

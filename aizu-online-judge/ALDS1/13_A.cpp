@@ -18,48 +18,35 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
-ll n, q;
-vector<vector<ll>> to(n);
-vector<bool> seen(n);
-vector<ll> score(n);
-vector<ll> ans(n);
-
-void dfs(ll node, ll num){
-    seen[node] = true;
-    ans[node] = num;
-
-    for(ll next : to[node]){
-        if(seen[next]){
-            continue;
-        }else{
-            dfs(next, num + score[next]);
-        }
-    }
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    cin >> n >> q;
-    to.resize(n);
-    rep(i, n-1){
-        ll a, b; cin >> a >> b; a--; b--;
-        to[a].push_back(b);
-        to[b].push_back(a);
-    }
-    score.resize(n);
-    rep(i, q){
-        ll p, x; cin >> p >> x; p--;
-        score[p] += x;
+    ll k; cin >> k;
+    vector<vector<string>> chess(8, vector<string>(8, "-"));
+    vector<ll> tate(8);
+    vector<ll> yoko(8);
+    rep(i, k){
+        ll r, c; cin >> r >> c;
+        chess[r][c] = "Q";
+        tate[r] = 1; yoko[c] = 1;
     }
 
-    seen.resize(n);
-    ans.resize(n);
-    dfs(0, score[0]);
-
-    rep(i, ans.size()){
-        cout << ans[i] << " ";
+    vector<vector<string>> chess2(8, vector<string>(8, "-"));
+    chess2 = chess;
+    for(ll i = 0; i < 8; i++){
+        if(tate[i] == 1){
+            continue;
+        }
+        tate[i] = 1;
+        for(ll j = 0; j < 8; j++){
+            if(yoko[j] == 1){
+                continue;
+            }
+            yoko[j] = 1;
+            break;
+        }
     }
-    br;
+    
 
 
 }

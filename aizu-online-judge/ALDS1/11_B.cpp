@@ -18,48 +18,59 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
-ll n, q;
+
+ll n;
 vector<vector<ll>> to(n);
 vector<bool> seen(n);
-vector<ll> score(n);
-vector<ll> ans(n);
+vector<ll> d(n);
+vector<ll> f(n);
 
-void dfs(ll node, ll num){
-    seen[node] = true;
-    ans[node] = num;
+ll dfs(ll node, ll time){
+    if(seen[node] == false){
+        seen[node] = true;
+        d[node] = time;
+    }
 
     for(ll next : to[node]){
         if(seen[next]){
             continue;
         }else{
-            dfs(next, num + score[next]);
+            time = dfs(next, time+1);
         }
     }
+    time += 1;
+
+    f[node] = time;
+
+    return time;
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    cin >> n >> q;
+    cin >> n;
     to.resize(n);
-    rep(i, n-1){
-        ll a, b; cin >> a >> b; a--; b--;
-        to[a].push_back(b);
-        to[b].push_back(a);
-    }
-    score.resize(n);
-    rep(i, q){
-        ll p, x; cin >> p >> x; p--;
-        score[p] += x;
-    }
-
     seen.resize(n);
-    ans.resize(n);
-    dfs(0, score[0]);
-
-    rep(i, ans.size()){
-        cout << ans[i] << " ";
+    d.resize(n);
+    f.resize(n);
+    rep(i, n){
+        ll u; cin >> u; u--;
+        ll k; cin >> k;
+        rep(j, k){
+            ll v; cin >> v; v--;
+            to[u].push_back(v);
+        }
     }
-    br;
 
+    ll time = 0;
+    for(ll i = 0; i < n; i++){
+        if(seen[i] == false){
+            time = dfs(i, time+1);
+        }
+    }
+    
+
+    for(ll i = 0; i < n; i++){
+        cout << i+1 << " " << d[i] << " " << f[i] << endl;
+    }
 
 }

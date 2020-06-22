@@ -21,32 +21,32 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
+    ll d, n; cin >> d >> n;
+    vector<long long> temperature(d);
+    for(long long i = 0; i < d; i ++){
+        cin >> temperature[i];
     }
 
-    vector<vector<ll>> dp(n, vector<ll>(21));
+    vector<tuple<ll, ll, ll>> clothes(n);
+    vector<ll> a(n);
+    vector<ll> b(n);
+    vector<ll> c(n);
+    rep(i, n){
+        ll A, B, C; cin >> A >> B >> C;
+        a[i] = A; b[i] = B; c[i] = C;
+    }
 
-    for(ll i = 0; i < n; i++){
+    vector<vector<ll>> dp(d, vector<ll>(n, -1));
+
+    for(ll i = 0; i < d; i++){
         if(i == 0){
-            dp[i][vec[i]] = 1;
+
             continue;
         }
-        for(ll j = 0; j < 21; j++){
-            if(dp[i-1][j] > 0){
-                if(j + vec[i] <= 20){
-                    dp[i][j+vec[i]] += dp[i-1][j];
-                }
-                
-                if(j - vec[i] >= 0){
-                    dp[i][j-vec[i]] += dp[i-1][j];
-                }
-            }
+        for(ll j = 0; j < n; j++){
+
+
         }
     }
-
-    cout << dp[n-2][vec[n-1]] << endl;
 
 }

@@ -27,26 +27,14 @@ int main() {
         cin >> vec[i];
     }
 
-    vector<vector<ll>> dp(n, vector<ll>(21));
-
-    for(ll i = 0; i < n; i++){
-        if(i == 0){
-            dp[i][vec[i]] = 1;
-            continue;
-        }
-        for(ll j = 0; j < 21; j++){
-            if(dp[i-1][j] > 0){
-                if(j + vec[i] <= 20){
-                    dp[i][j+vec[i]] += dp[i-1][j];
-                }
-                
-                if(j - vec[i] >= 0){
-                    dp[i][j-vec[i]] += dp[i-1][j];
-                }
-            }
-        }
+    ll tmp = vec[0];
+    for(ll i = 1; i < n; i ++){
+        tmp = tmp ^ vec[i];
     }
 
-    cout << dp[n-2][vec[n-1]] << endl;
+    rep(i, n){
+        cout << (vec[i] ^ tmp) << " ";
+    }
+    br;
 
 }

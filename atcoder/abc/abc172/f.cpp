@@ -21,35 +21,6 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
     
-    vector<ll> vec;
-    while(n / 26 != 0){
-
-        ll sho = n / 26;
-        ll amari = n % 26;
-        cout << amari << endl;
-        vec.push_back(amari);
-        n /= 26;
-    }
-
-    cout << n % 26 << endl;
-
-    cout << "--" << endl;
-    for(ll i = vec.size() - 1; i >= 0; i--){
-        cout << vec[i] << " ";
-    }
-    br;
-    
-    /*
-    for(ll i = vec.size()-1; i >= 0; i--){
-        if(vec[i] == 0){
-            cout << (char)('a' + 26 - 1) << endl;
-        }else{
-            cout << (char)('a' + vec[i] - 1) << endl;
-        }
-    }
-    */
-
 
 }

@@ -19,28 +19,9 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
-ll tmp = 1000000000000001;
-
-vector<ll> vec;
-vector<ll> vec2;
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-
-    vector<char> res;
-    while(n != 0){
-        n--;
-        res.push_back((char)('a' + (n % 26)));
-        n /= 26;
-    }
-
-    rep(i, res.size()){
-        cout << res[res.size() - 1 - i];
-    }
-    br;
-
-
-
+    ll a; cin >> a;
+    cout << a + a*a + a*a*a << endl;
 
 }

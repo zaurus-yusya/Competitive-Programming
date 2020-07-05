@@ -33,54 +33,38 @@ int main() {
         }
     }
 
-
-    vector<vector<ll>> sumsum(m+1, vector<ll>(n+1));
-    rep(i, m){
-        rep(j, n){
-            
-        }
-    }
-
-    vector<vector<ll>> j_yoko(m, vector<ll>(n+1));
-    vector<vector<ll>> o_yoko(m, vector<ll>(n+1));
-    vector<vector<ll>> i_yoko(m, vector<ll>(n+1));
+    vector<vector<ll>> j_sum(m+1, vector<ll>(n+1));
+    vector<vector<ll>> o_sum(m+1, vector<ll>(n+1));
+    vector<vector<ll>> i_sum(m+1, vector<ll>(n+1));
 
     rep(i, m){
         rep(j, n){
             if(vec[i][j] == "J"){
-                j_yoko[i][j+1] = j_yoko[i][j] + 1;
-            }else{
-                j_yoko[i][j+1] = j_yoko[i][j];
+                j_sum[i+1][j+1] = j_sum[i][j+1] + j_sum[i+1][j] - j_sum[i][j] + 1;
+                o_sum[i+1][j+1] = o_sum[i][j+1] + o_sum[i+1][j] - o_sum[i][j];
+                i_sum[i+1][j+1] = i_sum[i][j+1] + i_sum[i+1][j] - i_sum[i][j];
             }
+
             if(vec[i][j] == "O"){
-                o_yoko[i][j+1] = o_yoko[i][j] + 1;
-            }else{
-                o_yoko[i][j+1] = o_yoko[i][j];
+                j_sum[i+1][j+1] = j_sum[i][j+1] + j_sum[i+1][j] - j_sum[i][j];
+                o_sum[i+1][j+1] = o_sum[i][j+1] + o_sum[i+1][j] - o_sum[i][j] + 1;
+                i_sum[i+1][j+1] = i_sum[i][j+1] + i_sum[i+1][j] - i_sum[i][j];
             }
+
             if(vec[i][j] == "I"){
-                i_yoko[i][j+1] = i_yoko[i][j] + 1;
-            }else{
-                i_yoko[i][j+1] = i_yoko[i][j];
+                j_sum[i+1][j+1] = j_sum[i][j+1] + j_sum[i+1][j] - j_sum[i][j];
+                o_sum[i+1][j+1] = o_sum[i][j+1] + o_sum[i+1][j] - o_sum[i][j];
+                i_sum[i+1][j+1] = i_sum[i][j+1] + i_sum[i+1][j] - i_sum[i][j] + 1;
             }
-            
         }
     }
 
-    vector<pair<ll,ll>> northwest(k);
-    vector<pair<ll,ll>> southeast(k);
-    rep(i,k){
-        ll a, b, c, d;
-        cin >> a >> b >> c >> d;
-        a--; c--;
-        northwest[i] = make_pair(a, b);
-        southeast[i] = make_pair(c, d);
-        ll j_count = 0, o_count = 0, i_count = 0;
-        for(ll j = a; j <= c; j++){
-            j_count += j_yoko[j][d] - j_yoko[j][b-1];
-            o_count += o_yoko[j][d] - o_yoko[j][b-1];
-            i_count += i_yoko[j][d] - i_yoko[j][b-1];
-        }
-        cout << j_count << " " << o_count << " " << i_count << endl;
+    rep(i, k){
+        ll a, b, c, d; cin >> a >> b >> c >> d;
+        a--; b--;
+        cout << j_sum[c][d] - j_sum[a][d] - j_sum[c][b] + j_sum[a][b] << " ";
+        cout << o_sum[c][d] - o_sum[a][d] - o_sum[c][b] + o_sum[a][b] << " ";
+        cout << i_sum[c][d] - i_sum[a][d] - i_sum[c][b] + i_sum[a][b] << endl;
     }
 
 }

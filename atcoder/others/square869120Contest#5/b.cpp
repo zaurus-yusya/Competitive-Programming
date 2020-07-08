@@ -10,6 +10,7 @@ const long long INF = 1e10;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 using pll = pair<ll, ll>;
+using pld = pair<ld, ld>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 
@@ -22,5 +23,38 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
+    vector<pld> circle(n + m);
+    vector<ld> radius(n + m, INF);
+    rep(i, n + m){
+        if(i < n){
+            ld x, y, r; cin >> x >> y >> r;
+            circle[i] = {x, y};
+            radius[i] = r;
+        }else{
+            ld x, y; cin >> x >> y;
+            circle[i] = {x, y};
+        }
+    }
+
+    for(ll i = 0; i < n + m; i++){
+        for(ll j = i + 1; j < n + m; j++){
+            if(i < n && j < n){
+                continue;
+            }else if(i < n && j >= n){
+                ld distance = sqrt( (circle[i].first - circle[j].first)*(circle[i].first - circle[j].first) + (circle[i].second - circle[j].second)*(circle[i].second - circle[j].second) );
+                radius[j] = min(radius[j], distance - radius[i]);
+            }else{
+                ld distance = sqrt( (circle[i].first - circle[j].first)*(circle[i].first - circle[j].first) + (circle[i].second - circle[j].second)*(circle[i].second - circle[j].second) );
+                radius[i] = min(radius[i], distance / 2);
+                radius[j] = min(radius[j], distance / 2);
+            }
+        }
+    }
+
+    ld ans = INF;
+    rep(i, radius.size()){
+        ans = min(ans, radius[i]);
+    }
+    cout << ans << endl;
 
 }

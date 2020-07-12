@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 typedef long long ll;
+typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define pb push_back
@@ -17,42 +18,32 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // stringの数字をint型にしてアスキーコードになったら -48する
 // 切り上げ　ceil(a)
 
-ll least_common_multiple(ll a, ll b){
-    ll x = a * b;
-    if(a < b){
-        ll tmp = a;
-        a = b;
-        b = tmp;
-    }
-    ll r = a % b;
-    while(r != 0){
-        a = b;
-        b = r;
-        r = a % b;
-    }
-    return x / b;
-}
-
-
 int main() {
-    ll n, m;
-    cin >> n >> m;
+    ll n, m; cin >> n >> m;
+    vector<long long> vec(n);
+    ll num = 0;
+    ll LC = 1;
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
+        vec[i] = vec[i] / 2;
 
-    ll less_common = 1;
-    rep(i,n){
-        ll tmp;
-        cin >> tmp;
-        if(tmp % 2 != 0){
-            continue;
+        ll tmp = vec[i], count = 0;
+        while(tmp % 2 == 0){
+            count++;
+            tmp = tmp / 2;
         }
-        tmp /= 2;
-        less_common = least_common_multiple(less_common, tmp);
+        if(i == 0){
+            num = count;
+        }else{
+            if(num != count){
+                cout << 0 << endl;
+                return 0;
+            }
+        }
+
+        LC = lcm(LC, vec[i]);
     }
 
-    if((m / less_common) % 2 == 0){
-        cout << m / less_common / 2 << endl;
-    }else{
-        cout << (m / less_common / 2) + 1 << endl;
-    }
+    cout << (m / LC + 1) / 2 << endl;
 
 }

@@ -7,7 +7,7 @@ typedef long double ld;
 #define br cout << "\n";
 using namespace std;
 const long long INF = 1e10;
-const long long MOD = 1e9+7;
+const long long mod = 1e9+7;
 using Graph = vector<vector<ll>>;
 using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -19,130 +19,108 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
+struct mint {
+  ll x; // typedef long long ll;
+  mint(ll x=0):x((x%mod+mod)%mod){}
+  mint operator-() const { return mint(-x);}
+  mint& operator+=(const mint a) {
+    if ((x += a.x) >= mod) x -= mod;
+    return *this;
+  }
+  mint& operator-=(const mint a) {
+    if ((x += mod-a.x) >= mod) x -= mod;
+    return *this;
+  }
+  mint& operator*=(const mint a) { (x *= a.x) %= mod; return *this;}
+  mint operator+(const mint a) const { return mint(*this) += a;}
+  mint operator-(const mint a) const { return mint(*this) -= a;}
+  mint operator*(const mint a) const { return mint(*this) *= a;}
+  mint pow(ll t) const {
+    if (!t) return 1;
+    mint a = pow(t>>1);
+    a *= a;
+    if (t&1) a *= *this;
+    return a;
+  }
+ 
+  // for prime mod
+  mint inv() const { return pow(mod-2);}
+  mint& operator/=(const mint a) { return *this *= a.inv();}
+  mint operator/(const mint a) const { return mint(*this) /= a;}
+};
+istream& operator>>(istream& is, mint& a) { return is >> a.x;}
+ostream& operator<<(ostream& os, const mint& a) { return os << a.x;}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, k; cin >> n >> k;
-    vector<pll> vec(n);
-    ll posi_flag = 0;
-    rep(i, n){
+    vector<long long> posi;
+    vector<long long> nega;
+    vector<long long> zen;
+    for(long long i = 0; i < n; i ++){
         ll tmp; cin >> tmp;
         if(tmp < 0){
-            tmp = (tmp * -1);
-            vec[i] = {tmp, 1};
+            nega.push_back(tmp);
+            zen.push_back(tmp);
         }else{
-            vec[i] = {tmp, 0};
-            posi_flag++;
+            posi.push_back(tmp);
+            zen.push_back(tmp);
         }
     }
-    sort(all(vec));
 
-    if(posi_flag == 0 && k % 2 == 1){
-        //nega_only
-        ll ans2 = 0;
-        rep(i, k){
-            if(i == 0){
-                ans2 = vec[i].first; continue;
-            }
-            ans2 = (ans2 * vec[i].first) % MOD;
-        }
-        ans2 = ans2 * (-1);
-        cout << (ans2+MOD) % MOD << endl;
-        return 0;
-    }
-    /*
-    rep(i, n){
-        cout << vec[i].first << " " << vec[i].second << endl;
-    }
-    */
-
-    vector<ll> res;
-    ll nega_min = 0, posi_min = 0;
-    ll nega_num = 0, posi_num = 0;
-    ll nega_itr = -1, posi_itr = -1;
-    for(ll i = 0; i < k; i++){
-        res.push_back(vec[n-1-i].first);
-        if(vec[n-1-i].second == 1){
-            nega_min = vec[n-1-i].first;
-            nega_itr = i;
-            nega_num++;
+    bool ok = false;
+    //正にできるか
+    if(posi.size() > 0){
+        if(n == k && nega.size() % 2 == 1){
+            ok = false;
         }else{
-            posi_min = vec[n-1-i].first;
-            posi_itr = i;
-            posi_num++;
-        }
-    }
-
-
-    ll ans = 0;
-    vector<ll> res2;
-    vector<ll> res3;
-    res2 = res; res3 = res;
-    if(nega_num % 2 == 1){
-
-        //補正必要
-        bool nega_to_posi = false;
-        bool posi_to_nega = false;
-        ll tmp2 = -1, tmp3 = -1;
-        for(ll i = n-1-k; i >= 0; i--){
-            if(vec[i].second == 1){
-                if(posi_to_nega == false && posi_itr != -1){
-                    tmp2 = res2[posi_itr] - vec[i].first;
-                    res2[posi_itr] = vec[i].first;
-                    posi_to_nega = true;
-                }
-            }else{
-                if(nega_to_posi == false && nega_itr != -1){
-                    tmp3 = res3[nega_itr] - vec[i].first;
-                    res3[nega_itr] = vec[i].first;
-                    nega_to_posi = true;
-                }
-            }
-            if(nega_to_posi && posi_to_nega){
-                break;
-            }
-        }
-
-        if(tmp2 == -1){
-            rep(i, res3.size()){
-                if(i == 0){
-                    ans = res3[i]; continue;
-                }
-                ans = (ans * res3[i]) % MOD;
-            }
-        }else if(tmp3 == -1){
-            rep(i, res2.size()){
-                if(i == 0){
-                    ans = res2[i]; continue;
-                }
-                ans = (ans * res2[i]) % MOD;
-            }
-        }else if(tmp2 > tmp3){
-            rep(i, res3.size()){
-                if(i == 0){
-                    ans = res3[i]; continue;
-                }
-                ans = (ans * res3[i]) % MOD;
-            }
-        }else{
-            rep(i, res2.size()){
-                if(i == 0){
-                    ans = res2[i]; continue;
-                }
-                ans = (ans * res2[i]) % MOD;
-            }
+            ok = true;
         }
     }else{
-        //補正必要なし
-        rep(i, res.size()){
-            if(i == 0){
-                ans = res[i]; continue;
-            }
-            ans = (ans * res[i]) % MOD;
+        if(k % 2 == 1){
+            ok = false;
+        }else{
+            ok = true;
         }
+    }
+
+    mint ans = 1;
+    if(!ok){
+        sort(zen.begin(), zen.end(), [](ll x, ll y){
+            return abs(x) < abs(y);
+        });
+        for(ll i = 0; i < k; i++){
+            ans *= zen[i];
+            //ans = ( ((ans * zen[i]) % MOD) + MOD) % MOD;
+        }
+    }else{
+        sort(posi.begin(), posi.end());
+        sort(nega.rbegin(), nega.rend());
+        if(k % 2 == 1){
+            ans *= posi.back();
+            //ans = (ans * posi.back()) % MOD;
+            posi.pop_back();
+        }
+        vector<ll> ab;
+        while(posi.size() >= 2){
+            ll x = posi.back(); posi.pop_back();
+            x *= posi.back(); posi.pop_back();
+            //x = (x * posi.back()) % MOD; posi.pop_back();
+            ab.push_back(x);
+        }
+        while(nega.size() >= 2){
+            ll x = nega.back(); nega.pop_back();
+            x *= nega.back(); nega.pop_back();
+            //x = (x * nega.back()) % MOD; nega.pop_back();
+            ab.push_back(x);
+        }
+        sort(ab.rbegin(), ab.rend());
+        rep(i, k/2){
+            ans *= ab[i];
+        }
+
     }
 
     cout << ans << endl;
 
-
-    
 }

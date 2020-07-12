@@ -17,7 +17,8 @@ void bit_full_search(int n)
     for (int bit = 0; bit < (1<<n); ++bit) {
         cout << "{";
         for (int i = 0; i < n; ++i) {
-            if (bit & (1<<i)) {
+            //if (bit & (1<<i)) {
+            if(bit >> i & 1){
                 cout << " " << i << " ";
             }
         }

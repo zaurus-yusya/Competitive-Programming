@@ -19,41 +19,25 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
-
-bool cmp2(pair<ll,ll> a, pair<ll,ll> b){
-    if(a.first != b.first){
-        return a.first > b.first;
+ll f(vector<pair<ll, ll>> p){
+    ll n = p.size();
+    vector<vector<ll>> vec(n+1);
+    rep(i, n){
+        if(p[i].first > n) p[i].first = n;
+        vec[p[i].first].push_back(p[i].second);
     }
-
-    if(a.second != b.second){
-        return a.second > b.second;
-    }else{
-        return true;
+    ll res = 0;
+    priority_queue<ll> pq; 
+    for(ll i = n; i >= 1; i--){
+        rep(j, vec[i].size()){
+            pq.push(vec[i][j]);
+        }
+        if(!pq.empty()){
+            res += pq.top();
+            pq.pop();
+        }
     }
-}
-
-bool cmp(pair<ll, pair<ll, ll>> a, pair<ll, pair<ll, ll>> b){
-    if(a.first != b.first){
-        return a.first < b.first;
-    }
-
-    ll i, j, k, l;
-    vector<pair<ll, ll>> tmp(4);
-    tmp[0].first = a.second.first;
-    tmp[1].first = b.second.first;
-    tmp[2].first = a.second.second;
-    tmp[3].first = b.second.second;
-    tmp[0].second = 0;
-    tmp[0].second = 1;
-    tmp[0].second = 2;
-    tmp[0].second = 3;
-    sort(all(tmp), cmp2);
-
-    if(tmp[0].second % 2 == 0){
-        return a.first > b.first;
-    }else{
-        return b.first > a.first;
-    }
+    return res;
 }
 
 int main() {
@@ -61,30 +45,23 @@ int main() {
     ll t; cin >> t;
 
     rep(T, t){
-        ll n; cin >> n;
-        vector<pair<ll, pair<ll, ll>>> vec(n);
-        vector<ll> k(n);
-        vector<ll> l(n);
-        vector<ll> r(n);
-        rep(i, n){
-            cin >> k[i] >> l[i] >> r[i];
-            vec[i].first = k[i]; vec[i].second.first = l[i]; vec[i].second.second = r[i];
-        }
-        sort(all(vec), cmp);
-
-        rep(i, vec.size()){
-            cout << vec[i].first << " " << vec[i].second.first << " " << vec[i].second.second << endl;
-        }
-
         ll ans = 0;
+        ll n; cin >> n;
+        vector<pair<ll, ll>> pl;
+        vector<pair<ll, ll>> pr;
         rep(i, n){
-            if(vec[i].second.first > vec[i].second.second){
-                ans += vec[i].second.first;
+            ll k, l, r; cin >> k >> l >> r;
+            ll m = min(l, r);
+            l -= m; r -= m;
+            if(l > 0){
+                pl.emplace_back(k, l);
             }else{
-                ans += vec[i].second.second;
+                pr.emplace_back(n-k, r);
             }
+            ans += m;
         }
 
+        ans += f(pl); ans += f(pr);
         cout << ans << endl;
 
     }

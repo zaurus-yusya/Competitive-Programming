@@ -19,34 +19,76 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
-int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll k; cin >> k;
-    vector<vector<string>> chess(8, vector<string>(8, "-"));
-    vector<ll> tate(8);
-    vector<ll> yoko(8);
-    rep(i, k){
-        ll r, c; cin >> r >> c;
-        chess[r][c] = "Q";
-        tate[r] = 1; yoko[c] = 1;
-    }
+vector<ll> tate; vector<ll> yoko;
 
-    vector<vector<string>> chess2(8, vector<string>(8, "-"));
-    chess2 = chess;
-    for(ll i = 0; i < 8; i++){
-        if(tate[i] == 1){
-            continue;
+void f(vector<vector<string>> chess, ll count){
+    
+    if(count == 8){
+        bool flag = true;
+        rep(i, tate.size()){
+            if(chess[tate[i]][yoko[i]] != "Q") flag = false;
         }
-        tate[i] = 1;
-        for(ll j = 0; j < 8; j++){
-            if(yoko[j] == 1){
-                continue;
+
+        if(flag){
+            rep(i, 8){
+                rep(j, 8){
+                    cout << chess[i][j];
+                }
+                br;
             }
-            yoko[j] = 1;
-            break;
+        }
+    }else{
+        rep(j, 8){
+            //縦
+            bool tate_flag = true;
+            for(ll k = count-1; k >= 0; k--){
+                if(chess[k][j] == "Q") tate_flag = false;
+            }  
+
+            bool naname_flag = true;
+            for(ll k = count, l = j; k >= 0 && l >= 0; k--, l--){
+                if(chess[k][l] == "Q") naname_flag = false;
+            }
+            for(ll k = count, l = j; k >= 0 && l < 8; k--, l++){
+                if(chess[k][l] == "Q") naname_flag = false;
+            }
+            for(ll k = count, l = j; k < 8 && l >= 0; k++, l--){
+                if(chess[k][l] == "Q") naname_flag = false;
+            }
+            for(ll k = count, l = j; k < 0 && l < 0; k++, l++){
+                if(chess[k][l] == "Q") naname_flag = false;
+            }
+
+            if(tate_flag && naname_flag){
+                chess[count][j] = "Q";
+                f(chess, count+1);
+                chess[count][j] = ".";
+            }
         }
     }
     
+}
 
+
+int main() {
+    std::cout << std::fixed << std::setprecision(15);
+    ll k; cin >> k;
+    
+    rep(i, k){
+        ll a, b;
+        cin >> a >> b;
+        tate.push_back(a); yoko.push_back(b);
+    }
+
+    vector<vector<string>> chess(8, vector<string>(8));
+    rep(i, 8)rep(j, 8){
+        chess[i][j] = ".";
+    }
+
+    rep(i, 8){
+        chess[0][i] = "Q";
+        f(chess, 1);
+        chess[0][i] = ".";
+    }
 
 }

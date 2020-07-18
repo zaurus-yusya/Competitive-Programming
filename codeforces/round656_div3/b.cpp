@@ -21,12 +21,29 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
-    while(true){
-        ll h, w; cin >> h >> w;
-        vector<vector<ll>> maze(h, vector<ll>(w));
-        map<pair<>>
-        for(ll i = )
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        vector<long long> vec(2 * n);
+        for(long long i = 0; i < 2 * n; i ++){
+            cin >> vec[i];
+        }
+        map<ll, ll> mp;
+        ll cnt = 0;
+        rep(i, 2*n){
+            if(mp[vec[i]] == 0){
+                if(cnt == n - 1){
+                    cout << vec[i] << endl;
+                    break;
+                }else{
+                    cout << vec[i] << " ";
+                    mp[vec[i]]++;
+                    cnt++;
+                }
+            }
+        }
+        
     }
+    
 
 }

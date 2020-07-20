@@ -27,7 +27,6 @@ int main() {
         cin >> temperature[i];
     }
 
-    vector<tuple<ll, ll, ll>> clothes(n);
     vector<ll> a(n);
     vector<ll> b(n);
     vector<ll> c(n);
@@ -40,13 +39,28 @@ int main() {
 
     for(ll i = 0; i < d; i++){
         if(i == 0){
-
+            for(ll j = 0; j < n; j++){
+                if(a[j] <= temperature[i] && temperature[i] <= b[j]){
+                    dp[i][j] = 0;
+                }
+            }
             continue;
         }
         for(ll j = 0; j < n; j++){
-
-
+            if(a[j] <= temperature[i] && temperature[i] <= b[j]){
+                for(ll k = 0; k < n; k++){
+                    if(dp[i-1][k] != -1){
+                        dp[i][j] = max(dp[i][j], dp[i-1][k] + abs(c[j] - c[k]));
+                    }
+                }
+            }
         }
     }
+    
+    ll ans = 0;
+    rep(i, n){
+        ans = max(ans, dp[d-1][i]);
+    }
+    cout << ans << endl;
 
 }

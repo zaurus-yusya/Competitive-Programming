@@ -19,7 +19,8 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
-
+//https://atcoder.jp/contests/abc172/submissions/14765570
+//20200724
 template<long long mod>
 struct ModInt
 {
@@ -105,8 +106,24 @@ template<long long mod> struct MComb {
 	}
 };
 
+template<long long mod> struct MPow {
+	using mint = ModInt<mod>;
+	mint modpow(mint a, long long n) {
+		mint res = 1;
+			while(n > 0){
+			if(n & 1){
+				res = res * a;
+			}
+			a = a * a;
+			n >>= 1;
+		}
+		return res;
+	}
+};
+
 typedef ModInt<1000000007> mint;
 MComb<1000000007> com(510000);
+MPow<1000000007> mpow;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
@@ -130,5 +147,9 @@ int main() {
     mint q = 5;
     mint r = 3;
     cout << com.ncr(5, 3) << endl;
+	cout << com.ncr(100000, 50000) << endl;
+	cout << a << endl;
+	cout << mpow.modpow(2, 10) << endl;
+	cout << a + mpow.modpow(2, 10) << endl;
 
 }

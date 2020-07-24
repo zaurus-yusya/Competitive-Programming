@@ -21,34 +21,21 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll x, y, z, k; cin >> x >> y >> z >> k;
-    vector<ll> X(x);
-    vector<ll> Y(y);
-    vector<ll> Z(z);
-    vector<ll> XY;
-    rep(i, x){
-        cin >> X[i];
-    }
-    rep(i, y){
-        cin >> Y[i];
-        rep(j, x){
-            XY.push_back(X[j] + Y[i]);
+    ll t; cin >> t;
+    rep(T, t){
+        ll n, k, l; cin >> n >> k >> l;
+        vector<long long> vec(n);
+        for(long long i = 0; i < n; i ++){
+            cin >> vec[i];
         }
-    }
-    sort(all(XY), greater<ll>());
 
-    vector<ll> ans;
-    rep(i, z){
-        cin >> Z[i];
-        rep(j, min(k, x*y)){
-            ans.push_back(XY[j] + Z[i]);
+        ll pos = 0;
+        ll num = 0;
+        ll time = 0;
+        while(true){
+            
         }
-    }
-    sort(all(ans), greater<ll>());
 
-    rep(i, k){
-        cout << ans[i] << endl;
     }
-
 
 }

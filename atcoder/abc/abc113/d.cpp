@@ -128,6 +128,65 @@ MPow<1000000007> mpow;
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll h, w, k; cin >> h >> w >> k;
+
+    vector<vector<mint>> dp(h+1, vector<mint>(w));
+    dp[0][0] = 1;
+    
+    if(w == 1){
+        if(k == 1){
+            cout << 1 << endl;
+        }else{
+            cout << 0 << endl;
+        }
+        return 0;
+    }
+
+    for(ll i = 0; i < h; i++){
+        for(ll j = 0; j < w; j++){
+            ll cnt = 0;
+            for (int bit = 0; bit < (1<<w-1); ++bit) {
+                vector<ll> vec;
+                
+                bool flag = true;
+                for (int k = 0; k < w-1; ++k) {
+                    //if (bit & (1<<i)) {
+                    if(bit >> k & 1){
+                        if(vec.size() == 0){
+                            vec.push_back(k);
+                        }else{
+                            if(k - vec[vec.size()-1] == 1){
+                                flag = false;
+                                break;
+                            }else{
+                                vec.push_back(k);
+                            }
+                        }
+                    }
+                }
+
+                if(flag){
+                    bool lflag = true, rflag = true;
+                    rep(k, vec.size()){
+                        if(vec[k] == j - 1){
+                            dp[i+1][j] += dp[i][j-1];
+                            lflag = false;
+                        }
+                        if(vec[k] == j){
+                            dp[i+1][j] += dp[i][j+1];
+                            rflag = false;
+                        }
+                    }
+                    if(lflag && rflag){
+                        dp[i+1][j] += dp[i][j];
+                    }
+                    cnt++;
+                }
+            }
+        }
+
+    }
+
+    cout << dp[h][k-1] << endl;
     
 
 }

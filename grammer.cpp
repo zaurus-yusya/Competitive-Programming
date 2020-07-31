@@ -14,6 +14,10 @@ int main() {
 //c++ 17 コンパイルコマンド
 //g++ -std=c++1z test.cpp
 
+//ファイル入出力 cin.rdbufの文を書くとそれ以降いつも通りの標準入出力の書き方でOK
+ifstream in("./file_name.txt");
+cin.rdbuf(in.rdbuf());
+
 
 //print文
 long long int ans;
@@ -313,6 +317,8 @@ for (auto itr = st.begin(); itr != st.end(); ++itr) {
 ms.erase(ms.find(5)); //１つだけ削除
 
 //lower_bound, upper_bound
+//lower_bound  key以上の要素のうち一番左
+//lower_bound  keyより大きい要素のうち一番左
 ll x;
 lower_bound(vec.begin(), vec.end(), x) - vec.begin()  //x以上の中で一番左のものの先頭からの距離
 

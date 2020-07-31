@@ -18,38 +18,49 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // 切り上げ　ceil(a)
 // コンパイル　g++ -std=c++17 a.cpp
 
+ll binary_search(vector<ll> vec, ll x){
+    ll left = -1, right = vec.size();
+    while(right - left > 1){
+        ll mid = (left + right) / 2;
+        if(vec[mid] >= x){
+            right = mid;
+        }else{
+            left = mid;
+        }
+    }
+    return right;
+}
+
 //TLE
 int main() {
     ll n, m;
     cin >> n >> m;
-    vector<ll> vec(n);
-    map<ll,ll> mp;
-    map<ll,ll> mp_ans;
-
+    vector<ll> vec;
+    vec.push_back(0);
+    map<ll, ll> mp;
     rep(i,n){
-        cin >> vec.at(i);
-        mp[vec.at(i)]++;
-        mp_ans[vec.at(i)]++;
-    }
-
-    rep(i,3){
-        rep(j,n){
-            for(auto k: mp){
-                mp_ans[k.first + vec.at(j)]++;
-            }
+        ll tmp; cin >> tmp;
+        if(mp[tmp] == 0){
+            vec.push_back(tmp);
+            mp[tmp]++;
         }
-        mp = mp_ans;
     }
 
+    vector<ll> half;
+    rep(i, n+1){
+        for(ll j = i; j < n+1; j++){
+            if(vec[i] + vec[j] < m)
+            half.push_back(vec[i] + vec[j]);
+        }
+    }
+    sort(all(half));
+    
     ll ans = 0;
-
-    for(auto i: mp_ans){
-        if(i.first > m){
-            break;
-        }else{
-            ans = i.first;
-        }
+    rep(i, half.size()){
+        ll x = half[i];
+        if(x > m) break;
+        ll res = upper_bound(all(half), m-x) - 1 - half.begin();
+        ans = max(ans, x + half[res]);
     }
     cout << ans << endl;
-    
 }

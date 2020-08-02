@@ -31,7 +31,6 @@ ll binary_search(vector<ll> vec, ll x){
     return right;
 }
 
-//TLE
 int main() {
     ll n, m;
     cin >> n >> m;

@@ -19,46 +19,67 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
-template< typename T >
-struct BinaryIndexedTree {
-  vector< T > data;
+template<typename T>
+struct BIT{
+    ll n;
+    vector<ll> d;
+    BIT(int n=0):n(n),d(n+1) {}
 
-  BinaryIndexedTree(int sz) {
-    data.assign(++sz, 0);
-  }
+    void add(ll i, T x=1){
+        for(i++; i <= n; i += (i & -i)){
+            d[i] += x;
+        }
+    }
 
-  T sum(int k) {
-    T ret = 0;
-    for(++k; k > 0; k -= k & -k) ret += data[k];
-    return (ret);
-  }
+    T sum(ll i) {
+        T x = 0;
+        for (i++; i; i -= i&-i) {
+        x += d[i];
+        }
+        return x;
+    }
 
-  void add(int k, T x) {
-    for(++k; k < data.size(); k += k & -k) data[k] += x;
-  }
 };
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, q; cin >> n >> q;
     vector<long long> vec(n);
-    vector<ll> saigo(500010);
     for(long long i = 0; i < n; i ++){
         cin >> vec[i];
-        saigo[vec[i]] = i;
     }
-    vector<pair<ll, pair<ll, ll>>> query(q);
-    rep(i, 1){
+
+    vector<ll> last(n+1, -1);
+    vector<vector<ll>> num_kukan(n);
+    rep(i, n){
+        ll tmp = last[vec[i]];
+        if(tmp != -1){
+            num_kukan[tmp].push_back(i);
+        }
+        last[vec[i]] = i;
+    }
+
+    vector<vector<pair<ll, ll>>> query(n);
+    rep(i, q){
         ll l, r; cin >> l >> r; l--; r--;
-        query[i].second = {r, l};
-        query[i].first = i;
-    }
-    sort(all(query));
-
-    BinaryIndexedTree<ll> B(n);
-
-    for(ll i = n-1; i >= 0; i--){
-
+        query[l].emplace_back(r, i); //右、クエリ番号
     }
 
+    BIT<ll> d(n);
+    
+    vector<ll> ans(q);
+
+    for(ll x = n-1; x >= 0; x--){
+        for(ll y : num_kukan[x]){
+            d.add(y, 1);
+        }
+        for(pair<ll, ll> qu : query[x]){
+            ll r = qu.first; ll i = qu.second;
+            ans[i] = (r - x + 1) - d.sum(r);
+        }
+    }
+
+    rep(i, q){
+        cout << ans[i] << endl;
+    }
 }

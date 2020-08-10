@@ -19,27 +19,19 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll r, b; cin >> r >> b;
-    ll x, y; cin >> x >> y;
-
-    ll left = -1, right = 1e18;
-
-    while(right - left > 1){
-        
-        ll mid = (left + right) / 2;
-        ll tmp_x = r - mid;
-        ll tmp_y = b - mid;
-        if(tmp_x < 0 || tmp_y < 0){
-            right = mid;
-        }else if( (tmp_x / (x-1)) + (tmp_y / (y-1)) >= mid){
-            left = mid;
-        }else{
-            right = mid;
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        for(ll i = n; i >= 1; i--){
+            if(i == 1){
+                cout << i;
+            }else{
+                cout << i << " ";
+            }
         }
+        br;
     }
 
-    cout << left << endl;
 }

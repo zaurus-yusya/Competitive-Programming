@@ -1,35 +1,68 @@
 #include <bits/stdc++.h>
 typedef long long ll;
+typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define pb push_back
-#define mp make_pair
 #define all(x) x.begin(),x.end()
-#define br cout << endl;
+#define br cout << "\n";
 using namespace std;
-const int INF = 1e9;
-const int MOD = 1e9+7;
+const long long INF = 1e10;
+const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
+using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+ll ceilll(ll a, ll b) {return (a + b-1) / b;}
 
 // 0 false, 1 true 
-// stringの数字をint型にしてアスキーコードになったら -48する
-// 切り上げ　ceil(a)
-// コンパイル　g++ -std=c++17 a.cpp
+// string number to int : -48
+// a to A : -32
+// ceil(a)  1.2->2.0
+// c++17	g++ -std=c++17 a.cpp
 
-bool dfs()
-
-//できてない
 int main() {
-    ll d, g;
+    std::cout << std::fixed << std::setprecision(15);
+    ll d, g; cin >> d >> g;
     vector<ll> p(d);
     vector<ll> c(d);
-
-    rep(i,d){
-        cin >> p.at(i);
-        cin >> c.at(i);
+    rep(i, d){
+        cin >> p[i] >> c[i]; 
     }
+
+    ll ans = INF;
+    for(ll i = 0; i < (1<<d); i++){
+        //cout << "{ ";
+
+        ll highest_question = -1;
+        ll current_ans = 0;
+        ll current_score = 0;
+        for(ll j = 0; j < d; j++){
+            if(i & (1<<j)){
+                //cout << j << " ";
+                current_ans += p[j];
+                current_score += p[j] * (100*(j+1)) + c[j];
+            }else{
+                highest_question = j;
+            }
+        }
+
+        //cout << "} " << endl;
+        if(current_score >= g){
+            ans = min(ans, current_ans);
+        }else{
+            if(highest_question != -1){
+                ll q = 100 * (highest_question + 1);
+                ll need_q = ceilll(g-current_score, q);
+                //ll need_q = ((g-current_score) + (q-1)) / q;
+                if(need_q <= p[highest_question]){
+                    ans = min(ans, current_ans + need_q);
+                }
+            }
+        }
+        //cout << current_score << endl;
+        //cout << highest_question << endl;
+    }
+    cout << ans << endl;
 
 
 }

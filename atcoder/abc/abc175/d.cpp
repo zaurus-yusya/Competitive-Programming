@@ -34,10 +34,37 @@ int main() {
         cin >> c[i];
     }
 
-    vector<ll> dist(n, -1);
-    ll ans = 0;
-    bool flag = true;
+    /*
+    ll ans = -1e18;
+    rep(si, n){
+        ll x = si;
+        vector<ll> s;
+        ll total = 0;
+        while(true){
+            x = p[x];
+            s.push_back(c[x]);
+            total += c[x];
+            if(x == si) break;
+        }
+        ll l = s.size();
+        ll t = 0;
+        rep(i, l){
+            t += s[i];
+            if(i+1 > k) break;
+            ll now = t;
+            if(total > 0){
+                now += total * ((k-i-1) / l);
+            }
+            ans = max(ans, now);
+        }
+    }
+    cout << ans << endl;
+    */
+
     
+    
+    vector<ll> dist(n, -1);
+    ll ans = -1e18;
     rep(i, n){
         if(dist[i] == -1){
 
@@ -54,19 +81,40 @@ int main() {
                 one_roop += c[next];
             }
 
-            ll saigo = 0;
-            if(one_roop > 0){
-                if(res.size() < k){
-                    saigo = one_roop * (k / res.size());
-                    k = k % res.size();
+            ll size = res.size();
+            
+            rep(i, size){
+                ll t = 0;
+                rep(j, size){
+                    t += res[(j + i) % size];
+                    ll now = t;
+                    if(one_roop > 0){
+                        now += one_roop * ((k - j - 1) / size);
+                    }
+                    ans = max(ans, now);
                 }
+                
             }
 
+            /*
+            ll saigo = 0;
+            ll tmp_k = k;
+            if(one_roop > 0){
+                if(res.size() < tmp_k){
+                    saigo = one_roop * (tmp_k / res.size());
+                    tmp_k = tmp_k % res.size();
+                }
+            }else{
+                if(res.size() < tmp_k){
+                    tmp_k = tmp_k % res.size();
+                }
+            }
+            
             ll this_ans = 0;
             bool this_flag = true;
             rep(i, res.size()){
                 ll tmp = 0;
-                rep(j, k){
+                rep(j, tmp_k){
                     tmp += res[(i + j) % res.size()];
                     if(this_flag){
                         this_ans = tmp;
@@ -75,14 +123,14 @@ int main() {
                     this_ans = max(this_ans, tmp);
                 }
             }
+
             this_ans += saigo;
             if(flag){
                 ans = this_ans;
                 flag = false;
             }
             ans = max(ans, this_ans);
-
-            /*
+            ///
             
             ll size = res.size();
             ll one_roop_size = size;
@@ -114,8 +162,11 @@ int main() {
             }
             ans = ans + saigo;
             */
+            
         } 
     }
     cout << ans<< endl;
+    
+    
 
 }

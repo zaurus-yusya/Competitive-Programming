@@ -24,30 +24,63 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // c++17	g++ -std=c++17 a.cpp
 // global vector -> 0 initialization
 
+struct UnionFind
+{
+    vector<long long> d;
+    UnionFind(long long n = 0) : d(n, -1)
+    {
+    }
+
+    //root : -size, not root: root
+    long long root(long long x){
+        if(d[x] < 0){
+            return x; 
+        }
+        return d[x] = root(d[x]);
+    }
+
+    bool unite(long long x, long long y){
+        x = root(x);
+        y = root(y);
+        if(x == y){
+            return false;
+        }
+        if(d[x] > d[y]){
+            swap(x, y);
+        }
+        d[x] += d[y];
+        d[y] = x;
+        return true;
+    }
+
+    long long size(long long x){
+        return -d[root(x)];
+    }
+
+    bool issame(long long a, long long b){
+        return root(a) == root(b);
+    }
+};
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll m, n; cin >> m >> n;
-    ll w, h; cin >> w >> h;
-    vector<vector<ll>> vec(n, vector<ll>(m));
+    ll n, m; cin >> n >> m;
+
+    UnionFind u(n);
+
+    rep(i, m){
+        ll a, b; cin >> a >> b; a--; b--;
+        u.unite(a, b);
+    }
+
+    ll x = 0;
     rep(i, n){
-        rep(j, m){
-            cin >> vec[i][j];
-            if(vec[i][j] == -1) vec[i][j] = INF;
-        }
+        //cout << u.root(i) << " " << u.size(i) << endl;
+        x = max(x, u.size(i));
     }
 
-    ll ans = INF;
+    cout << x << endl;
 
-    for(ll i = 0; i < n-h+1; i++){
-        for(ll j = 0; j < m-w+1; j++){
-            
-        }
-    }
 
-    for(ll i = 0; i < h; i++){
-        for(ll j = 0; j < w; j++){
-
-        }
-    }
 
 }

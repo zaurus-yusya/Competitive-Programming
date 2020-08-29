@@ -26,28 +26,30 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll m, n; cin >> m >> n;
-    ll w, h; cin >> w >> h;
-    vector<vector<ll>> vec(n, vector<ll>(m));
-    rep(i, n){
-        rep(j, m){
-            cin >> vec[i][j];
-            if(vec[i][j] == -1) vec[i][j] = INF;
-        }
+    ll n; cin >> n;
+    vector<long long> vec(n);
+    ll sum = 0;
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
+        sum += vec[i];
     }
 
-    ll ans = INF;
-
-    for(ll i = 0; i < n-h+1; i++){
-        for(ll j = 0; j < m-w+1; j++){
-            
+    ll ans = 0;
+    for(ll i = 0; i < n-1; i++){
+        sum -= vec[i];
+        ll tmp = ((sum%MOD) * vec[i]) % MOD;
+        ans = (ans + tmp) % MOD;
+    }
+    cout << ans << endl;
+    /*
+    ll ans = 0;
+    for(ll i = 0; i < n; i ++){
+        for(ll j = i+1; j < n; j++){
+            ll tmp = (vec[i] * vec[j]) % MOD;
+            ans = (ans + tmp) % MOD;
         }
     }
-
-    for(ll i = 0; i < h; i++){
-        for(ll j = 0; j < w; j++){
-
-        }
-    }
+    cout << ans << endl;
+    */
 
 }

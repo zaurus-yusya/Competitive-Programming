@@ -26,28 +26,45 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll m, n; cin >> m >> n;
-    ll w, h; cin >> w >> h;
-    vector<vector<ll>> vec(n, vector<ll>(m));
-    rep(i, n){
-        rep(j, m){
-            cin >> vec[i][j];
-            if(vec[i][j] == -1) vec[i][j] = INF;
-        }
-    }
-
-    ll ans = INF;
-
-    for(ll i = 0; i < n-h+1; i++){
-        for(ll j = 0; j < m-w+1; j++){
-            
+    ll h, w; cin >> h >> w;
+    vector<vector<ll>> vec(h+1, vector<ll>(w));
+    vector<pair<ll, ll>> dame;
+    vector<pair<ll, ll>> l(h);
+    vector<pair<ll, ll>> r(h);
+    rep(i, h){
+        ll a, b; cin >> a >> b; a--; b--;
+        vec[i][a] = 1; vec[i][b] = 1;
+        dame.emplace_back(a, b);
+        if(a == 0 && b == w-1){
+            l.emplace_back(-1, -1);
+            r.emplace_back(-1, -1);
+        }else if(a > 0 && b < w-1){
+            l.emplace_back(0, a-1);
+            r.emplace_back(b+1, w-1);
+        }else if(a == 0){
+            l.emplace_back(-1, -1);
+            r.emplace_back(b+1, w-1);
+        }else{
+            l.emplace_back(0, a-1);
+            r.emplace_back(-1, -1);
         }
     }
 
     for(ll i = 0; i < h; i++){
-        for(ll j = 0; j < w; j++){
-
+        if(i == 0){
+            if(l[0].first == -1 && r[0].first == -1){
+                cout << -1 << endl;
+            }else{
+                cout << 1 << endl;
+            }
+        }else{
+            
         }
     }
+
+    vecvecdbg(vec);
+    
+    // dame[i].first <= vec[i][j] <= dame[i].first
+
 
 }

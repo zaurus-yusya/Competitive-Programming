@@ -1,3 +1,6 @@
-#vscodeターミナル開き方
+# Author
+Zaurus  
+https://twitter.com/zaurus_yusya
 
-shift + control + @
+# License
+This project is licensed under the MIT License - see the License.md file for details

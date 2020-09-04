@@ -237,7 +237,6 @@ cout << fixed << setprecision(桁数) << 3.14159265358979; //少数以下の桁�
 (int)b
 to_string(number)  //int->string
 stoi(s)            //string->int
-stoi(s)            //string->double
 
 
 //️型

@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -6,6 +7,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
+using namespace atcoder;
 const long long INF = 1e10;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
@@ -136,18 +138,7 @@ int main() {
 
     mint ans = 0;
 
-    ll kazu = 1;
+    cout << mpow.modpow(10, n) - mpow.modpow(9, n) - mpow.modpow(9, n) + mpow.modpow(8, n) << endl;
 
-    while(true){
-        if(n - kazu * 3 < 0){
-            break;
-        }
 
-        ll tmp = n - kazu*3;
-
-        ans += com.nhr(kazu, tmp);
-
-        kazu++;
-    }
-    cout << ans << endl;
 }

@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -6,6 +7,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
+using namespace atcoder;
 const long long INF = 1e10;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
@@ -105,6 +107,7 @@ template<long long mod> struct MComb {
     mint npr(long n, long r) {
         return fact[n] * inv[n - r];
     }
+    //nhr : n : shikiri + 1, r : tamanokazu
     mint nhr(long n, long r) {
         assert(n + r - 1 < (long long) fact.size());
         return ncr(n + r - 1, r);
@@ -132,22 +135,156 @@ MPow<1000000007> mpow;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
+    ll h, w; cin >> h >> w;
+    vector<vector<string>> vec(h, vector<string>(w));
 
-    mint ans = 0;
-
-    ll kazu = 1;
-
-    while(true){
-        if(n - kazu * 3 < 0){
-            break;
+    ll k = 0;
+    rep(i, h){
+        string s; cin >> s;
+        rep(j, w){
+            vec[i][j] = s[j];
+            if(s[j] == '.'){
+                k++;
+            }
         }
+    }
 
-        ll tmp = n - kazu*3;
+    
 
-        ans += com.nhr(kazu, tmp);
+    vector<vector<ll>> light(h, vector<ll>(w));
+    rep(i, h){
+        ll start = -1;
+        bool flag = true;
+        ll cnt = 0;
+        rep(j, w){
+            if(j == 0){
+                if(vec[i][j] == "."){
+                    flag = true; cnt = 1; start = 0;
+                }else{
+                    flag = false; cnt = 0;
+                    light[i][j] = -1;
+                }
+            }else{
 
-        kazu++;
+                if(vec[i][j] == "."){
+                    if(flag){
+                        cnt++;
+                    }else{
+                        cnt = 1; start = j; flag = true;
+                    }
+                }else{ // "#"
+                    if(flag){
+                        light[i][start] = cnt; cnt = 0; flag = false; start = -1;
+                        light[i][j] = -1;
+                    }else{
+                        light[i][j] = -1;
+                        continue;
+                    }
+                }
+
+            }
+        }
+        if(start != -1){
+            light[i][start] = cnt;
+        }
+        ll add = 0;
+        rep(j, w){
+            if(light[i][j] == -1){
+                add = 0;
+                continue;
+            } 
+            if(light[i][j] > 0){
+                add = light[i][j];
+            }
+            if(light[i][j] == 0){
+                light[i][j] += add;
+            }
+        }
+    }
+
+    /*
+    rep(i, h){
+        rep(j, w){
+            cout << light[i][j] << " ";
+        }
+        br;
+    }
+    cout << "------" << endl;
+    */
+    
+
+    vector<vector<ll>> light2(h, vector<ll>(w));
+    rep(j, w){
+        ll start = -1;
+        bool flag = true;
+        ll cnt = 0;
+        rep(i, h){
+            if(i == 0){
+                if(vec[i][j] == "."){
+                    flag = true; cnt = 1; start = 0;
+                }else{
+                    flag = false; cnt = 0;
+                    light2[i][j] = -1;
+                }
+            }else{
+
+                if(vec[i][j] == "."){
+                    if(flag){
+                        cnt++;
+                    }else{
+                        cnt = 1; start = i; flag = true;
+                    }
+                }else{ // "#"
+                    if(flag){
+                        light2[start][j] = cnt; cnt = 0; flag = false; start = -1;
+                        light2[i][j] = -1;
+                    }else{
+                        light2[i][j] = -1;
+                        continue;
+                    }
+                }
+            }
+        }
+        if(start != -1){
+            light2[start][j] = cnt;
+        }
+        ll add = 0;
+        rep(i, h){
+            if(light2[i][j] == -1){
+                add = 0;
+                continue;
+            } 
+            if(light2[i][j] > 0){
+                add = light2[i][j];
+            }
+            if(light2[i][j] == 0){
+                light2[i][j] += add;
+            }
+        }
+    }
+
+    /*
+    rep(i, h){
+        rep(j, w){
+            cout << light2[i][j] << " ";
+        }
+        br;
+    }
+    */
+    
+
+    mint X = mpow.modpow(2, k);
+    mint ans = 0;
+    rep(i, h){
+        rep(j, w){
+            ll tmp = light[i][j] + light2[i][j] - 1;
+            if(tmp > 0){
+                ll x = k - tmp;
+                ans = ans + (X - mpow.modpow(2, x));
+            }
+        }
     }
     cout << ans << endl;
+
+
 }

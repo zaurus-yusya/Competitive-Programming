@@ -26,32 +26,27 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // c++17	g++ -std=c++17 a.cpp
 // global vector -> 0 initialization
 
-ll op(ll a, ll b) {
-    return max(a, b);
-}
-
-ll e() {
-    return 0;
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
-    }
-
-    segtree<ll, op, e> seg(300010);
-
+    ll n; cin >> n;
+    vector<ll> x(n);
+    vector<ll> y(n);
+    vector<ll> posi(n);
+    vector<ll> nega(n);
     rep(i, n){
-        ll down = max((ll)0, vec[i] - k);
-        ll up = min((ll)300000, vec[i] + k);
-        seg.set(vec[i], seg.prod(down, up+1) + 1);
+        cin >> x[i] >> y[i];
+        posi[i] = x[i] + y[i];
+        nega[i] = x[i] - y[i];
     }
-
-    cout << seg.all_prod() << endl;
-
-
+    ll pmax = -1 * INF, pmin = INF;
+    ll nmax = -1 * INF, nmin = INF;
+    rep(i, n){
+        pmax = max(pmax, posi[i]); pmin = min(pmin, posi[i]);
+        nmax = max(nmax, nega[i]); nmin = min(nmin, nega[i]);
+    }
+    ll ans = -1 * INF;
+    ans = max(ans, pmax - pmin);
+    ans = max(ans, nmax - nmin);
+    cout << ans << endl;
 
 }

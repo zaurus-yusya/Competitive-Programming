@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -6,6 +7,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
+using namespace atcoder;
 const long long INF = 1e10;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
@@ -105,6 +107,7 @@ template<long long mod> struct MComb {
     mint npr(long n, long r) {
         return fact[n] * inv[n - r];
     }
+    //nhr : n : shikiri + 1, r : tamanokazu
     mint nhr(long n, long r) {
         assert(n + r - 1 < (long long) fact.size());
         return ncr(n + r - 1, r);
@@ -132,22 +135,32 @@ MPow<1000000007> mpow;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
+    ll T; cin >> T;
 
-    mint ans = 0;
+    rep(t, T){
+        ll n, a, b; cin >> n >> a >> b;
 
-    ll kazu = 1;
-
-    while(true){
-        if(n - kazu * 3 < 0){
-            break;
+        if(a < b){
+            swap(a, b);
         }
+        //全部の置き方
+        ll dai = (n - a + 1) * (n - a + 1);
+        ll sho = (n - b + 1) * (n - b + 1);
+        cout << dai << " " << sho << endl;
 
-        ll tmp = n - kazu*3;
+        //座標が無限として重なるパターン
+        ll all = (a + (b-1)) * (a + (b-1));
+        cout << all << endl;
 
-        ans += com.nhr(kazu, tmp);
+        mint ans = 0;
+        //全パターン適用できる
+        ans += (n - (sho-1)) * (n - (sho-1)) * all;
+        //無理なパターン
+        a * a;
+        a
+        
 
-        kazu++;
+
     }
-    cout << ans << endl;
+
 }

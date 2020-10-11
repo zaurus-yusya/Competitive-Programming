@@ -26,32 +26,33 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // c++17	g++ -std=c++17 a.cpp
 // global vector -> 0 initialization
 
-ll op(ll a, ll b) {
-    return max(a, b);
-}
-
-ll e() {
-    return 0;
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
+    ll h, w; cin >> h >> w;
+    vector<vector<string>> vec(h, vector<string>(w));
+    rep(i, h){
+        string s; cin >> s;
+        rep(j, w){
+            vec[i][j] = s[j];
+        }
     }
 
-    segtree<ll, op, e> seg(300010);
-
-    rep(i, n){
-        ll down = max((ll)0, vec[i] - k);
-        ll up = min((ll)300000, vec[i] + k);
-        seg.set(vec[i], seg.prod(down, up+1) + 1);
+    ll ans = 0;
+    rep(i, h){
+        rep(j, w-1){
+            if(vec[i][j] == "." && vec[i][j+1] == "."){
+                ans++;
+            }
+        }
     }
-
-    cout << seg.all_prod() << endl;
-
+    rep(j, w){
+        rep(i, h-1){
+            if(vec[i][j] == "." && vec[i+1][j] == "."){
+                ans++;
+            }
+        }
+    }
+    cout << ans << endl;
 
 
 }

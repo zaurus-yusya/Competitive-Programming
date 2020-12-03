@@ -27,100 +27,70 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // global vector -> 0 initialization
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
-//kentyon
-ld ans = 0;
-void calc(ld a, ld b, ld c, ld sousa, ld kakuritu){
-    if(a == 100 || b == 100 || c == 100){
-        ans += (ld)sousa * kakuritu;
-        //cout << sousa << " " << kakuritu << endl;
-        //cout << ans << endl;
-    }else{
-        //a
-        ld tmp = 0;
-        tmp = a / (a+b+c);
-        calc(a+1, b, c, sousa + 1, kakuritu * tmp);
-        //b
-        tmp = b / (a+b+c);
-        calc(a, b+1, c, sousa + 1, kakuritu * tmp);
-        //c
-        tmp = c / (a+b+c);
-        calc(a, b, c+1, sousa + 1, kakuritu * tmp);
-    }
-    
-}
+
 
 ld dp[105][105][105];
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll a, b, c; cin >> a >> b >> c;
+    bool af = a, bf = b, cf = c;
 
-    ll A = 100 - a;
-    ll B = 100 - b;
-    ll C = 100 - c;
+    
 
+    for(ll i = 99; i >= 0; i--){
+        for(ll j = 99; j >= 0; j--){
+            for(ll k = 99; k >= 0; k--){
+                dp[i][j][k] = (dp[i+1][j][k] + 1) * (ld)i/(ld)(i+j+k)
+                            + (dp[i][j+1][k] + 1) * (ld)j/(ld)(i+j+k)
+                            + (dp[i][j][k+1] + 1) * (ld)k/(ld)(i+j+k);
+            }
+        }
+    }
+
+    cout << dp[a][b][c] << endl;
+
+    /*
     dp[a][b][c] = 1;
-
     for(ll i = 0; i <= 100; i++){
         for(ll j = 0; j <= 100; j++){
             for(ll k = 0; k <= 100; k++){
-                if(i + j + k == 0){
-                    continue;
+                if(i+j+k-1 == 0) continue;
+                if(af){//aを選ぶ
+                    if(i-1 >= 0 && j != 100 && k != 100){
+                        dp[i][j][k] += dp[i-1][j][k] * (ld)(i-1) / (ld)(i+j+k-1);
+                    }
                 }
-                if(dp[i][j][k] == 0){
-                    continue;
+                if(bf){//bを選ぶ
+                    if(j-1 >= 0 && i != 100 && k != 100){
+                        dp[i][j][k] += dp[i][j-1][k] * (ld)(j-1) / (ld)(i+j+k-1);
+                    }
                 }
-                ld tmpi = (ld)i / (ld)(i+j+k);
-                ld tmpj = (ld)j / (ld)(i+j+k);
-                ld tmpk = (ld)k / (ld)(i+j+k);
-                
-                dp[i+1][j][k] += dp[i][j][k] * tmpi;
-                dp[i][j+1][k] += dp[i][j][k] * tmpj;
-                dp[i][j][k+1] += dp[i][j][k] * tmpk;
-                if(i == 99 && j == 99 && k == 99){
-                    cout << "-" << endl;
-                    cout << dp[i][j][k] << endl;
-                    cout << tmpi << endl;
-                    cout << dp[i+1][j][k] << endl;
+                if(cf){//cを選ぶ
+                    if(k-1 >= 0 && i != 100 && j != 100){
+                        dp[i][j][k] += dp[i][j][k-1] * (ld)(k-1) / (ld)(i+j+k-1);
+                    }
                 }
             }
         }
     }
-    /*
-    cout << dp[99][99][99] << endl;
-    cout << dp[100][99][99] << endl;
-    */
 
-
-    ld ans2 = 0;
-    rep(j, 100){
-        rep(k, 100){
-            if(dp[100][j][k] == 0) continue;
-            ll sousa = (100-i) + (b-j) + (c-k);
-            ans2 += max(sousa, (ll)0) * dp[100][j][k];
+    ld ans = 0;
+    for(ll j = 0; j <= 99; j++){
+        for(ll k = 0; k <= 99; k++){
+            ans +=  (ld)(100+j+k - a - b - c) * dp[100][j][k];
         }
     }
-    cout << ans2 << endl;
-    rep(i, 100){
-        rep(k, 100){
-            if(dp[i][100][k] == 0) continue;
-            ll sousa = 100 - i - k;
-            ans2 += max(sousa, (ll)0) * dp[i][100][k];
+    for(ll i = 0; i <= 99; i++){
+        for(ll k = 0; k <= 99; k++){
+            ans += (ld)(i+100+k - a - b - c) * dp[i][100][k];
         }
     }
-    cout << ans2 << endl;
-    rep(i, 100){
-        rep(j, 100){
-            if(dp[i][j][100] == 0) continue;
-            ll sousa = 100 - i - j;
-            ans2 += max(sousa, (ll)0) * dp[i][j][100];
+    for(ll i = 0; i <= 99; i++){
+        for(ll j = 0; j <= 99; j++){
+            ans += (ld)(i+j+100 - a - b - c) * dp[i][j][100];
         }
     }
-    cout << ans2 << endl;
-
-
-    /*
-    calc(a, b, c, (ll)0, (ld)1);
     cout << ans << endl;
     */
 

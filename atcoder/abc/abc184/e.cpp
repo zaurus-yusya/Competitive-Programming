@@ -28,8 +28,74 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+vector<ll> dy = {1, -1, 0, 0};
+vector<ll> dx = {0, 0, 1, -1};
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll h, w; cin >> h >> w;
+    vector<vector<char>> vec(h, vector<char>(w));
+    pair<ll, ll> start, goal;
+    vector<vector<pair<ll, ll>>> tele(26);
+    vector<bool> teleflag(26, true);
+    rep(i, h){
+        string s; cin >> s;
+        rep(j, w){
+            vec[i][j] = s[j];
+            if(vec[i][j] == 'S') start = {i, j};
+            if(vec[i][j] == 'G') goal = {i, j};
+            if(vec[i][j] >= 'a' && vec[i][j] <= 'z'){
+                tele[(int)vec[i][j] - 97].push_back({i, j});
+            }
+        }
+    }
+
+    vector<vector<ll>> dist(h, vector<ll>(w, -1));
+    queue<pair<ll, ll>> que;
+    que.push(start); dist[start.first][start.second] = 0;
+
+    while(!que.empty()){
+        ll now_y = que.front().first, now_x = que.front().second;
+        que.pop();
+        //アルファベットなら更新する
+        if(vec[now_y][now_x] >= 'a' && vec[now_y][now_x] <= 'z'){
+            if(teleflag[(int)vec[now_y][now_x]-97]){
+                teleflag[(int)vec[now_y][now_x]-97] = false;
+                for(ll i = 0; i < tele[(int)vec[now_y][now_x]-97].size(); i++){
+                    ll x = (int)vec[now_y][now_x]-97;
+                    if(dist[tele[x][i].first][tele[x][i].second] == -1){
+                        dist[tele[x][i].first][tele[x][i].second] = dist[now_y][now_x] + 1;
+                        que.push({tele[x][i].first, tele[x][i].second});
+                    }
+                    if(dist[tele[x][i].first][tele[x][i].second] > dist[now_y][now_x] + 1){
+                        dist[tele[x][i].first][tele[x][i].second] = dist[now_y][now_x] + 1;
+                        que.push({tele[x][i].first, tele[x][i].second});
+                    }
+                }
+            }
+        }
+
+        for(ll i = 0; i < 4; i++){
+            ll next_y = now_y + dy[i], next_x = now_x + dx[i];
+            //場外ならcontinue
+            if(next_y < 0 || next_y >= h) continue;
+            if(next_x < 0 || next_x >= w) continue;
+            //壁ならcontinue
+            if(vec[next_y][next_x] == '#') continue;
+            //訪問済みならcontinue
+            if(dist[next_y][next_x] >= 0) continue;
+            //.で更新できるならqueに入れる
+
+            que.push({next_y, next_x});
+            dist[next_y][next_x] = dist[now_y][now_x] + 1;
+            
+        }
+    }
+
+    //vecvecdbg(dist);
+
+    cout << dist[goal.first][goal.second] << endl;
+
+
 
 }

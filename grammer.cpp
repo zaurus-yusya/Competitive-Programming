@@ -317,12 +317,11 @@ ms.erase(ms.find(5)); //１つだけ削除
 
 //lower_bound, upper_bound
 //lower_bound  key以上の要素のうち一番左
-//upper_bound  keyより大きい要素のうち一番左
+//upper_bound  keyより大きい要素のうち一番左　取得したindex-1でx以下の数のうち最大の数となる(index=0のとき除く)
 ll x; cin >> x;
 vector<ll> vec = {2, 4, 6, 8, 10};
 lower_bound(vec.begin(), vec.end(), x) - vec.begin();
 upper_bound(vec.begin(), vec.end(), x) - vec.begin();
-//x以上の中で一番左のものの先頭からの距離
 
 
 }

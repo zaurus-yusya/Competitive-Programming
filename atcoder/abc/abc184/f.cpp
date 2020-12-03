@@ -28,50 +28,66 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-ll n, t;
-vector<long long> vec(n);
-
-long long dp[100010];
-ll ans = 0;
-void dfs(ll now, ll bef, ll node){
-    if(now > t){
-        ans = max(ans, bef);
-    }else{
-        if(node < n){
-            //選ぶ
-            dfs(now + vec[node], now, node+1);
-            //選ばない
-            dfs(now, now, node+1);
-        }else{
-            ans = max(ans, now);
-        }
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    cin >> n >> t;
-    ll w = t;
-    vec.resize(n);
-    vector<ll> weight(n);
-    vector<ll> value(n);
+    ll n, t; cin >> n >> t;
+    vector<long long> vec(n);
     for(long long i = 0; i < n; i ++){
         cin >> vec[i];
-        weight[i] = vec[i];
-        value[i] = weight[i];
     }
-    sort(all(vec));
-    ll tmp = 0;
-    rep(i, n){
-        tmp += vec[i];
-    }
-    if(tmp <= t){
-        cout << tmp << endl;
+
+    if(n == 1){
+        if(vec[0] <= t){
+            cout << vec[0] << endl;
+        }else{
+            cout << 0 << endl;
+        }
         return 0;
     }
-    
-    dfs(0, 0, 0);
+    ll x = n / 2;
+    vector<ll> mae, ato;
+    for(ll i = 0; i < x; i++){
+        mae.push_back(vec[i]);
+    }
+    for(ll i = x; i < n; i++){
+        ato.push_back(vec[i]);
+    }
 
+    vector<ll> maeall;
+    vector<ll> atoall;
+
+    for(ll i = 0; i < (1 << mae.size()); i++){
+        ll tmp = 0;
+        for(ll j = 0; j < mae.size(); j++){
+            if(i >> j & 1){
+                tmp += mae[j];
+            }
+        }
+        maeall.push_back(tmp);
+    }
+    for(ll i = 0; i < (1 << ato.size()); i++){
+        ll tmp = 0;
+        for(ll j = 0; j < ato.size(); j++){
+            if(i >> j & 1){
+                tmp += ato[j];
+            }
+        }
+        atoall.push_back(tmp);
+    }
+
+    sort(all(maeall));
+    sort(all(atoall));
+
+    ll ans = 0;
+    for(ll i = 0; i < maeall.size(); i++){
+        
+        ll x = upper_bound(atoall.begin(), atoall.end(), t-maeall[i]) - atoall.begin();
+        
+        if(x == 0){
+            continue;
+        }else{
+            ans = max(ans, maeall[i] + atoall[x-1]);
+        }
+    }
     cout << ans << endl;
-
 }

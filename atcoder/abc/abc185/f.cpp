@@ -28,47 +28,33 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+int op(int a, int b) {
+    return a^b;
+}
+
+int e() {
+    return (int)(1e9);
+}
+
+segtree<int, op, e> seg(300010);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
+    ll n, q; cin >> n >> q;
 
-    vector<string> S(m);
-    vector<ll> C(m);
-
-    rep(i, m){
-        cin >> S[i] >> C[i];
+    for(long long i = 0; i < n; i ++){
+        ll x; cin >> x;
+        seg.set(i, x);
     }
 
-    ll ans = INF;
-    for(ll i = 0; i < (1 << m); i++){
-        vector<ll> res(n);
-        ll cost = 0;
-        for(ll j = 0; j < m; j++){
-            if((i>>j) & 1){
-                
-                rep(k, n){
-                    if(S[j][k] == 'Y'){
-                        res[k]++;
-                    }
-                }
-
-                cost += C[j];
-
-            }
+    rep(i, q){
+        ll t, x, y; cin >> t >> x >> y;
+        if(t == 1){
+            ll tmp = seg.get(x-1);
+            seg.set(x-1, tmp^y);
+        }else{
+            cout << seg.prod(x-1, y) << endl;
         }
-
-        bool flag = true;
-        rep(j, n){
-            if(res[j] == 0){
-                flag = false; break;
-            }
-        }
-        if(flag) ans = min(ans, cost);
-
     }
-
-    ans = ans==INF ? -1 : ans;
-    cout << ans << endl;
 
 }

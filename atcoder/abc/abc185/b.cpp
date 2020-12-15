@@ -28,47 +28,43 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-
-    vector<string> S(m);
-    vector<ll> C(m);
-
+    ll n, m, t; cin >> n >> m >> t;
+    vector<ll> A(m);
+    vector<ll> B(m);
     rep(i, m){
-        cin >> S[i] >> C[i];
+        cin >> A[i] >> B[i];
     }
-
-    ll ans = INF;
-    for(ll i = 0; i < (1 << m); i++){
-        vector<ll> res(n);
-        ll cost = 0;
-        for(ll j = 0; j < m; j++){
-            if((i>>j) & 1){
-                
-                rep(k, n){
-                    if(S[j][k] == 'Y'){
-                        res[k]++;
-                    }
-                }
-
-                cost += C[j];
-
+    ll now = n;
+    string ans = "Yes";
+    rep(i, m){
+        if(i == 0){
+            now -= (A[i]);
+            if(now <= 0){
+                cout << "No" << endl;
+                return 0;
             }
-        }
-
-        bool flag = true;
-        rep(j, n){
-            if(res[j] == 0){
-                flag = false; break;
+            now += (B[i] - A[i]);
+            if(now > n){
+                now = n;
             }
-        }
-        if(flag) ans = min(ans, cost);
-
+        }else{
+            now -= ( (A[i] - B[i-1]) );
+            if(now <= 0){
+                cout << "No" << endl;
+                return 0;
+            }
+            now += (B[i] - A[i]);
+            if(now > n){
+                now = n;
+            }
+        }  
     }
-
-    ans = ans==INF ? -1 : ans;
+    now -= t - (B[m-1]);
+    if(now <= 0){
+        ans = "No";
+    }
     cout << ans << endl;
 
 }

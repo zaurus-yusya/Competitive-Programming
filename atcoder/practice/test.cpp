@@ -27,48 +27,45 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // global vector -> 0 initialization
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
+ll n;
+bool isOK(ll mid, ll val){
+    //write conditions
+    if(){
 
+        return true;
+    }else{
+
+        return false;
+    }
+}
+
+long long nibun_search(long long val) {
+    bool left = false;
+    ll ok, ng;
+    if(left){ //left = true, right = false
+        ok = -1;
+        ng = INF; // need to replace
+    }else{ // left = false, right = true
+        ok = INF; // need to replace
+        ng = -1;
+    }
+
+    while(abs(ok - ng) > 1){
+        ll mid = (ng + ok) / 2;
+
+        if(isOK(mid, val)) ok = mid;
+        else ng = mid;
+
+    }
+    return ok;
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
+    cin >> n;
+    ll xx = nibun_search(n);
 
-    vector<string> S(m);
-    vector<ll> C(m);
+    cout << n - xx + 1 << endl;
 
-    rep(i, m){
-        cin >> S[i] >> C[i];
-    }
-
-    ll ans = INF;
-    for(ll i = 0; i < (1 << m); i++){
-        vector<ll> res(n);
-        ll cost = 0;
-        for(ll j = 0; j < m; j++){
-            if((i>>j) & 1){
-                
-                rep(k, n){
-                    if(S[j][k] == 'Y'){
-                        res[k]++;
-                    }
-                }
-
-                cost += C[j];
-
-            }
-        }
-
-        bool flag = true;
-        rep(j, n){
-            if(res[j] == 0){
-                flag = false; break;
-            }
-        }
-        if(flag) ans = min(ans, cost);
-
-    }
-
-    ans = ans==INF ? -1 : ans;
-    cout << ans << endl;
 
 }

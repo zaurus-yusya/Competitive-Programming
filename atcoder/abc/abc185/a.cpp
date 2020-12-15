@@ -28,47 +28,13 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-
-    vector<string> S(m);
-    vector<ll> C(m);
-
-    rep(i, m){
-        cin >> S[i] >> C[i];
-    }
-
-    ll ans = INF;
-    for(ll i = 0; i < (1 << m); i++){
-        vector<ll> res(n);
-        ll cost = 0;
-        for(ll j = 0; j < m; j++){
-            if((i>>j) & 1){
-                
-                rep(k, n){
-                    if(S[j][k] == 'Y'){
-                        res[k]++;
-                    }
-                }
-
-                cost += C[j];
-
-            }
-        }
-
-        bool flag = true;
-        rep(j, n){
-            if(res[j] == 0){
-                flag = false; break;
-            }
-        }
-        if(flag) ans = min(ans, cost);
-
-    }
-
-    ans = ans==INF ? -1 : ans;
+    ll a, b, c, d; cin >> a >> b >> c >> d;
+    ll ans = a;
+    ans = min(ans, b);
+    ans = min(ans, c);
+    ans = min(ans, d);
     cout << ans << endl;
 
 }

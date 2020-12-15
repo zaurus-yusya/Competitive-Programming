@@ -28,47 +28,56 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
-
-    vector<string> S(m);
-    vector<ll> C(m);
-
-    rep(i, m){
-        cin >> S[i] >> C[i];
+    if(m == 0){
+        cout << 1 << endl;
+        return 0;
     }
+    vector<long long> vec(m);
+    for(long long i = 0; i < m; i ++){
+        cin >> vec[i];
+        vec[i]--;
+    }
+    sort(all(vec));
 
-    ll ans = INF;
-    for(ll i = 0; i < (1 << m); i++){
-        vector<ll> res(n);
-        ll cost = 0;
-        for(ll j = 0; j < m; j++){
-            if((i>>j) & 1){
-                
-                rep(k, n){
-                    if(S[j][k] == 'Y'){
-                        res[k]++;
-                    }
+    vector<ll> haba;
+    ll haba_min = INF;
+    for(ll i = 0; i < m; i++){
+        if(i == 0){
+            if(vec[i] == 0){
+                continue;
+            }else{
+                haba.push_back(vec[i]);
+                if(vec[i] != 0){
+                    haba_min = min(haba_min, vec[i]);
                 }
-
-                cost += C[j];
-
+                
             }
+        }else{
+            haba.push_back(vec[i] - vec[i-1] - 1);
+            if(vec[i] - vec[i-1] - 1 != 0){
+                haba_min = min(haba_min, vec[i] - vec[i-1] - 1);
+            }  
         }
-
-        bool flag = true;
-        rep(j, n){
-            if(res[j] == 0){
-                flag = false; break;
-            }
+    }
+    if(vec[m-1] != n-1){
+        haba.push_back(n-1 - vec[m-1]);
+        if(n-1 - vec[m-1] != 0){
+            haba_min = min(haba_min, n-1 - vec[m-1]);
         }
-        if(flag) ans = min(ans, cost);
-
     }
 
-    ans = ans==INF ? -1 : ans;
+    if(haba.size() == 0){
+        cout << 0 << endl; return 0;
+    }
+    ll ans = 0;
+    rep(i, haba.size()){
+        //ans += haba[i] - haba_min + 1;
+        if(haba[i] == 0) continue;
+        ans += ceilll(haba[i], haba_min);
+    }
     cout << ans << endl;
 
 }

@@ -27,45 +27,61 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // global vector -> 0 initialization
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
-ll n;
-bool isOK(ll mid, ll val){
-    //write conditions
-    if(){
-
-        return true;
-    }else{
-
-        return false;
-    }
-}
-
-long long nibun_search(long long val) {
-    bool left = false;
-    ll ok, ng;
-    if(left){ //left = true, right = false
-        ok = -1;
-        ng = INF; // need to replace
-    }else{ // left = false, right = true
-        ok = INF; // need to replace
-        ng = -1;
-    }
-
-    while(abs(ok - ng) > 1){
-        ll mid = (ng + ok) / 2;
-
-        if(isOK(mid, val)) ok = mid;
-        else ng = mid;
-
-    }
-    return ok;
-}
 
 int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    cin >> n;
-    ll xx = nibun_search(n);
+    //O(n)解放となります
+    int n; cin >> n;
 
-    cout << n - xx + 1 << endl;
+    //nが奇数なら不可能
+    if(n % 2 != 0){
+        cout << -1 << endl;
+        return 0;
+    }
 
+    map<int, int> mp; //同じ能力の門下生の人数を記録する
+    vector<int> A(n);
+    for(int i = 0; i < n; i++){
+        cin >> A[i];
+        mp[A[i]] ++;
+    }
+
+    //同じ能力の門下生が奇数人なら不可能
+    for(auto i : mp){
+        if(i.second % 2 != 0){
+            cout << -1 << endl;
+            return 0;
+        }
+    }
+
+    //可能なケース
+    map<int, int> retsu;        //ある能力の門下生に割り当てる列番号
+    map<int, int> count;        //ある能力の門下生が何回出てきたか記録するmap
+    queue<int> que;             //再使用できる列番号を格納するqueue
+    int now = 0;                //現在使用している列の数
+    vector<int> res(n);         //結果を格納する配列
+    for(int i = 0; i < n; i++){
+        if(retsu[A[i]] == 0){
+            if(que.empty()){    //再使用できる列が無かったら、新しい列を作る
+                now++;
+                retsu[A[i]] = now;
+            }else{              //再使用できる列があればその列を割り当てる
+                int tmp = que.front();
+                que.pop();
+                retsu[A[i]] = tmp;
+            }
+        }
+        res[i] = retsu[A[i]];
+        count[A[i]]++;
+        if(count[A[i]] % 2 == 0){   //偶数人並べたらその列は再使用可能となる
+            que.push(retsu[A[i]]);
+            retsu[A[i]] = 0;
+        }
+    }
+
+    cout << now << endl; //作った列の数
+    for(int i = 0; i < n; i++){
+        cout << res[i] << " ";
+    }
+    cout << "\n";
 
 }

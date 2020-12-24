@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
 typedef long long ll;
+typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define pb push_back
@@ -21,6 +22,28 @@ const long double PI = (acos(-1));
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ld a, b, x; cin >> a >> b >> x;
+    ld theta = 0;
+    if(a*a*b / 2 == x){
+        cout << 45 << endl;
+        return 0;
+    }
+
+    if(a*a*b / 2 > x){
+        //b * b tan (theta) / 2 * a = x
+        theta = atan(2 * x / a / b / b);
+        theta = theta * 180 / PI;
+        cout << 90 - theta << endl;
+    }
+
+    if(a*a*b / 2 < x){
+        // a*b*a - a* a tan(theta) * a/ 2= x
+        theta = atan(2*b/a - (x*2/a/a/a));
+        theta = theta * 180 / PI;
+        cout << theta << endl;
+    }
+
+    /*
     double a, b, x;
     cin >> a >> b >> x;
     double theta;
@@ -39,6 +62,7 @@ int main() {
         theta = theta * 180 / PI;
         cout << theta << "\n";
     }
+    */
 
 
 }

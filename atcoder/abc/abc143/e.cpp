@@ -28,38 +28,40 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
+    ll n, m, l; cin >> n >> m >> l;
+    vector<vector<ll>> vec(n, vector<ll>(n));
+    rep(i, n){
+        rep(j, n){
+            vec[i][j] = INF;
+        }
+        vec[i][i] = 0;
     }
-    sort(all(vec));
-
-    // a < b < c
-    // 1 2 3 4
-    ll ans = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = i+1; j < n; j++){
-            ll tmp = vec[i] + vec[j];
-            ll ok = -1, ng = vec.size();
-            while(abs(ok - ng) > 1){
-                ll mid = (ok + ng) / 2;
-                if(vec[mid] < tmp){
-                    ok = mid;
-                }else{
-                    ng = mid;
-                }
+    rep(i, m){
+        ll a, b, c; cin >> a >> b >> c;
+        a--; b--;
+        vec[a][b] = c;
+        vec[b][a] = c;
+    }
+    rep(k, n){
+        rep(i, n){
+            rep(j, n){
+                vec[i][j] = min(vec[i][j], vec[i][k] + vec[k][j]);
             }
-            /*
-            cout << vec[i] << " " << vec[j] << endl;
-            cout << ok << " " << ng << endl;
-            cout << "---" << endl;
-            */
-            ans += ok-j;
         }
     }
-    cout << ans << endl;
+
+    vecvecdbg(vec);
+
+    vector<vector<ll>> hokyu(n, vector<ll>(n));
+
+    rep(i, n){
+        rep(j, n){
+            
+        }
+    }
+
 
 }

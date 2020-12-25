@@ -35,40 +35,26 @@ int main() {
 
     vector<string> S(m);
     vector<ll> C(m);
-
+    vector<ll> num(m);
     rep(i, m){
         cin >> S[i] >> C[i];
-    }
-
-    ll ans = INF;
-    for(ll i = 0; i < (1 << m); i++){
-        vector<ll> res(n);
-        ll cost = 0;
-        for(ll j = 0; j < m; j++){
-            if((i>>j) & 1){
-                
-                rep(k, n){
-                    if(S[j][k] == 'Y'){
-                        res[k]++;
-                    }
-                }
-
-                cost += C[j];
-
-            }
-        }
-
-        bool flag = true;
         rep(j, n){
-            if(res[j] == 0){
-                flag = false; break;
+            if(S[i][j] == 'Y'){
+                num[i] += (1 << (n-1-j));
             }
         }
-        if(flag) ans = min(ans, cost);
-
     }
 
-    ans = ans==INF ? -1 : ans;
-    cout << ans << endl;
+    vector<ll> dp(1050, INF);
+    dp[0] = 0;
 
+    for(ll i = 0; i < (1<<n); i++){
+        for(ll j = 0; j < m; j++){
+            dp[i | num[j]] = min(dp[i | num[j]], dp[i] + C[j]);
+        }
+    }
+    if(dp[(1<<n) - 1] == INF){
+        cout << -1 << endl; return 0;
+    }
+    cout << dp[(1<<n) - 1] << endl;
 }

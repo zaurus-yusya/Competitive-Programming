@@ -8,13 +8,13 @@ typedef long double ld;
 #define br cout << "\n";
 using namespace std;
 using namespace atcoder;
-const long long INF = 1e10;
+const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
-ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b == 0) (a/b) + 1
+ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
 template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cout << v[i] << " ";} br;}
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cout << v[i][j] << " ";} br;}}
@@ -28,57 +28,49 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+ll n;
+vector<vector<ll>> dp;
+vector<long long> vec;
+vector<long long> sum;
 
-vector<string> hand = {"R", "P", "S"};
+// [l, r)
+ll solve(ll l = 0, ll r = n){
+    if(r == l) return 0;
+    if((r - l) == 1) return 0;
+    //if((r - l) == 2) return vec[l] + vec[r-1];
 
-char janken(char a, char b){
-    if( (a == 'R' && b == 'P') || (a == 'P' && b == 'R')){
-        return 'P';
+    cout << l << " " << r << endl;
+    if(dp[l][r] != INF) return dp[l][r];
+    
+    ll tmp = INF;
+    for(ll i = l; i <= r-1; i++){
+        //dp[l][r] = min(dp[l][r], solve(l, i) + solve(i, r));
+        tmp = min(tmp, solve(l, i) + solve(i, r));
     }
-    if( (a == 'S' && b == 'P') || (a == 'P' && b == 'S')){
-        return 'S';
-    }
-    if( (a == 'R' && b == 'S') || (a == 'S' && b == 'R')){
-        return 'R';
-    }
-    if(a == 'R' && b == 'R'){
-        return 'R';
-    }
-    if(a == 'P' && b == 'P'){
-        return 'P';
-    }
-    if(a == 'S' && b == 'S'){
-        return 'S';
-    }
-    return 0;
+
+    return dp[l][r] = tmp + sum[r] - sum[l];
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-    string s; cin >> s;
-    if(n == 1){
-        cout << s << endl; return 0;
+    cin >> n;
+    vec.resize(n);
+    sum.resize(n+1);
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
+        sum[i+i] = vec[i] + sum[i];
     }
 
-    n *= 2;
-    s += s;
+    // [l, r)
+    dp.assign(n + 1, vector<ll>(n + 1, INF));
+    // dp[l][r]  [l, r)のコストの最小値
 
-    vector<char> bef(n);
-    vector<char> now(n);
-    rep(i, n){
-        bef[i] = s[i];
-    }
-    for(ll i = 0; i < k; i++){
-        ll cnt = 0;
-        for(ll j = 0; j < 2 * n; j += 2){
-            now[cnt] = janken(bef[j % n], bef[(j+1) % n]);
-            cnt++;
-        }
-        //vecdbg(now);
-        bef = now;
-    }
-    
-    cout << now[0] << endl;
+    solve();
+
+    cout << dp[0][n] << endl;
+
+
+
+
 
 }

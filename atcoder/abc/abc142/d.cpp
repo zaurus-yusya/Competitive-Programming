@@ -1,124 +1,114 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 typedef long long ll;
+typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define pb push_back
-#define mp make_pair
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const int INF = 1e9;
-const int MOD = 1e9+7;
+using namespace atcoder;
+const long long INF = 1e18;
+const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
+using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b == 0) (a/b) + 1
+ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cout << v[i] << " ";} br;}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cout << v[i][j] << " ";} br;}}
 
 // 0 false, 1 true 
-// string to int : -48
+// string number to int : -48
+// a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
+// global vector -> 0 initialization
+// DONT FORGET TO INTIALIZE
+// If the result in local and judge is different, USE CODETEST!!
 
-long long gcd(long long a, long long b){
-    if(a < b) swap(a, b);
-    if(a % b == 0) return b;
-    return gcd(a % b, b); 
-}
-long long lcm(long long a,long long b){
-    return (a / gcd(a, b)) * b;
-}
+struct PrimeNumber
+{
+    //O(sqrt(n))
+    //sosu hantei
+    bool is_prime(long long n){
+        for(long long i = 2; i * i <= n; i++){
+            if(n % i == 0) return false;
+        }
+        return n != 1;
+    }
 
-map<ll,ll> prime_factorization(ll n){
-    map<ll, ll> res;
-    ll div = 2;
-    for(ll i = 2; i*i <= n; i++){
-        if(n % i != 0){
-            continue;
-        }else{
+    //O(sqrt(n))  isn't sorted
+    //yakusu rekkyo
+    vector<long long> divisor(long long n){
+        vector<long long> res;
+        for(long long i = 1; i * i <= n; i++){
+            if(n % i == 0){
+                res.push_back(i);
+                if(i != n / i) res.push_back(n / i);
+            }
+        }
+        return res;
+    }
+
+    //O(sqrt(n))
+    //soinsu bunkai
+    map<long long, long long> prime_factor(long long n){
+        map<long long, long long> res;
+        for(long long i = 2; i * i <= n; i++){
             while(n % i == 0){
                 n /= i;
                 res[i]++;
             }
         }
-    }
-    if(n != 1){
-        res[n]++;
+        if(n != 1) res[n] = 1;
+        return res;
     }
 
-    return res;
-}
-
+    //O(n log log n)
+    //n madeno sosu rekkyo
+    vector<long long> eratosthenes(long long n){
+        vector<long long> prime;
+        vector<bool> is_prime(n + 1, true);
+        long long p = 0;
+        is_prime[0] = false; is_prime[1] = false;
+        for(long long i = 2; i <= n; i++){
+            if(is_prime[i]) prime.push_back(i);
+            for(long long j = 2 * i; j <= n; j += i) is_prime[j] = false;
+        }
+        return prime;
+    }
+};
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll a, b;
-    cin >> a >> b;
-
-    ll tmp = gcd(a,b);
-    map<ll,ll> ans;
-    //prime_factorization(a);
-    //prime_factorization(b);
-    ans = prime_factorization(tmp);
-    
-    cout << ans.size() + 1 << endl;
-
-    /*
-    ll tmp = min(a,b);
-
-    if(tmp == 1){
-        cout << 1 << endl;
-        return 0;
+    ll a, b; cin >> a >> b;
+    PrimeNumber p;
+    vector<ll> ag = p.divisor(a);
+    vector<ll> bg = p.divisor(b);
+    map<ll, ll> mp;
+    rep(i, ag.size()){
+        mp[ag[i]] += 1;
     }
-
-    map<ll, ll> ans;
-    ans = prime_factorization(a);
-    for(auto i: ans){
-        cout << i.first << " " << i.second << endl;  //key
+    rep(i, bg.size()){
+        mp[bg[i]] += 1;
     }
-    */
-
-    
-    /*
-    //ll ans = 1; //1は絶対ある
-    map<ll,ll> ans;
-    ans[1]++;
-
-    bool is_prime[1000001];
-    //for(ll i = 0; i*i <= tmp; i++){
-    for(ll i = 0; i <= 1000001; i++){
-        is_prime[i] = true;
-    }
-
-    for(ll i = 2; i*i <= a; i++){
-        if(is_prime[i]){
-            cout << "i = " << i << endl;
-            if(a % i == 0 && b % i == 0){
-                ans[i]++;
-            }
-            for(ll j = i*2; j*j <= a; j += i){
-                is_prime[j] = false;
-            }
-        }    
-    }
-
-
-    bool is_prime2[1000001];
-    //for(ll i = 0; i*i <= tmp; i++){
-    for(ll i = 0; i <= 1000001; i++){
-        is_prime2[i] = true;
-    }
-
-    for(ll i = 2; i*i <= b; i++){
-        if(is_prime2[i]){
-            if(a % i == 0 && b % i == 0){
-                ans[i]++;
-            }
-            for(ll j = i*2; j*j <= b; j += i){
-                is_prime2[j] = false;
-            }
-        }    
+    map<ll, ll> res;
+    for(auto i : mp){
+        if(i.second == 2) res[i.first]++;
     }
     
 
-    cout << ans.size() << endl;
-    */
+    vector<ll> tmp;
+    for(auto i : res){
+        if(i.first == 1) continue;
+        bool flag = true;
+        for(ll j = 0; j < tmp.size(); j++){
+            if(i.first % tmp[j] == 0) flag = false;
+        }
+        if(flag) tmp.push_back(i.first);
+    }
+    cout << tmp.size() + 1 << endl; 
+
 }

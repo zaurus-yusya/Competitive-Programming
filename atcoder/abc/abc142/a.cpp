@@ -8,7 +8,7 @@ typedef long double ld;
 #define br cout << "\n";
 using namespace std;
 using namespace atcoder;
-const long long INF = 1e10;
+const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 using pll = pair<ll, ll>;
@@ -28,57 +28,11 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-
-vector<string> hand = {"R", "P", "S"};
-
-char janken(char a, char b){
-    if( (a == 'R' && b == 'P') || (a == 'P' && b == 'R')){
-        return 'P';
-    }
-    if( (a == 'S' && b == 'P') || (a == 'P' && b == 'S')){
-        return 'S';
-    }
-    if( (a == 'R' && b == 'S') || (a == 'S' && b == 'R')){
-        return 'R';
-    }
-    if(a == 'R' && b == 'R'){
-        return 'R';
-    }
-    if(a == 'P' && b == 'P'){
-        return 'P';
-    }
-    if(a == 'S' && b == 'S'){
-        return 'S';
-    }
-    return 0;
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-    string s; cin >> s;
-    if(n == 1){
-        cout << s << endl; return 0;
-    }
+    ll n; cin >> n;
+    ll tmp = (n + 1) / 2;
+    cout << (double)tmp/n << endl;
 
-    n *= 2;
-    s += s;
-
-    vector<char> bef(n);
-    vector<char> now(n);
-    rep(i, n){
-        bef[i] = s[i];
-    }
-    for(ll i = 0; i < k; i++){
-        ll cnt = 0;
-        for(ll j = 0; j < 2 * n; j += 2){
-            now[cnt] = janken(bef[j % n], bef[(j+1) % n]);
-            cnt++;
-        }
-        //vecdbg(now);
-        bef = now;
-    }
-    
-    cout << now[0] << endl;
 
 }

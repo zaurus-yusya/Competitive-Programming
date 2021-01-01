@@ -28,27 +28,19 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+// d d d o d d d d d d o d d d
+// 0 1 2 3 4 5 6 7 8 9 10 11 12 13
+// d d o d d 
+// 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
+    ll n, d; cin >> n >> d;
+    ll tmp = 1 + d*2;
+    for(ll i = 1; i <= 20; i++){
+        if(tmp*i >= n){
+            cout << i << endl;
+            return 0;
+        }
     }
 
-    vector<ll> res;
-    for(ll i = n-1; i >= 0; i--){
-        if(res.size() == 0){
-            res.push_back(vec[i]);
-            continue;
-        }
-        ll kyori = upper_bound(all(res), vec[i]) - res.begin();
-        if(kyori == res.size()){
-            res.push_back(vec[i]);
-        }else{
-            res[kyori] = vec[i];
-            //sort(all(res));
-        }
-    }
-    cout << res.size() << endl;
 }

@@ -35,20 +35,19 @@ vector<long long> sum;
 
 // [l, r)
 ll solve(ll l = 0, ll r = n){
-    if(r == l) return 0;
-    if((r - l) == 1) return 0;
+    ll &ref = dp[l][r];
+    if((r - l) <= 1) return ref = 0;
     //if((r - l) == 2) return vec[l] + vec[r-1];
 
-    cout << l << " " << r << endl;
-    if(dp[l][r] != INF) return dp[l][r];
+    if(ref != INF) return ref;
     
     ll tmp = INF;
-    for(ll i = l; i <= r-1; i++){
+    for(ll i = l+1; i <= r-1; i++){
         //dp[l][r] = min(dp[l][r], solve(l, i) + solve(i, r));
         tmp = min(tmp, solve(l, i) + solve(i, r));
     }
 
-    return dp[l][r] = tmp + sum[r] - sum[l];
+    return ref = tmp + sum[r] - sum[l];
 }
 
 int main() {
@@ -58,8 +57,11 @@ int main() {
     sum.resize(n+1);
     for(long long i = 0; i < n; i ++){
         cin >> vec[i];
-        sum[i+i] = vec[i] + sum[i];
+        sum[i+1] = vec[i] + sum[i];
     }
+
+    //vecdbg(vec);
+    //vecdbg(sum);
 
     // [l, r)
     dp.assign(n + 1, vector<ll>(n + 1, INF));
@@ -68,9 +70,5 @@ int main() {
     solve();
 
     cout << dp[0][n] << endl;
-
-
-
-
 
 }

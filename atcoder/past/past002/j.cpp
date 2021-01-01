@@ -21,5 +21,9 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     string s;
     cin >> s;
+    vector<string> vec;
 
+    while(true){
+        for(ll i = 0)
+    }
 }

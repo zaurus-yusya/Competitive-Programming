@@ -30,25 +30,7 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
-    }
+    ll r; cin >> r;
+    cout << 3 * r * r << endl;
 
-    vector<ll> res;
-    for(ll i = n-1; i >= 0; i--){
-        if(res.size() == 0){
-            res.push_back(vec[i]);
-            continue;
-        }
-        ll kyori = upper_bound(all(res), vec[i]) - res.begin();
-        if(kyori == res.size()){
-            res.push_back(vec[i]);
-        }else{
-            res[kyori] = vec[i];
-            //sort(all(res));
-        }
-    }
-    cout << res.size() << endl;
 }

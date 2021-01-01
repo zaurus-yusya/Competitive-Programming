@@ -248,14 +248,19 @@ stoi(s)            //string->int
 //pair<値1の型, 値2の型> 変数名;
 //変数名.firstで1番目の値、変数名.secondで2番目の値
 make_pair(値1, 値2)でpairを生成
-tie(変数1, 変数2) = pair型の値;
-//tuple  // 複数個
+tie(変数1, 変数2) = pair型の値を分解;
 
 pair<string, int> p("abc", 3);
 p = make_pair("*", 1);
 string s;
 int a;
 tie(s, a) = p;
+
+//tuple  // 複数個
+tuple<int, string, bool> t(1, "a", true);
+//tupleへのアクセス
+cout << get<0>(t) << " " << get<1>(t) << " " << get<2>(t) << endl;
+
 
 //型エイリアス
 using pii = pair<int, int>;
@@ -328,5 +333,7 @@ vector<ll> vec = {2, 4, 6, 8, 10};
 lower_bound(vec.begin(), vec.end(), x) - vec.begin();
 upper_bound(vec.begin(), vec.end(), x) - vec.begin();
 
+//セグメント木　単位元
+// min:inf, 和:0, 積:1, xor:0, gcd:0
 
 }

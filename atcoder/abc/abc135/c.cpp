@@ -31,24 +31,36 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
+    vector<ll> A(n+1);
+    vector<ll> B(n);
+    rep(i, n+1){
+        cin >> A[i];
+    }
+    rep(i, n){
+        cin >> B[i];
     }
 
-    vector<ll> res;
-    for(ll i = n-1; i >= 0; i--){
-        if(res.size() == 0){
-            res.push_back(vec[i]);
-            continue;
-        }
-        ll kyori = upper_bound(all(res), vec[i]) - res.begin();
-        if(kyori == res.size()){
-            res.push_back(vec[i]);
+    ll ans = 0;
+    for(ll i = 0; i < n; i++){
+        if(i == n-1){  
+            ll tmp = A[i] + A[i+1];
+            ans += min(tmp, B[i]);
         }else{
-            res[kyori] = vec[i];
-            //sort(all(res));
+            if(A[i] < B[i]){
+                ans += A[i];
+                ll tmp = B[i] - A[i];
+                ans += min(tmp, A[i+1]);
+                A[i+1] = max((ll)0, A[i+1] - (tmp));
+                //B[i+1] += B[i] - A[i];
+            }else if(A[i] == B[i]){
+                ans += A[i];
+            }else{
+                ans += B[i];
+            }
         }
     }
-    cout << res.size() << endl;
+
+    cout << ans << endl;
+
+
 }

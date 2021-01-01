@@ -28,27 +28,40 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
+bool isOK(ll mid, ll val){
+    //write conditions
+    if(true){
+
+        return true;
+    }else{
+
+        return false;
+    }
+}
+
+long long nibun_search(long long val) {
+    bool left = false;
+    ll ok, ng;
+    if(left){ //left = true, right = false
+        ok = -1;
+        ng = INF; // need to replace
+    }else{ // left = false, right = true
+        ok = INF; // need to replace
+        ng = -1;
     }
 
-    vector<ll> res;
-    for(ll i = n-1; i >= 0; i--){
-        if(res.size() == 0){
-            res.push_back(vec[i]);
-            continue;
-        }
-        ll kyori = upper_bound(all(res), vec[i]) - res.begin();
-        if(kyori == res.size()){
-            res.push_back(vec[i]);
-        }else{
-            res[kyori] = vec[i];
-            //sort(all(res));
-        }
+    while(abs(ok - ng) > 1){
+        ll mid = (ng + ok) / 2;
+
+        if(isOK(mid, val)) ok = mid;
+        else ng = mid;
+
     }
-    cout << res.size() << endl;
+    return ok;
+}
+
+int main() {
+    std::cout << std::fixed << std::setprecision(15);
+    
+
 }

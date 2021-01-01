@@ -36,19 +36,15 @@ int main() {
         cin >> vec[i];
     }
 
-    vector<ll> res;
-    for(ll i = n-1; i >= 0; i--){
-        if(res.size() == 0){
-            res.push_back(vec[i]);
-            continue;
-        }
-        ll kyori = upper_bound(all(res), vec[i]) - res.begin();
-        if(kyori == res.size()){
-            res.push_back(vec[i]);
-        }else{
-            res[kyori] = vec[i];
-            //sort(all(res));
-        }
+    ll cnt = 0;
+    for(ll i = 0; i < n; i++){
+        if(vec[i] != i+1) cnt++;
     }
-    cout << res.size() << endl;
+    if(cnt == 0 || cnt == 2){
+        cout << "YES" << endl;
+    }else{
+        cout << "NO" << endl;
+    }
+
+
 }

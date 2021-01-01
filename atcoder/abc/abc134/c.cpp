@@ -35,20 +35,17 @@ int main() {
     for(long long i = 0; i < n; i ++){
         cin >> vec[i];
     }
-
-    vector<ll> res;
-    for(ll i = n-1; i >= 0; i--){
-        if(res.size() == 0){
-            res.push_back(vec[i]);
-            continue;
-        }
-        ll kyori = upper_bound(all(res), vec[i]) - res.begin();
-        if(kyori == res.size()){
-            res.push_back(vec[i]);
+    vector<ll> tmp = vec;
+    sort(all(tmp));
+    ll first = tmp[n-1];
+    ll second = tmp[n-2];
+    rep(i, n){
+        if(vec[i] == first){
+            cout << second << endl;
         }else{
-            res[kyori] = vec[i];
-            //sort(all(res));
+            cout << first << endl;
         }
     }
-    cout << res.size() << endl;
+
+
 }

@@ -30,16 +30,35 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; cin >> s;
-    if(s[0] == s[1] and s[1] == s[2]){
-        cout << s[0] << endl; return 0;
+    ll n; cin >> n;
+
+    ll x = 36 * 36;
+
+    if(n / x != 0){
+        if(n / x < 10){
+            cout << n / x;
+        }else{
+            cout << (char)(n/x + 55);
+        }
+        n -= x * (n/x);
     }
-    if(s[1] == s[2] and s[2] == s[3]){
-        cout << s[1] << endl; return 0;
+
+    x = 36;
+    if(n / x != 0){
+        if( (n / x) < 10){
+            cout << n / x;
+        }else{
+            cout << (char)(n/x + 55);
+        }
+        n -= x * (n/x);
     }
-    if(s[2] == s[3] and s[3] == s[4]){
-        cout << s[2] << endl; return 0;
+
+    x = 1;
+    if( (n / x) < 10){
+        cout << n / x;
+    }else{
+        cout << (char)(n/x + 55);
     }
-    cout << "draw" << endl;
+    cout << endl;
 
 }

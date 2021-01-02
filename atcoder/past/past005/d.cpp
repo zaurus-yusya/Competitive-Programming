@@ -28,18 +28,46 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+bool cmp(pair<string, string> a, pair<string, string> b){
+    if(a.first.size() != b.first.size()){
+        return a.first.size() < b.first.size();
+    }else if(a.first != b.first){
+        return a.first < b.first;
+    }else{
+        return a.second > b.second;
+    }
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; cin >> s;
-    if(s[0] == s[1] and s[1] == s[2]){
-        cout << s[0] << endl; return 0;
+    ll n; cin >> n;
+    vector<string> vec(n);
+    rep(i, n) cin >> vec[i];
+    vector<pair<string, string>> vec2(n);
+    for(ll i = 0; i < n; i++){
+        string l = "", r = "";
+        bool flag = true;
+        for(ll j = 0; j < vec[i].size(); j++){
+            if(vec[i][j] == '0' && flag){
+                r += vec[i][j];
+            }else{
+                flag = false;
+                l += vec[i][j];
+            }
+        }
+        vec2[i] = {l, r};
     }
-    if(s[1] == s[2] and s[2] == s[3]){
-        cout << s[1] << endl; return 0;
+
+    sort(all(vec2), cmp);
+
+    rep(i, n){
+        if(vec2[i].second.size() != 0){
+            cout << vec2[i].second << vec2[i].first << endl;
+        }else{
+            cout << vec2[i].first << endl;
+        }
+        
     }
-    if(s[2] == s[3] and s[3] == s[4]){
-        cout << s[2] << endl; return 0;
-    }
-    cout << "draw" << endl;
+
 
 }

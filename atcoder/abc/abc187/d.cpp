@@ -30,16 +30,31 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; cin >> s;
-    if(s[0] == s[1] and s[1] == s[2]){
-        cout << s[0] << endl; return 0;
+    ll n; cin >> n;
+    vector<ll> A(n);
+    vector<ll> B(n);
+    vector<pair<ll, ll>> P(n);
+    vector<ll> X;
+    ll aoki_sum = 0;
+    rep(i, n){
+        cin >> A[i] >> B[i];
+        P[i] = {A[i], B[i]};
+        aoki_sum += A[i];
+        X.push_back(A[i] + A[i] + B[i]);
     }
-    if(s[1] == s[2] and s[2] == s[3]){
-        cout << s[1] << endl; return 0;
+
+    sort(all(X), greater<ll>());
+    ll ans = 0;
+    ll now = 0;
+    rep(i, X.size()){
+        ans++;
+        now += X[i];
+        if(now > aoki_sum){
+            break;
+        }
     }
-    if(s[2] == s[3] and s[3] == s[4]){
-        cout << s[2] << endl; return 0;
-    }
-    cout << "draw" << endl;
+    cout << ans << endl;
+
+
 
 }

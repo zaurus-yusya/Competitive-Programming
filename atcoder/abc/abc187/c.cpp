@@ -30,16 +30,31 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; cin >> s;
-    if(s[0] == s[1] and s[1] == s[2]){
-        cout << s[0] << endl; return 0;
+    ll n; cin >> n;
+    vector<string> vec(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
     }
-    if(s[1] == s[2] and s[2] == s[3]){
-        cout << s[1] << endl; return 0;
+    map<string, ll> mp;
+    map<string, ll> mp2;
+
+    rep(i, n){
+        if(vec[i][0] == '!'){
+            mp2[vec[i].substr(1, vec[i].size()-1)]++;
+        }else{
+            mp[vec[i]]++;
+        }
     }
-    if(s[2] == s[3] and s[3] == s[4]){
-        cout << s[2] << endl; return 0;
+
+    for(auto i: mp){
+        if(mp2[i.first] > 0){
+            cout << i.first << endl;
+            return 0;
+        }
     }
-    cout << "draw" << endl;
+    cout << "satisfiable" << endl;
+
+
+
 
 }

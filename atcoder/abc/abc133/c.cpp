@@ -30,26 +30,18 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
-    }
+    ll l, r; cin >> l >> r;
+    ll ans = 2018;
 
-    //x0 = 0とおく
-    vector<ll> yama(n);
-    rep(i, n){
-        if(i == 0) continue;
-        yama[i] = vec[i-1] * 2 - yama[i-1];
+    if(r - l >= 2019){
+        cout << 0 << endl;
+    }else{
+        for(ll i = l; i <= r; i++){
+            for(ll j = i+1; j <= r; j++){
+                ans = min(ans, (i*j)%2019);
+            }
+        }
+        cout << ans << endl;
     }
-    //vecdbg(yama);
-    ll x = vec[n-1] * 2 - (yama[0] + yama[n-1]);
-    x /= 2;
-    yama[0] = x;
-    rep(i, n){
-        if(i == 0) continue;
-        yama[i] = vec[i-1] * 2 - yama[i-1];
-    }
-    vecdbg(yama);
 
 }

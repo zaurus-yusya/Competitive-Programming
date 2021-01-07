@@ -30,26 +30,23 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
-    }
+    ll n, d; cin >> n >> d;
+    vector<vector<ld>> vec(n, vector<ld>(d));
+    rep(i, n)rep(j, d) cin >> vec[i][j];
 
-    //x0 = 0とおく
-    vector<ll> yama(n);
-    rep(i, n){
-        if(i == 0) continue;
-        yama[i] = vec[i-1] * 2 - yama[i-1];
+    ll ans = 0;
+    for(ll i = 0; i < n; i++){
+        for(ll j = i+1; j < n; j++){
+            ld tmp = 0;
+            for(ll k = 0; k < d; k++){
+                tmp += (vec[i][k] - vec[j][k]) * (vec[i][k] - vec[j][k]);
+            }
+            tmp = sqrt(tmp);
+            if(tmp == (ll)tmp){
+                ans++;
+            } 
+        }
     }
-    //vecdbg(yama);
-    ll x = vec[n-1] * 2 - (yama[0] + yama[n-1]);
-    x /= 2;
-    yama[0] = x;
-    rep(i, n){
-        if(i == 0) continue;
-        yama[i] = vec[i-1] * 2 - yama[i-1];
-    }
-    vecdbg(yama);
+    cout << ans << endl;
 
 }

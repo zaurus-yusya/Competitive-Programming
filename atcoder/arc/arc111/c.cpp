@@ -31,19 +31,68 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-    vector<ll> a(n);
+    vector<pair<ll, ll>> a(n);
     vector<ll> b(n);
-    map<ll, ll> mp;
-    rep(i, n) cin >> a[i];
-    rep(i, n) cin >> b[i];
+    map<ll, ll> ima_nimotsu;
+    map<ll, ll> nimotsu_basyo;
+    rep(i, n){
+        cin >> a[i].first; 
+        a[i].second = i;
+    } 
+    rep(i, n){
+        cin >> b[i];
+    }
     rep(i, n){
         ll x; cin >> x; x--;
-        mp[i] += x;
+        ima_nimotsu[i] += x;
+        nimotsu_basyo[x] += i;
     }
 
-    for(auto i: mp){
-        cout << i.first << " " << i.second << endl;
+    vector<ll> omosa = b;
+    sort(all(omosa), greater<ll>());
+
+    //cout << "---" << endl;
+    for(auto i: ima_nimotsu){
+        //cout << "hito " << i.first << " nimotsu " << i.second << endl;
+        if(a[i.first].first <= b[i.second] && i.first != i.second){
+            cout << -1 << endl;
+            return 0;
+        }
     }
+
+    sort(all(a));
+
+    /*
+    cout << "---" << endl;
+    for(auto i: nimotsu_basyo){
+         cout << "nimotsu " << i.first << " hito " << i.second << endl;
+    }
+    */
+
+    
+    ll ans = 0;
+    vector<pair<ll, ll>> res;
+    rep(i, n){
+        //cout << a[i].first << " " << a[i].second << endl;
+        if(a[i].second == ima_nimotsu[a[i].second]) continue;
+        ll from_hito = a[i].second;
+        ll to_hito = nimotsu_basyo[a[i].second];
+        ll after_nimotsu = ima_nimotsu[a[i].second];
+        //cout << from_hito << " " << to_hito << " " << after_nimotsu << endl;
+        ima_nimotsu[a[i].second] = a[i].second;
+        nimotsu_basyo[a[i].second] = a[i].second;
+        ima_nimotsu[to_hito] = after_nimotsu;
+        nimotsu_basyo[after_nimotsu] = to_hito;
+        ans++;
+        res.push_back({from_hito+1, to_hito+1});
+
+    }
+    cout << ans << endl;
+    rep(i, ans){
+        cout << res[i].first << " " << res[i].second << "\n";
+    }
+    
+
 
     
 

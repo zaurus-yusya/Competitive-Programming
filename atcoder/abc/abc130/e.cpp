@@ -136,18 +136,20 @@ MComb<1000000007> com(510000);
 MPow<1000000007> mpow;
 
 int main() {
-    
     std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-
-    for(ll i = 1; i <= k; i++){
-        mint ans = 1;
-        if(n-k+1 - i < 0){
-            cout << 0 << "\n"; continue;
-        }
-        ans *= com.ncr(k-1, i-1);
-        ans *= com.ncr(n-k+1, i);
-        cout << ans << "\n";
+    ll n, m; cin >> n >> m;
+    vector<long long> s(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> s[i];
+    }
+    vector<long long> t(m);
+    for(long long i = 0; i < m; i ++){
+        cin >> t[i];
     }
 
+    mint ans = 1;
+    map<ll, ll> tmp;
+    for(ll i = 0; i < m; i++){
+        
+    }
 }

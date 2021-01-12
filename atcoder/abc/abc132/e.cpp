@@ -28,40 +28,50 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-bool cmp(pair<ll,ll> a, pair<ll,ll> b){
-    if(a.second != b.second){
-        return a.second < b.second;
-    }
-
-    if(a.first != b.first){
-        return a.first < b.first;
-    }else{
-        return true;
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<ll> a(n);
-    vector<ll> b(n);
-    vector<pair<ll, ll>> p(n);
-    rep(i, n){
-        cin >> a[i] >> b[i];
-        p[i] = {a[i], b[i]};
+    ll n, m; cin >> n >> m;
+    vector<vector<ll>> g(n);
+    rep(i, m){
+        ll a, b; cin >> a >> b; a--; b--;
+        g[a].push_back(b);
     }
+    ll s, t; cin >> s >> t; s--; t--;
 
-    sort(all(p), cmp);
+    vector<ll> dist(n, -1);
+    vector<vector<ll>> amari(n, vector<ll>(3));
 
-    ll now = 0;
-    rep(i, n){
-        //cout << p[i].first << " " << p[i].second << endl;
-        now += p[i].first;
-        if(now > p[i].second){
-            cout << "No" << endl; return 0;
+    queue<pair<ll, ll>> que;
+    que.push({s, 0});
+    dist[s] = 0;
+    amari[s][0] = 1;
+
+    bool flag = false;
+    while(!que.empty()){
+        ll now = que.front().first;
+        ll now_dist = que.front().second;
+
+        if(now == t && now_dist % 3 == 0){
+            cout << now_dist / 3 << endl;
+            return 0;
         }
-    }
-    cout << "Yes" << endl; return 0;
+        que.pop();
 
+        for(auto next: g[now]){
+            if(dist[next] == -1){
+                dist[next] = now_dist + 1;
+                amari[next][(now_dist + 1) % 3] = 1;
+                que.push({next, now_dist + 1});
+            }else{
+                if(amari[next][(now_dist + 1) % 3] == 1) continue;
+                dist[next] = now_dist + 1;
+                amari[next][(now_dist + 1) % 3] = 1;
+                que.push({next, now_dist + 1});
+            }
+        }
+
+    }
+
+    cout << -1 << endl;
 
 }

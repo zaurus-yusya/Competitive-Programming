@@ -28,40 +28,23 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-bool cmp(pair<ll,ll> a, pair<ll,ll> b){
-    if(a.second != b.second){
-        return a.second < b.second;
-    }
-
-    if(a.first != b.first){
-        return a.first < b.first;
-    }else{
-        return true;
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-    vector<ll> a(n);
-    vector<ll> b(n);
-    vector<pair<ll, ll>> p(n);
-    rep(i, n){
-        cin >> a[i] >> b[i];
-        p[i] = {a[i], b[i]};
+    vector<long long> vec(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
     }
-
-    sort(all(p), cmp);
-
-    ll now = 0;
-    rep(i, n){
-        //cout << p[i].first << " " << p[i].second << endl;
-        now += p[i].first;
-        if(now > p[i].second){
-            cout << "No" << endl; return 0;
+    ll ans = 0;
+    for(ll i = 1; i < n-1; i++){
+        ll tmp = vec[i];
+        vector<ll> x;
+        for(ll j = i-1; j <= i+1; j++){
+            x.push_back(vec[j]);
         }
+        sort(all(x));
+        if(tmp == x[1]) ans++;
     }
-    cout << "Yes" << endl; return 0;
-
+    cout << ans << endl;
 
 }

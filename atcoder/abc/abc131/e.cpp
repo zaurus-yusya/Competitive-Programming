@@ -28,40 +28,35 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-bool cmp(pair<ll,ll> a, pair<ll,ll> b){
-    if(a.second != b.second){
-        return a.second < b.second;
-    }
-
-    if(a.first != b.first){
-        return a.first < b.first;
-    }else{
-        return true;
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<ll> a(n);
-    vector<ll> b(n);
-    vector<pair<ll, ll>> p(n);
-    rep(i, n){
-        cin >> a[i] >> b[i];
-        p[i] = {a[i], b[i]};
+    ll n, k; cin >> n >> k;
+
+    ll tmp = (n-1) * (n-2) / 2;
+    if(k > tmp){
+        cout << -1 << endl; return 0;
     }
 
-    sort(all(p), cmp);
+    vector<pair<ll, ll>> ans;
 
-    ll now = 0;
-    rep(i, n){
-        //cout << p[i].first << " " << p[i].second << endl;
-        now += p[i].first;
-        if(now > p[i].second){
-            cout << "No" << endl; return 0;
+    for(ll i = 2; i <= n; i++){
+        ans.push_back({1, i});
+    }
+
+    ll from = 2, to = 3;
+    for(ll i = 0; i < tmp - k; i++){
+        ans.push_back({from, to});
+        if(to == n){
+            from += 1;
+            to = from + 1;
+        }else{
+            to += 1;
         }
     }
-    cout << "Yes" << endl; return 0;
 
+    cout << ans.size() << "\n";
+    for(ll i = 0; i < ans.size(); i++){
+        cout << ans[i].first << " " << ans[i].second << "\n";
+    }
 
 }

@@ -28,47 +28,40 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-struct edge{
-    ll to;
-    ll cost;
-};
+//BPPPB 5
+//B BPPPB P BPPPB B 13  13/2 = 6
 
-vector<ll> ans;
-vector<ll> seen;
-void dfs(vector<vector<edge>> &g, ll v, ll color){
-    seen[v] = 1;
-    ans[v] = color;
-    for(auto next: g[v]){
-        if(seen[next.to] == 0){
-            if(next.cost % 2 == 0){
-                dfs(g, next.to, color);
-            }else{
-                dfs(g, next.to, (color + 1) % 2);
-            }
-        }
+vector<ll> l(51);
+vector<ll> p(51);
+
+ll calc(ll n, ll x){
+    if(n == 0) return 1;
+    ll length = l[n];
+    if(x == 1){
+        return 0;
+    }else if(x <= length / 2){
+        return calc(n-1, x-1);
+    }else if(x == (length / 2) + 1){
+        return p[n-1] + 1;
+    }else{
+        return p[n-1] + 1 + calc(n-1, x - ((length/2) + 1));
     }
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
+    ll n, x; cin >> n >> x;
 
-    vector<vector<edge>> g(n);
-    rep(i, n-1){
-        ll u, v, w; cin >> u >> v >> w; u--; v--;
-        g[u].push_back({v, w});
-        g[v].push_back({u, w});
+    for(ll i = 0; i <= 50; i++){
+        if(i == 0){
+            l[i] = 1; p[i] = 1; continue;
+        }else{
+            l[i] = 2 * l[i-1] + 3;
+            p[i] = 2 * p[i-1] + 1; 
+        }
     }
 
-    ans.resize(n);
-    seen.resize(n);
-
-    dfs(g, 0, 0);
-
-    rep(i, n){
-        cout << ans[i] << "\n";
-    }
-
+    cout << calc(n, x) << endl;
 
 
 }

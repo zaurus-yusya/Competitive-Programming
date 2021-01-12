@@ -28,47 +28,21 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-struct edge{
-    ll to;
-    ll cost;
-};
-
-vector<ll> ans;
-vector<ll> seen;
-void dfs(vector<vector<edge>> &g, ll v, ll color){
-    seen[v] = 1;
-    ans[v] = color;
-    for(auto next: g[v]){
-        if(seen[next.to] == 0){
-            if(next.cost % 2 == 0){
-                dfs(g, next.to, color);
-            }else{
-                dfs(g, next.to, (color + 1) % 2);
-            }
-        }
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-
-    vector<vector<edge>> g(n);
-    rep(i, n-1){
-        ll u, v, w; cin >> u >> v >> w; u--; v--;
-        g[u].push_back({v, w});
-        g[v].push_back({u, w});
+    vector<long long> p(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> p[i];
     }
-
-    ans.resize(n);
-    seen.resize(n);
-
-    dfs(g, 0, 0);
-
+    sort(all(p));
+    ll ans = 0;
     rep(i, n){
-        cout << ans[i] << "\n";
+        if(i == n-1){
+            ans += p[i]/2; continue;
+        }
+        ans += p[i];
     }
-
-
+    cout << ans << endl;
 
 }

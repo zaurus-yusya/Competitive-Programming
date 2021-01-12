@@ -28,47 +28,35 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-struct edge{
-    ll to;
-    ll cost;
-};
-
-vector<ll> ans;
-vector<ll> seen;
-void dfs(vector<vector<edge>> &g, ll v, ll color){
-    seen[v] = 1;
-    ans[v] = color;
-    for(auto next: g[v]){
-        if(seen[next.to] == 0){
-            if(next.cost % 2 == 0){
-                dfs(g, next.to, color);
-            }else{
-                dfs(g, next.to, (color + 1) % 2);
-            }
-        }
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
+    string s; cin >> s;
+    ll x = (ll)(s[0]-48)*10 + (ll)(s[1]-48); 
+    ll y = (ll)(s[2]-48)*10 + (ll)(s[3]-48);
 
-    vector<vector<edge>> g(n);
-    rep(i, n-1){
-        ll u, v, w; cin >> u >> v >> w; u--; v--;
-        g[u].push_back({v, w});
-        g[v].push_back({u, w});
+    if(x == 0 && y == 0){
+        cout << "NA" << endl; return 0;
+    }else if(x == 0 && y != 0){
+        y > 13 ? cout << "NA" << endl : cout << "YYMM" << endl;
+        return 0;
+    }else if(x != 0 && y == 0){
+        x > 13 ? cout << "NA" << endl : cout << "MMYY" << endl;
+        return 0;
     }
 
-    ans.resize(n);
-    seen.resize(n);
-
-    dfs(g, 0, 0);
-
-    rep(i, n){
-        cout << ans[i] << "\n";
+    bool yy = true, mm = true;
+    if(x > 12) mm = false;
+    if(y > 12) yy = false;
+    
+    if(yy && mm){
+        cout << "AMBIGUOUS" << endl;
+    }else if(yy){
+        cout << "YYMM" << endl;
+    }else if(mm){
+        cout << "MMYY" << endl;
+    }else{
+        cout << "NA" << endl;
     }
-
 
 
 }

@@ -1,5 +1,4 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -7,7 +6,6 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-using namespace atcoder;
 const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
@@ -30,22 +28,35 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
-    string s, t; cin >> s >> t;
-    long long s_size = s.size(), t_size = t.size();
-    
-    vector<vector<long long>> dp(s_size+1, vector<long long>(t_size+1));
-    
-    for(long long i = 0; i < s_size; i++){
-        for(long long j = 0; j < t_size; j++){
-            if(s[i] == t[j]){
-                dp[i+1][j+1] = dp[i][j] + 1;
-            }else{
-                dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1]);
+    ll t; cin >> t;
+    vector<string> ans;
+    rep(T, t){
+        ll n, m; cin >> n >> m;
+        vector<long long> vec(n);
+        for(long long i = 0; i < n; i ++){
+            cin >> vec[i];
+        }
+        sort(all(vec));
+        bool flag = true;
+        rep(i, n){
+            if(vec[i] > m){
+                if(vec[0] + vec[1] > m){
+                    flag = false;
+                }
             }
         }
+
+        if(flag){
+            ans.push_back("YES");
+        }else{
+            ans.push_back("NO");
+        }
+
+    }
+
+    rep(i, t){
+        cout << ans[i] << "\n";
     }
     
-    cout << dp[s_size][t_size] << endl;
 
 }

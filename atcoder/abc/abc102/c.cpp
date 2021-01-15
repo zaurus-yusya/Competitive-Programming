@@ -30,22 +30,38 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
-    string s, t; cin >> s >> t;
-    long long s_size = s.size(), t_size = t.size();
-    
-    vector<vector<long long>> dp(s_size+1, vector<long long>(t_size+1));
-    
-    for(long long i = 0; i < s_size; i++){
-        for(long long j = 0; j < t_size; j++){
-            if(s[i] == t[j]){
-                dp[i+1][j+1] = dp[i][j] + 1;
-            }else{
-                dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1]);
-            }
-        }
+    ll n; cin >> n;
+    vector<long long> vec(n);
+    ll mi = INF, sum = 0;
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
+        vec[i] -= (i+1);
+        sum += abs(vec[i]);
     }
-    
-    cout << dp[s_size][t_size] << endl;
+
+    sort(all(vec));
+    ll ans = INF;
+    if(n % 2 == 0){
+        ll tmp = 0;
+        rep(i, n){
+            tmp += abs(vec[i] - vec[n/2]);
+        }
+        ans = min(ans, tmp);
+        ans = INF; tmp = 0;
+        rep(i, n){
+            tmp += abs(vec[i] - vec[(n/2) - 1]);
+        }
+        ans = min(ans, tmp);
+    }else{
+        ll tmp = 0;
+        rep(i, n){
+            tmp += abs(vec[i] - vec[n/2]);
+        }
+        ans = min(ans, tmp);
+    }
+
+    cout << ans << endl;
+
+
 
 }

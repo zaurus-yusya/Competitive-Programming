@@ -28,24 +28,46 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
+//中心　Cx, Cy, H
+// (Cx + 1, Cy)
+// (Cx, Cy + 1)
+// (Cx - 1, Cy)
+// (Cx, Cy - 1)
+
+// (Cx + 1, Cy + 1)
+// (Cx + 1, Cy - 1)
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
-    string s, t; cin >> s >> t;
-    long long s_size = s.size(), t_size = t.size();
-    
-    vector<vector<long long>> dp(s_size+1, vector<long long>(t_size+1));
-    
-    for(long long i = 0; i < s_size; i++){
-        for(long long j = 0; j < t_size; j++){
-            if(s[i] == t[j]){
-                dp[i+1][j+1] = dp[i][j] + 1;
-            }else{
-                dp[i+1][j+1] = max(dp[i+1][j], dp[i][j+1]);
+    ll n; cin >> n;
+    vector<ll> x(n);
+    vector<ll> y(n);
+    vector<ll> h(n);
+    ll ma;
+    rep(i, n){
+        cin >> x[i] >> y[i] >> h[i];
+        if(h[i] > 0) ma = i;
+    }
+
+    for(ll Cx = 0; Cx <= 100; Cx++){
+        for(ll Cy = 0; Cy <= 100; Cy++){
+            ll takasa = h[ma] + abs(Cx - x[ma]) + abs(Cy - y[ma]);
+            bool flag = true;
+            for(ll i = 0; i < n; i++){
+                ll tmp = h[i] + abs(Cx - x[i]) + abs(Cy - y[i]);
+                if(h[i] > 0 && tmp != takasa){
+                    flag = false;
+                }
+                if(h[i] == 0 && takasa > abs(Cx - x[i]) + abs(Cy - y[i])){
+                    flag = false;
+                }
             }
+
+            if(flag){
+                cout << Cx << " " << Cy << " " << takasa << endl;
+            }
+
         }
     }
-    
-    cout << dp[s_size][t_size] << endl;
 
 }

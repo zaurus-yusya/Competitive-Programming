@@ -28,68 +28,14 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // If the result in local and judge is different, USE CODETEST!!
 
-struct UnionFind
-{
-    vector<long long> d;
-    UnionFind(long long n = 0) : d(n, -1)
-    {
-    }
-
-    //root : -size, not root: root
-    long long root(long long x){
-        if(d[x] < 0){
-            return x; 
-        }
-        return d[x] = root(d[x]);
-    }
-
-    bool unite(long long x, long long y){
-        x = root(x);
-        y = root(y);
-        if(x == y){
-            return false;
-        }
-        if(d[x] > d[y]){
-            swap(x, y);
-        }
-        d[x] += d[y];
-        d[y] = x;
-        return true;
-    }
-
-    long long size(long long x){
-        return -d[root(x)];
-    }
-
-    bool issame(long long a, long long b){
-        return root(a) == root(b);
-    }
-};
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i]; vec[i]--;
+    ll a, b, c, d; cin >> a >> b >> c >> d;
+    if(abs(a-c) <= d){
+        cout << "Yes" << endl;
+    }else if(abs(a-b) <= d && abs(c-b) <= d){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
     }
-
-    UnionFind uf(n);
-
-    rep(i, m){
-        ll a, b; cin >> a >> b; a--; b--;
-        uf.unite(a, b);
-    }
-
-    ll ans = 0;
-    rep(i, n){
-        if(uf.root(vec[i]) == uf.root(i)){
-            ans++;
-        }
-    }
-    cout << ans << endl;
-
-
-
-
 }

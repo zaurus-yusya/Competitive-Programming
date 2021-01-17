@@ -29,34 +29,30 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 
-
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    
-    vector<ll> shiharai;
-    shiharai.push_back(1);
-    ll x = 6;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 6;
-    }
-    x = 9;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 9;
+    ll n, k; cin >> n >> k;
+    vector<long long> x(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> x[i];
     }
 
-    vector<ll> dp(200010, INF);
-    dp[0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < shiharai.size(); j++){
-            dp[i + shiharai[j]] = min(dp[i + shiharai[j]], dp[i] + 1);
+    ll ans = INF;
+    for(ll i = 0; i < n-k+1; i++){
+        ll l = x[i];
+        ll r = x[k-1+i];
+        if(l <= 0 && r <= 0){
+            ans = min(ans, abs(l));
+        }
+        if(l <= 0 && r >= 0){
+            ll ma = max(abs(l), abs(r));
+            ll mi = min(abs(l), abs(r));
+            ans = min(ans, mi*2 + ma);
+        }
+        if(l >= 0 && r >= 0){
+            ans = min(ans, abs(r));
         }
     }
-    cout << dp[n] << endl;
+    cout << ans << endl;
 
 }

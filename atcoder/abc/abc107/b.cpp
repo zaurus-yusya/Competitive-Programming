@@ -29,34 +29,56 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 
-
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    
-    vector<ll> shiharai;
-    shiharai.push_back(1);
-    ll x = 6;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 6;
-    }
-    x = 9;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 9;
-    }
-
-    vector<ll> dp(200010, INF);
-    dp[0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < shiharai.size(); j++){
-            dp[i + shiharai[j]] = min(dp[i + shiharai[j]], dp[i] + 1);
+    ll h, w; cin >> h >> w;
+    vector<vector<char>> vec(h, vector<char>(w));
+    rep(i, h){
+        string s; cin >> s;
+        rep(j, w){
+            vec[i][j] = s[j];
         }
     }
-    cout << dp[n] << endl;
+    vector<vector<ll>> res(h, vector<ll>(w));
+    rep(i, h){
+        bool flag = true;
+        rep(j, w){
+            if(vec[i][j] == '#') flag = false;
+        }
+        if(flag){
+            rep(j, w){
+                res[i][j] = 1;
+            }
+        }
+    }
+
+    rep(i, w){
+        bool flag = true;
+        rep(j, h){
+            if(vec[j][i] == '#') flag = false;
+        }
+        if(flag){
+            rep(j, h){
+                res[j][i] = 1;
+            }
+        }
+    }
+
+    rep(i, h){
+        bool flag = true;
+        ll cnt = 0;
+        rep(j, w){
+            if(res[i][j] == 1) cnt++;
+        }
+        if(cnt != w){
+            rep(j, w){
+                if(res[i][j] == 0){
+                    cout << vec[i][j];
+                }
+            }
+            br;
+        }
+        
+    }
 
 }

@@ -29,34 +29,30 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 
-
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    
-    vector<ll> shiharai;
-    shiharai.push_back(1);
-    ll x = 6;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 6;
-    }
-    x = 9;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 9;
-    }
-
-    vector<ll> dp(200010, INF);
-    dp[0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < shiharai.size(); j++){
-            dp[i + shiharai[j]] = min(dp[i + shiharai[j]], dp[i] + 1);
+    ll d, n; cin >> d >> n;
+    ll cnt = 0;
+    ll now = 0;
+    while(cnt < n){
+        now++;
+        bool flag = true;
+        ll tmp = now;
+        for(ll i = 0; i < d; i++){
+            if(tmp % 100 == 0){
+                tmp = tmp / 100;
+            }else{
+                flag = false;
+            }
+        }
+        if(tmp % 100 == 0){
+            flag = false;
+        }
+        if(flag){
+            cnt++;
         }
     }
-    cout << dp[n] << endl;
+
+    cout << now << endl;
 
 }

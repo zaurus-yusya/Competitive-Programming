@@ -29,34 +29,51 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 
-
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    
-    vector<ll> shiharai;
-    shiharai.push_back(1);
-    ll x = 6;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 6;
-    }
-    x = 9;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 9;
+    ll n, m; cin >> n >> m;
+    vector<ll> x(n);
+    vector<ll> xn(n);
+    vector<ll> y(n);
+    vector<ll> yn(n);
+    vector<ll> z(n);
+    vector<ll> zn(n);
+    rep(i, n){
+        cin >> x[i] >> y[i] >> z[i];
+        xn[i] = x[i] * (-1);
+        yn[i] = y[i] * (-1);
+        zn[i] = z[i] * (-1);
     }
 
-    vector<ll> dp(200010, INF);
-    dp[0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < shiharai.size(); j++){
-            dp[i + shiharai[j]] = min(dp[i + shiharai[j]], dp[i] + 1);
+    ll ans = 0;
+    for(ll bit = 0; bit < (1<<3); bit++){
+        vector<ll> tmp(3, 1);
+        for(ll i = 0; i < 3; i++){
+            
+            if((bit>>i) & 1){
+                tmp[i] = -1;
+            }
+            
         }
+
+        vector<ll> res(n);
+
+        rep(i, n){
+            res[i] = x[i]*tmp[0]
+                    +y[i]*tmp[1]
+                    +z[i]*tmp[2];
+        }
+        sort(all(res), greater<>());
+        ll sum = 0;
+        rep(i, m){
+            sum += res[i];
+        }
+        ans = max(ans, sum);
+        vector<ll>().swap(res);
     }
-    cout << dp[n] << endl;
+
+    cout << ans << endl;
+
+
 
 }

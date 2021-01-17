@@ -29,34 +29,44 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 
-
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    
-    vector<ll> shiharai;
-    shiharai.push_back(1);
-    ll x = 6;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 6;
-    }
-    x = 9;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 9;
+    ll n, c; cin >> n >> c;
+
+    vector<vector<ll>> iwakan(c, vector<ll>(c));
+    rep(i, c)rep(j, c) cin >> iwakan[i][j];
+
+    vector<map<ll, ll>> amari(3);
+    rep(i, n){
+        rep(j, n){
+            ll x; cin >> x; x--;
+            amari[(i+j)%3][x]++;
+        } 
     }
 
-    vector<ll> dp(200010, INF);
-    dp[0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < shiharai.size(); j++){
-            dp[i + shiharai[j]] = min(dp[i + shiharai[j]], dp[i] + 1);
+    ll ans = INF;
+    for(ll i = 0; i < c; i++){
+        for(ll j = 0; j < c; j++){
+            for(ll k = 0; k < c; k++){
+                if(i == j || j == k || k == i) continue;
+                ll tmp = 0;
+                for(auto x: amari[0]){
+                    if(x.first == i) continue;
+                    tmp += iwakan[x.first][i] * x.second;
+                }
+                for(auto x: amari[1]){
+                    if(x.first == j) continue;
+                    tmp += iwakan[x.first][j] * x.second;
+                }
+                for(auto x: amari[2]){
+                    if(x.first == k) continue;
+                    tmp += iwakan[x.first][k] * x.second;
+                }
+                ans = min(ans, tmp);
+                //cout << i << " " << j << " " << k << endl;
+            }
         }
     }
-    cout << dp[n] << endl;
 
+    cout << ans << endl;
 }

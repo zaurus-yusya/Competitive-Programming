@@ -30,33 +30,27 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // If the result in local and judge is different, USE CODETEST!!
 
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    
-    vector<ll> shiharai;
-    shiharai.push_back(1);
-    ll x = 6;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 6;
-    }
-    x = 9;
-    while(true){
-        if(x > 100000) break;
-        shiharai.push_back(x);
-        x *= 9;
+    ll n, m; cin >> n >> m;
+    vector<long long> a(n);
+    vector<ll> sum(n+1);
+    for(long long i = 0; i < n; i ++){
+        cin >> a[i]; a[i] = a[i] % m;
+        sum[i+1] = sum[i] + a[i];
+        sum[i+1] %= m;
     }
 
-    vector<ll> dp(200010, INF);
-    dp[0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j < shiharai.size(); j++){
-            dp[i + shiharai[j]] = min(dp[i + shiharai[j]], dp[i] + 1);
-        }
+    map<ll, ll> mp;
+    rep(i, n+1){
+        mp[sum[i]]++;
     }
-    cout << dp[n] << endl;
+
+    ll ans = 0;
+    for(auto i: mp){
+        if(i.second == 1) continue;
+        ans += (i.second * (i.second - 1)) / 2;
+    }
+    cout << ans << endl;
 
 }

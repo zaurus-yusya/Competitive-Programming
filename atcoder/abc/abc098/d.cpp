@@ -30,53 +30,53 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // If the result in local and judge is different, USE CODETEST!!
 
 ll ncr(ll n, ll r){
-    ll res = 1;
-    for(ll i = 0; i < r; i++){
-        res *= (n-i);
-        res /= (1+i);
-    }
-    return res;
+ll res = 1;
+for(ll i = 0; i < r; i++){
+    res *= (n-i);
+    res /= (1+i);
+}
+return res;
 }
 
 int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
-    }
+std::cout << std::fixed << std::setprecision(15);
+ll n; cin >> n;
+vector<long long> vec(n);
+for(long long i = 0; i < n; i ++){
+    cin >> vec[i];
+}
 
-    ll ans = 0;
-    ll right = 0;
-    ll now_s = 0;
-    ll now_x = 0;
+ll ans = 0;
+ll right = 0;
+ll now_s = 0;
+ll now_x = 0;
 
-    for(ll left = 0; left < n; left++){
+for(ll left = 0; left < n; left++){
 
-        //right増やす
-        while(true){
-            if(right >= n) break;
-            if((now_s + vec[right]) == (now_x ^ vec[right])){
-                now_s = now_s + vec[right]; now_x = now_x ^ vec[right];
-                right++;
-            }else{
-                break;
-            }
-        }
-
-        ans += (right - left);
-
-        //left増やす
-        if(right == left){
+    //right増やす
+    while(true){
+        if(right >= n) break;
+        if((now_s + vec[right]) == (now_x ^ vec[right])){
+            now_s = now_s + vec[right]; now_x = now_x ^ vec[right];
             right++;
         }else{
-            now_s -= vec[left];
-            now_x ^= vec[left];
+            break;
         }
-
-
     }
 
-    cout << ans << endl;
+    ans += (right - left);
+
+    //left増やす
+    if(right == left){
+        right++;
+    }else{
+        now_s -= vec[left];
+        now_x ^= vec[left];
+    }
+
+
+}
+
+cout << ans << endl;
 
 }

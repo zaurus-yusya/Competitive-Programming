@@ -31,30 +31,58 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll a, b, c, x, y; cin >> a >> b >> c >> x >> y;
+    ll n, c; cin >> n >> c;
+
+    vector<ll> x(n);
+    vector<ll> y(n);
+    vector<ll> v(n);
+    vector<ll> sum_x(n+1);
+    vector<ll> sum_y(n+1);
+
+    rep(i, n){
+        cin >> x[i] >> v[i];
+        sum_x[i+1] = sum_x[i] + v[i]; 
+    }
+
+    rep(i, n){
+        y[i] = c - x[n-1 - i];
+        sum_y[i+1] = sum_y[i] + v[n-1 - i];
+    }
+
+    vector<ll> x_max_katamichi(n+1);
+    vector<ll> y_max_katamichi(n+1);
+    ll cur_x = -INF;
+    ll cur_y = -INF;
+    rep(i, n){
+        cur_x = max(cur_x, sum_x[i+1] - x[i]);
+        x_max_katamichi[i+1] = cur_x;
+        cur_y = max(cur_y, sum_y[i+1] - y[i]);
+        y_max_katamichi[i+1] = cur_y;
+    }
+
+    vector<ll> x_max_modori(n+1);
+    vector<ll> y_max_modori(n+1);
+    cur_x = -INF;
+    cur_y = -INF;
+    rep(i, n){
+        cur_x = max(cur_x, sum_x[i+1] - 2 * x[i]);
+        x_max_modori[i+1] = cur_x;
+        cur_y = max(cur_y, sum_y[i+1] - 2 * y[i]);
+        y_max_modori[i+1] = cur_y;
+    }
+
 
     ll ans = 0;
-    ll mi = min(x, y);
-
-    if(a + b > c*2){
-        ans += (mi*2) * c;
-        x -= mi; y -= mi;
-
-        if(a > c*2){
-            ans += x*2 * c;
-        }else{
-            ans += x * a;
+    //x start y katamichi
+    rep(i, n+1){
+        chmax(ans, x_max_modori[i] + y_max_katamichi[n - i]);
+    }
+    //y start x katamichi
+    rep(i, n+1){
+        if(i == n){
+            chmax(ans, y_max_modori[i]); continue;
         }
-
-        if(b > c*2){
-            ans += y*2 * c;
-        }else{
-            ans += y * b;
-        }
-
-    }else{
-        ans += a * x;
-        ans += b * y;
+        chmax(ans, y_max_modori[i] + x_max_katamichi[n - i]);
     }
 
     cout << ans << endl;

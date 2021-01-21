@@ -31,31 +31,27 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll a, b, c, x, y; cin >> a >> b >> c >> x >> y;
-
-    ll ans = 0;
-    ll mi = min(x, y);
-
-    if(a + b > c*2){
-        ans += (mi*2) * c;
-        x -= mi; y -= mi;
-
-        if(a > c*2){
-            ans += x*2 * c;
-        }else{
-            ans += x * a;
-        }
-
-        if(b > c*2){
-            ans += y*2 * c;
-        }else{
-            ans += y * b;
-        }
-
-    }else{
-        ans += a * x;
-        ans += b * y;
+    ll n, m, x; cin >> n >> m >> x;
+    vector<long long> a(n+1);
+    for(long long i = 0; i < m; i ++){
+        ll x; cin >> x;
+        a[x] = 1;
     }
 
+    ll ans = INF;
+    ll tmp = 0;
+    for(ll i = 0; i < x; i++){
+        tmp += a[i];
+    }
+    chmin(ans, tmp);
+
+    tmp = 0;
+    for(ll i = x+1; i <= n; i++){
+        tmp += a[i];
+    }
+    chmin(ans, tmp);
+
     cout << ans << endl;
+
+
 }

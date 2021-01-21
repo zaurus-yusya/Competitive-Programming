@@ -31,31 +31,42 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll a, b, c, x, y; cin >> a >> b >> c >> x >> y;
-
-    ll ans = 0;
-    ll mi = min(x, y);
-
-    if(a + b > c*2){
-        ans += (mi*2) * c;
-        x -= mi; y -= mi;
-
-        if(a > c*2){
-            ans += x*2 * c;
-        }else{
-            ans += x * a;
+    ll h, w; cin >> h >> w;
+    vector<vector<char>> vec(h, vector<char>(w));
+    rep(i, h){
+        string s; cin >> s;
+        rep(j, w){
+            vec[i][j] = s[j];
         }
-
-        if(b > c*2){
-            ans += y*2 * c;
-        }else{
-            ans += y * b;
-        }
-
-    }else{
-        ans += a * x;
-        ans += b * y;
     }
 
-    cout << ans << endl;
+    vector<ll> dx = {1, -1, 0, 0};
+    vector<ll> dy = {0, 0, 1, -1};
+
+    rep(i, h){
+        rep(j, w){
+            if(vec[i][j] == '#'){
+                bool flag = false;
+                rep(k, 4){
+                    ll x = dx[k];
+                    ll y = dy[k];
+
+                    //場外ならcontinue
+                    if(j + x < 0 || j + x >= w) continue;
+                    if(i + y < 0 || i + y >= h) continue;
+
+                    if(vec[i+y][j+x] == '#') flag = true;
+                }
+                if(flag == false){
+                    cout << "No" << endl; return 0;
+                }
+            }
+        }
+    }
+
+
+    cout << "Yes" << endl;
+
+
+
 }

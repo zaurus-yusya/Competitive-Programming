@@ -278,7 +278,7 @@ for(auto i: mp){
     }
 
 //スタック LILO
-tack<ll> s;
+stack<ll> s;
 s.push(1);
 s.push(2);
 s.pop();  //2が取れる

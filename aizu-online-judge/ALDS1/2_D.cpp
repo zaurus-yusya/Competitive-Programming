@@ -28,65 +28,53 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
+ll cnt = 0;
 
-void out(vector<pair<ll, char>> &v, vector<queue<char>> &q, ll n){
-    bool flag = true;
-    rep(i, n){
-        ll num = v[i].first;
-        char mark = v[i].second;
-        if(i == 0){
-            cout << mark << num;
-        }else{
-            cout << " " << mark << num;
+void insertion(vector<ll> &vec, ll n, ll g){
+    for(ll i = g; i < n; i++){
+        ll v = vec[i];
+        ll j = i - g;
+        while(j >= 0 && vec[j] > v){
+            vec[j + g] = vec[j];
+            j = j - g;
+            cnt++;
         }
-        char c = q[num].front(); 
-        q[num].pop();
-        if(c != mark) flag = false;
-    }br;
-
-    if(flag){
-        cout << "Stable" << endl;
-    }else{
-        cout << "Not stable" << endl;
+        vec[j + g] = v;
     }
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-    vector<pair<ll, char>> bubble(n);
-    vector<pair<ll, char>> selection(n);
-    vector<queue<char>> check_bubble(10);
-    vector<queue<char>> check_selection(10);
+    vector<long long> vec(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
+    }
+
+    
+    vector<ll> G;
+    ll cur = 1;
+    while(cur <= n){
+        G.push_back(cur);
+        cur = 3 * cur + 1;
+    }
+    sort(all(G), greater<ll>());
+    ll m = G.size();
+
+    rep(i, G.size()){
+        insertion(vec, n, G[i]);
+    }
+    
+
+    cout << m << endl;
+    rep(i, G.size()){
+        if(i == 0) cout << G[i];
+        else cout << " " << G[i];
+    }br;
+
+    cout << cnt << endl;
     rep(i, n){
-        string s; cin >> s;
-        bubble[i] = {s[1] - '0', s[0]};
-        check_bubble[s[1] - '0'].push(s[0]);
+        cout << vec[i] << endl;
     }
-    selection = bubble;
-    check_selection = check_bubble;
-
-    //bubble
-    for(ll i = 0; i < n; i++){
-        for(ll j = n-1; j > i; j--){
-            if(bubble[j].first < bubble[j-1].first){
-                swap(bubble[j], bubble[j-1]);
-            }
-        }
-    }
-    out(bubble, check_bubble, n);
-   
-    //selection
-    for(ll i = 0; i < n; i++){
-        ll minj = i;
-        for(ll j = i; j < n; j++){
-            if(selection[j].first < selection[minj].first){
-                minj = j;
-            }
-        }
-        swap(selection[i], selection[minj]);
-    }
-    out(selection, check_selection, n);
-
 
 }

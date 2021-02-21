@@ -11,7 +11,7 @@ using namespace std;
 const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
-using pll = pair<ll, ll>;
+using P = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
@@ -30,7 +30,7 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // If the result in local and judge is different, USE CODETEST!!
 
 // g:graph, start: start node // <cost, next_node>
-
+/*
 vector<ll> dijkstra(vector<vector<pair<ll, ll>>> &g, ll start){
     vector<ll> dis; //distance
     vector<ll> pre; //route restoration
@@ -71,17 +71,58 @@ void route_restoration(vector<ll> &pre, ll goal){
         now = pre[now];
     }
 }
+*/
+
+//dijkstra
+struct Edge
+{
+    ll to, cost;
+    Edge(ll to = 0, ll cost = 0) : to(to), cost(cost) {}
+    //g[a].emplace_back(x, y) : x = to, y = cost
+};
+vector<ll> dist; //distance
+vector<ll> pre; //route restoration
+void dijkstra(vector<vector<Edge>> &g, ll start){
+    dist.assign(g.size(), INF);
+    pre.assign(g.size(), -1);
+    priority_queue<P, vector<P>, greater<P>> que;
+    dist[start] = 0;
+    que.push({0, start});
+
+    while(!que.empty()){
+        auto[d, v] = que.top(); que.pop();
+        if(dist[v] != d) continue;
+        for(Edge& e : g[v]){
+            ll next = d + e.cost;
+            if(dist[e.to] <= next){
+                continue;
+            }else{
+                dist[e.to] = next;
+                que.push({next, e.to});
+                pre[e.to] = v;
+            }
+        }
+    } 
+}
+void route_restoration(vector<ll> &pre, ll goal){
+    ll now = goal;
+    while(true){
+        cout << now << endl;
+        if(pre[now] == -1) break;
+        now = pre[now];
+    }
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
-    vector<vector<pair<ll, ll>>> g(n);
+    vector<vector<Edge>> g(n);
     vector<ll> onazi(n, -1);
 
 
     rep(i, m){
         ll a, b, c; cin >> a >> b >> c; a--; b--;
-        g[a].push_back(make_pair(c, b));
+        g[a].emplace_back(b, c);
         if(a == b){
             if(onazi[a] != -1){
                 onazi[a] = min(onazi[a], c);
@@ -94,7 +135,10 @@ int main() {
 
     vector<vector<ll>> kyori(n);
     rep(i, n){
-        kyori[i] = dijkstra(g, i);
+        dijkstra(g, i);
+        kyori[i] = dist;
+        //dist.clear();
+        //pre.clear();
     }
 
 
@@ -116,22 +160,5 @@ int main() {
         }
 
     }
-
-
-
-    /*
-    rep(i, n){
-        cout << kyori[0][i] << endl;
-    }
-    cout << "---" << endl;
-    rep(i, n){
-        cout << kyori[1][i] << endl;
-    }
-    cout << "---" << endl;
-
-    vecdbg(onazi);
-    */
     
-    
-
 }

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all>
-// using namespace atcoder;
+#include <atcoder/all>
+using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -136,87 +136,32 @@ typedef ModInt<1000000007> mint;
 MComb<1000000007> com(510000);
 MPow<1000000007> mpow;
 
-struct PrimeNumber
-{
-    //O(sqrt(n))
-    //sosu hantei
-    bool is_prime(long long n){
-        for(long long i = 2; i * i <= n; i++){
-            if(n % i == 0) return false;
-        }
-        return n != 1;
-    }
-
-    //O(sqrt(n))  isn't sorted
-    //yakusu rekkyo
-    vector<long long> divisor(long long n){
-        vector<long long> res;
-        for(long long i = 1; i * i <= n; i++){
-            if(n % i == 0){
-                res.push_back(i);
-                if(i != n / i) res.push_back(n / i);
-            }
-        }
-        return res;
-    }
-
-    //O(sqrt(n))
-    //soinsu bunkai
-    map<long long, long long> prime_factor(long long n){
-        map<long long, long long> res;
-        for(long long i = 2; i * i <= n; i++){
-            while(n % i == 0){
-                n /= i;
-                res[i]++;
-            }
-        }
-        if(n != 1) res[n] = 1;
-        return res;
-    }
-
-    //O(n log log n)
-    //n madeno sosu rekkyo
-    vector<long long> eratosthenes(long long n){
-        vector<long long> prime;
-        vector<bool> is_prime(n + 1, true);
-        long long p = 0;
-        is_prime[0] = false; is_prime[1] = false;
-        for(long long i = 2; i <= n; i++){
-            if(is_prime[i]) prime.push_back(i);
-            for(long long j = 2 * i; j <= n; j += i) is_prime[j] = false;
-        }
-        return prime;
-    }
-};
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
+    ll n, k; cin >> n >> k;
     vector<long long> vec(n);
     for(long long i = 0; i < n; i ++){
         cin >> vec[i];
     }
 
-    PrimeNumber p;
-    map<ll, ll> lcm_bunkai;
-
-    rep(i, n){
-        map<ll, ll> soinsu = p.prime_factor(vec[i]);
-        for(auto i : soinsu){
-            ll tmp = lcm_bunkai[i.first];
-            lcm_bunkai[i.first] = max(i.second, tmp);
-        }
-    }
-
-    mint res = 1;
-    for(auto i: lcm_bunkai){
-        res *= mpow.modpow(i.first, i.second);
-        //cout << i.first << " " << i.second << endl;
-    }
-    //cout << res << endl;
+    sort(all(vec));
     mint ans = 0;
-    rep(i, n){
-        ans += res / vec[i];
+    com.ncr(i, k-1);
+    /*
+    for(ll i = k; i < n; i++){
+        ans += vec[i] * com.ncr(i, k-1);
     }
+
+    for(ll i = 0; i < n-k; i++){
+        ans += vec[i] * com.ncr(n-1-i, k-1);
+    }
+    */
+
     cout << ans << endl;
+    
+
+
+
+
+
 }

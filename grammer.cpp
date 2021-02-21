@@ -294,7 +294,7 @@ que.pop(); //queの先頭を削除
 
 //priority_que
 priority_queue<ll> que; //降順
-priority_queue<ll, vector<ll>, greater<ll>> que;
+priority_queue<ll, vector<ll>, greater<ll>> que; //昇順
 
 //priority_que pair使う時
 //pair の1つ目の要素に従って降順に処理したい

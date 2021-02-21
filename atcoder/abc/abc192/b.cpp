@@ -31,9 +31,28 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string x, y; cin >> x >> y;
-    ld X = stod(x);
-    ld Y = stod(y);
-    cout << X + Y << endl;
+    string s; cin >> s;
+
+    string ans = "Yes";
+    rep(i, s.size()){
+        if(i % 2 == 0){
+            //奇数
+            if(s[i] >= 'a' && s[i] <= 'z'){
+                continue;
+            }else{
+                ans = "No";
+            }
+        }else{
+            //偶数
+            if(s[i] >= 'A' && s[i] <= 'Z'){
+                continue;
+            }else{
+                ans = "No";
+            }
+
+        }
+    }
+
+    cout << ans << endl;
 
 }

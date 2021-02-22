@@ -34,5 +34,6 @@ using P = pair<ll, ll>;
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
+    ld 
 
 }

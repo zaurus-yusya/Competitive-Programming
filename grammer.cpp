@@ -281,8 +281,8 @@ for(auto i: mp){
 stack<ll> s;
 s.push(1);
 s.push(2);
-s.pop();  //2が取れる
 s.top() //1番上を見る(削除はされない)
+s.pop();  //要素の削除
 
 
 //キュー FIFO
@@ -295,6 +295,7 @@ que.pop(); //queの先頭を削除
 //priority_que
 priority_queue<ll> que; //降順
 priority_queue<ll, vector<ll>, greater<ll>> que; //昇順
+que.top()
 
 //priority_que pair使う時
 //pair の1つ目の要素に従って降順に処理したい

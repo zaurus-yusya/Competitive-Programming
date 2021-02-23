@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -31,40 +31,75 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-ll dp[110][2][5];
+//1-indexed only in the function
+//O(log n)
+//fenwick<ll> f(n)
+template<typename T>
+struct fenwick
+{
+    //constructor
+    ll n;
+    vector<T> bit;
+    fenwick(ll n_) : n(n_ + 1), bit(n, 0) {}
+
+    //method
+    void add(ll i, T x){
+        i += 1; //1-indexed
+        for(ll idx = i; idx < n; idx += (idx & -idx)){
+            bit[idx] += x;
+        }
+    }
+
+    T sum(ll i){
+        T s(0);
+        //return sum[0, i)
+        for(ll idx = i; idx > 0; idx -= (idx & -idx)){
+            s += bit[idx];
+        }
+        return s;
+    }
+
+    T sum2(ll l, ll r){
+        T L(0);
+        T R(0);
+        //return sum[l, r)
+        for(ll idx = l; idx > 0; idx -= (idx & -idx)){
+            L += bit[idx];
+        }
+        for(ll idx = r; idx > 0; idx -= (idx & -idx)){
+            R += bit[idx];
+        }
+        return R - L;
+    }
+
+};
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; cin >> s;
-    ll K; cin >> K;
-
-    dp[0][0][0] = 1;
-
-    //i桁までみて k個0でない数があるのがdp[i][j][k]種類
-    for(ll i = 0; i < s.size(); i++){
-        ll num = s[i] - '0';
-        for(ll k = 0; k < K+1; k++){
-            //false → false
-            if(num == 0){
-                dp[i+1][0][k] += dp[i][0][k];
-            }else{
-                dp[i+1][0][k+1] += dp[i][0][k];
-            }
-            //false → true
-            if(num > 0){
-                dp[i+1][1][k+1] += dp[i][0][k] * (num - 1);
-                dp[i+1][1][k] += dp[i][0][k];
-            }
-            //true → true
-            dp[i+1][1][k+1] += dp[i][1][k] * 9;
-            dp[i+1][1][k] += dp[i][1][k];
-    
-            
-        }
-        
+    ll n; cin >> n;
+    fenwick<ll> f(n);
+    vector<long long> vec(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
     }
-    cout << dp[s.size()][0][K] + dp[s.size()][1][K] << endl;
+    vector<ll> vec2;
+    vec2 = vec;
+    sort(all(vec2));
+    map<ll, ll> mp;
+    rep(i, n){
+        mp[vec2[i]] = (i+1);
+    }
+    rep(i, n){
+        vec[i] = mp[vec[i]];
+    }
 
-    
+    ll ans = 0;
+    rep(i, n){
+        ans += i - f.sum(vec[i]);
+        f.add(vec[i], 1);
+
+        //cout << i << " " << ans << endl;
+    }
+    cout << ans << endl;
 
 }

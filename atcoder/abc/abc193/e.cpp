@@ -31,6 +31,7 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+/*
 long long mod(long long a, long long m) {
     return (a % m + m) % m;
 }
@@ -51,10 +52,41 @@ pair<long long, long long> ChineseRem(long long b1, long long m1, long long b2, 
   long long r = mod(b1 + m1 * tmp, m);
   return make_pair(r, m);
 }
+*/
+
+// aが負のとき対策
+ll modnega(ll a, ll m){
+    return (a%m + m) % m;
+}
+
+// ax + by = gcd(a, b) を満たすx, yを求め、代入する。返り値dはgcd(a, b)
+// a, bは定数。x, yは変数(決めておかなくていい)
+ll extgcd(ll a, ll b, ll &x, ll &y){
+    if(b == 0) { x = 1; y = 0; return a;}
+    ll d = extgcd(b, a % b, y, x);
+    y -= a/b * x;
+    return d;
+}
+
+// x ≡ b1 (mod m1), x ≡ b2 (mod m2), x ≡ b3 (mod m3),,,,となるxを求める。
+// (r, m)を返すとき解は x ≡ r (mod m), 解なしの場合(0, -1)を返す
+pair<ll, ll> chineserem(vector<ll> &b, vector<ll> &m){
+    ll r = 0, M = 1;
+    for(ll i = 0; i < b.size(); i++){
+        ll p, q;
+        ll d = extgcd(M, m[i], p, q);
+        if((b[i] - r) % d != 0) return {0, -1};
+        ll tmp = (b[i] - r) / d * p % (m[i] / d);
+        r += M * tmp;
+        M *= m[i] / d;
+    }
+    return {modnega(r, M), M};
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
+    ll x, y;
     
     rep(T, t){
         ll x, y, p, q; cin >> x >> y >> p >> q;
@@ -65,7 +97,8 @@ int main() {
         ll ans = INF;
         for(ll i = x; i < x + y; i++){
             for(ll j = p; j < p + q; j++){
-                pair<ll, ll> res = ChineseRem(i, mae, j, ato);
+                vector<ll> b = {i, j}; vector<ll> m = {mae, ato};
+                pair<ll, ll> res = chineserem(b, m);
                 if(res.second == -1){
                     continue;
                 }else{

@@ -17,49 +17,128 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
+//https://atcoder.jp/contests/abc172/submissions/14765570
+//20200724
+template<long long mod>
+struct ModInt
+{
+    long long x;
+    ModInt () : x(0) {}
+    ModInt (long long x) : x(x >= 0 ? x % mod : (mod - -x % mod) % mod) {}
+    ModInt &operator += (const ModInt &p){
+        if ((x += p.x) >= mod) x -= mod;
+        return *this;
+    }
+    ModInt &operator -= (const ModInt &p) {
+        if ((x += mod - p.x) >= mod) x -= mod;
+        return *this;
+    }
+    ModInt &operator *= (const ModInt &p) {
+        x = (long long) x * p.x % mod;
+        return *this;
+    }
+    ModInt &operator /= (const ModInt &p) {
+        *this *= p.inverse();
+        return *this;
+    }
+    ModInt &operator ^= (long long p) {
+        ModInt res = 1;
+        for (; p; p >>= 1) {
+            if (p & 1) res *= *this;
+            *this *= *this;
+        }
+        return *this = res;
+    }
+    ModInt operator - () const { return ModInt(-x); }
+    ModInt operator + (const ModInt &p) const { return ModInt(*this) += p; }
+    ModInt operator - (const ModInt &p) const { return ModInt(*this) -= p; }
+    ModInt operator * (const ModInt &p) const { return ModInt(*this) *= p; }
+    ModInt operator / (const ModInt &p) const { return ModInt(*this) /= p; }
+    ModInt operator ^ (long long p) const { return ModInt(*this) ^= p; }
+    bool operator == (const ModInt &p) const { return x == p.x; }
+    bool operator != (const ModInt &p) const { return x != p.x; }
+    explicit operator long long() const { return x; }
+    ModInt &operator = (const long long p) { x = p; return *this;}
+    ModInt inverse() const {
+        long long a = x, b = mod, u = 1, v = 0, t;
+        while (b > 0) {
+            t = a / b;
+            a -= t * b;
+            std::swap(a, b);
+            u -= t * v;
+            std::swap(u, v);
+        }
+        return ModInt(u);
+    }
+    friend std::ostream & operator << (std::ostream &stream, const ModInt<mod> &p) {
+        return stream << p.x;
+    }
+    friend std::istream & operator >> (std::istream &stream, ModInt<mod> &a) {
+        long long x;
+        stream >> x;
+        a = ModInt<mod>(x);
+        return stream;
+    }
+};
+
+template<long long mod> struct MComb {
+    using mint = ModInt<mod>;
+    std::vector<mint> fact;
+    std::vector<mint> inv;
+    MComb (long long n) { // O(n + log(mod))
+        fact = std::vector<mint>(n + 1, 1);
+        for (long long i = 1; i <= n; i++) fact[i] = fact[i - 1] * mint(i);
+        inv.resize(n + 1);
+        inv[n] = fact[n] ^ (mod - 2);
+        for (long long i = n; i--; ) inv[i] = inv[i + 1] * mint(i + 1);
+    }
+    mint ncr(long long n, long r) {
+        return fact[n] * inv[r] * inv[n - r];
+    }
+    mint npr(long n, long r) {
+        return fact[n] * inv[n - r];
+    }
+    //nhr : n : shikiri + 1, r : tamanokazu
+    mint nhr(long n, long r) {
+        assert(n + r - 1 < (long long) fact.size());
+        return ncr(n + r - 1, r);
+    }
+};
+
+template<long long mod> struct MPow {
+    using mint = ModInt<mod>;
+    mint modpow(mint a, long long n) {
+        mint res = 1;
+            while(n > 0){
+            if(n & 1){
+                res = res * a;
+            }
+            a = a * a;
+            n >>= 1;
+        }
+        return res;
+    }
+};
+
+typedef ModInt<998244353> mint;
+MComb<998244353> com(510000);
+MPow<998244353> mpow;
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m, k;
     cin >> n >> m >> k;
 
-    vector<vector<ll>> dp(n+1, vector<ll>(k+1));
-
-    if(n == 1){
-        cout << m << endl;
-        return 0;
+    mint ans = 0;
+    // n個 m色 k組以下
+    // 3 2 1 
+    // ○ ○ ○
+    for(ll i = 0; i <= k; i++){
+        mint tmp = com.ncr(n-1, i);
+        ans += tmp * m * mpow.modpow((m-1), (n-1) - i);
     }
-
-    if(m == 1){
-        if(k <= n-1){
-            cout << 1 << endl;
-        }else{
-            cout << 0 << endl;
-        }
-        return 0;
-    }
-
-    
-    dp[0][0] = m;
-    dp[0][1] = 0;
-
-    for(ll i = 1; i < n; i++){
-
-        rep(j,k+1){
-            if(j == 0){
-                dp[i][j] = (dp[i-1][j] * (m - 1)) % MOD;
-            }else{
-                dp[i][j] = ( ((dp[i-1][j] * (m-1)) % MOD) + (dp[i-1][j-1]) ) % MOD;
-            }
-        }
-
-    }
-
-    ll ans = 0;
-    rep(i,k+1){
-        ans = (ans + dp[n-1][i]) % MOD;
-    }
-
     cout << ans << endl;
+    
     
     
 

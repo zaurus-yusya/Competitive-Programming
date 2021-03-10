@@ -271,6 +271,7 @@ using pii = pair<int, int>;
 //変数名.erase(key);	
 //変数名.at(key)
 //変数名.count(key) //要素があるかどうかのチェック
+//変数名.find(key)
 //変数名.size()
 //mapの要素の出力
 for(auto i: mp){

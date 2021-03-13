@@ -33,74 +33,69 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    vector<vector<ll>> vec(n);
+    ll n, m, q; cin >> n >> m >> q;
+    vector<ll> w(n);
+    vector<ll> v(n);
+    vector<P> p(n);
+    vector<ll> x(m);
+    rep(i, n){
+        cin >> w[i] >> v[i];
+        p[i] = {v[i], w[i]};
+    }
     rep(i, m){
-        ll a, b; cin >> a >> b; a--; b--;
-        vec[a].push_back(b);
-        vec[b].push_back(a);
-    }
-    ll k; cin >> k;
-    vector<ll> c(k);
-    rep(i, k){
-        cin >> c[i]; c[i]--;
+        cin >> x[i];
     }
 
-    vector<vector<ll>> dist(k, vector<ll>(k));
+    sort(all(p),greater<P>());
 
-    
-    //BFS
-    vector<ll> d(n, -1);
-    for(ll i = 0; i < k; i++){
-        d.assign(n, -1);
-        queue<ll> que;
-        que.push(c[i]);
-        d[c[i]] = 0;
-
-        while(!que.empty()){
-            ll now = que.front(); que.pop();
-            ll now_d = d[now];
-            for(auto next : vec[now]){
-                if(d[next] != -1) continue;
-                d[next] = now_d + 1;
-                que.push(next);
-            }
-        }
-
-        for(ll j = 0; j < k; j ++){
-            if(d[c[j]] == -1) d[c[j]] = INF;
-            dist[i][j] = d[c[j]];
-        }
-
-    }
     /*
-    rep(i, k){
-        rep(j, k){
-            cout << dist[i][j] << " ";
-        }br;
+    rep(i, n){
+        cout << p[i].first << " " << p[i].second << endl;
     }
     */
 
-    //bitDP
-    vector<vector<ll>> dp((1<<k) + 10, vector<ll>(k, INF));
-    for(ll i = 0; i < k; i++){
-        dp[(1 << i)][i] = 1;
-    }
-    for(ll i = 0; i < (1 << k); i++){
-        for(ll from = 0; from < k; from++){
-            for(ll to = 0; to < k; to++){
-                if(from == to) continue;
-                if(i != 0 && !(i & (1<<from))) continue;
-                if((i & (1 << to)) == 1) continue;
-                dp[i | (1 << to)][to] = min(dp[i | (1 << to)][to], dp[i][from] + dist[from][to]);
+    rep(i, q){
+        ll l, r; cin >> l >> r; l--, r--;
+
+        vector<ll> hako;
+        for(ll i = 0; i < m; i++){
+            if(i < l || r < i){
+                hako.push_back(x[i]);
             }
         }
+
+        //vecdbg(hako);
+        if(hako.size() == 0){
+            cout << 0 << endl; continue;
+        }
+
+        sort(all(hako));
+
+        ll ans = 0;
+
+        map<ll, ll> in;
+        for(ll i = 0; i < hako.size(); i++){ //箱
+            //cout << "hako = " << hako[i] << endl;
+            for(ll j = 0; j < n; j++){ //品物
+                //すでに使ったか
+                if(in[j] > 0) continue;
+                //箱に入るか
+                if(p[j].second <= hako[i]){
+                    //入る
+                    in[j] = 1;
+                    ans += p[j].first;
+                    //cout << "+ " << p[j].first << endl;
+                    break;
+                }else{
+                    //入らない
+
+                }
+            }
+        }
+
+        cout << ans << endl;
+
+
     }
-    ll ans = INF;
-    rep(i, k){
-        ans = min(ans, dp[(1<<k) - 1][i]);
-    }
-    if(ans == INF) ans = -1;
-    cout << ans << endl;
 
 }

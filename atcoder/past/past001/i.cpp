@@ -32,7 +32,32 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
+    vector<string> S(m);
+    vector<ll> C(m);
+    vector<ll> num(m);
+    rep(i, m){
+        cin >> S[i] >> C[i];
+        rep(j, n){
+            if(S[i][j] == 'Y'){
+                num[i] += (1<<(n-1-j));
+            }
+        }
+    }
 
+    vector<ll> dp(1050, INF);
+    dp[0] = 0;
+    for(ll i = 0; i < (1<<n); i++){
+        for(ll j = 0; j < m; j++){
+            dp[i | num[j]] = min(dp[i | num[j]] , dp[i] + C[j]);
+        }
+    }
+    if(dp[(1<<n) - 1] == INF){
+        cout << -1 << endl;
+    }else{
+        cout << dp[(1<<n) - 1] << endl;
+    }
+
+    /*
     vector<string> S(m);
     vector<ll> C(m);
     vector<ll> num(m);
@@ -57,4 +82,5 @@ int main() {
         cout << -1 << endl; return 0;
     }
     cout << dp[(1<<n) - 1] << endl;
+    */
 }

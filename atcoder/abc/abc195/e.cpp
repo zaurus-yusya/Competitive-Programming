@@ -11,16 +11,17 @@ using namespace std;
 const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
-using pll = pair<ll, ll>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
 template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cout << v[i] << " ";} br;}
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cout << v[i][j] << " ";} br;}}
+ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
+using P = pair<ll, ll>;
 
 // 0 false, 1 true 
-// string number to int : -48
+// string number to int : -48 or - '0'
 // a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
@@ -28,6 +29,7 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // DONT FORGET TO INTIALIZE
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
+// (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
 //https://atcoder.jp/contests/abc172/submissions/14765570
 //20200724
@@ -132,37 +134,106 @@ template<long long mod> struct MPow {
     }
 };
 
-typedef ModInt<1000000007> mint;
-MComb<1000000007> com(510000);
-MPow<1000000007> mpow;
+typedef ModInt<7> mint;
+MComb<7> com(510000);
+MPow<7> mpow;
 
+mint dp[200010][7];
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-    vector<long long> vec(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> vec[i];
-    }
+    ll n; cin >> n;
+    string s, x; cin >> s >> x;
 
-    if(k == 1){
-        cout << 0 << endl; return 0;
-    }
-
-    sort(all(vec));
     mint ans = 0;
-
-    //minがvec[i]となる場合
-    for(ll i = 0; i < n; i++){
-        if((n-1-i) - (k-1) < 0) continue;
-        ans -= (com.ncr(n-1-i , k-1) * vec[i]);
+    map<ll, ll> taka;
+    map<ll, ll> aoki;
+    for(ll i = 0; i < n - 1; i ++){
+        ll num = s[i] - '0';
+        //cout << "num = " << num << endl;
+        mint mo = (mint)num * mpow.modpow(10, n-1-i);
+        //cout << "mo = " << mo << endl;
+        if(x[i] == 'T'){
+            taka[(ll)mo]++;
+        }else{
+            aoki[(ll)mo]++;
+        }
     }
-
-    //maxがvec[i]となる場合
-    for(ll i = 0; i < n; i++){
-        if((i) - (k-1) < 0) continue;
-        ans += (com.ncr(i , k-1) * vec[i]);
-    }
-
-    cout << ans << endl;
     
+    //cout << "-taka-" << endl;
+    map<ll, ll> takacan; //7回まででいい
+    takacan[0] = 1;
+    for(auto i : taka){
+        //cout << i.first << " " << i.second << endl;
+        map<ll, ll> tmp;
+        for(ll j = 0; j <= 6; j++){
+            if(takacan[j] == 0) continue;
+            for(ll k = 0; k < i.second; k++){
+                if(k >= 7) break;
+                ll x = (j + i.first) % 7;
+                tmp[x]++;
+            }
+        }
+
+        for(auto j: tmp){
+            takacan[j.first]++;
+        }
+    }
+
+    //cout << "-aoki-" << endl;
+    map<ll, ll> aokican;
+    aokican[0] = 1;
+    for(auto i : aoki){
+        //cout << i.first << " " << i.second << endl;
+        map<ll, ll> tmp;
+        for(ll j = 0; j <= 6; j++){
+            if(aokican[j] == 0) continue;
+            for(ll k = 0; k < i.second; k++){
+                if(k >= 7) break;
+                ll x = (j + i.first) % 7;
+                tmp[x]++;
+            }
+        }
+
+        for(auto j: tmp){
+
+            aokican[j.first]++;
+        }
+    }
+
+    /*
+    cout << "-takacan-" << endl;
+    for(auto i: takacan){
+        cout << i.first << " " << i.second << endl;
+    }
+    cout << "-aokican-" << endl;
+    for(auto i: aokican){
+        cout << i.first << " " << i.second << endl;
+    }
+    */
+
+    ll num = s[n-1] - '0';
+    if(x[n-1] == 'T'){
+        for(auto i: aokican){
+            if(i.first == 0) continue;
+            if(i.second > 0){
+                if(takacan[7 - i.first] == 0){
+                    if(num != 0 && i.first != 7 - num){
+                        cout << "Aoki" << endl; return 0;
+                    }
+                }
+            }
+        }
+        cout << "Takahashi" << endl;
+    }
+    if(x[n-1] == 'A'){
+        if(num != 0){
+            cout << "Aoki" << endl; return 0;
+        }else{
+            
+        }
+    }
+    
+
+    
+
 }

@@ -18,73 +18,42 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
 
+ll dpa[100010][2][2];
+ll dpb[100010][2][2];
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll a, b; cin >> a >> b; a--;
-    ll keta_a = 0, keta_b = 0;
-    string s = to_string(a), t = to_string(b);
 
-    ll tmp_a = a;
-    while(true){
-        keta_a ++;
-        if(tmp_a / 10 == 0){
-            break;
-        }
-        tmp_a /= 10;
-    }
-    ll tmp_b = b;
-    while(true){
-        keta_b ++;
-        if(tmp_b / 10 == 0){
-            break;
-        }
-        tmp_b /= 10;
-    }
+    ll x, y; cin >> x >> y; x--;
+    string a = to_string(x);
+    string b = to_string(y);
+    ll ketaa = a.size(), ketab = b.size();
 
-
-    ll dp_a[keta_a + 1][2][2];
-    ll dp_b[keta_b + 1][2][2];
-
-    rep(i, keta_a+1){
-        rep(j, 2){
-            rep(k, 2){
-                dp_a[i][j][k] = 0;
-            }
-        }
-    }
-    rep(i, keta_b+1){
-        rep(j, 2){
-            rep(k, 2){
-                dp_b[i][j][k] = 0;
-            }
-        }
-    }
-
-    dp_a[0][0][0] = 1;
-    dp_b[0][0][0] = 1;
-
-    for(ll i = 0; i < keta_a; i++){
-        ll tmp = s[i] - '0';
-        for(ll j = 0; j < 2; j++){
-            for(ll k = 0; k < 2; k ++){
-                for(ll d = 0; d <= (j ? 9 : tmp); d++){
-                    dp_a[i+1][j || d < tmp][k || d == 4 || d == 9] += dp_a[i][j][k];
+    //hinagata
+    dpa[0][0][0] = 1;
+    for(ll i = 0; i < ketaa; i++){
+        ll num = a[i] - '0'; //stringの数値を文字列型
+        for(ll smaller = 0; smaller < 2; smaller++){ //smaller: 未満フラグ
+            for(ll k = 0; k < 2; k++){
+                for(ll j = 0; j <= (smaller ? 9 : num); j++){
+                    dpa[i+1][smaller || (j < num)][k || (j == 4) || (j == 9)] += dpa[i][smaller][k];
                 }
-            }
+            } 
         }
     }
 
-    for(ll i = 0; i < keta_b; i++){
-        ll tmp = t[i] - '0';
-        for(ll j = 0; j < 2; j++){
-            for(ll k = 0; k < 2; k ++){
-                for(ll d = 0; d <= (j ? 9 : tmp); d++){
-                    dp_b[i+1][j || d < tmp][k || d == 4 || d == 9] += dp_b[i][j][k];
+    dpb[0][0][0] = 1;
+    for(ll i = 0; i < ketab; i++){
+        ll num = b[i] - '0'; //stringの数値を文字列型
+        for(ll smaller = 0; smaller < 2; smaller++){ //smaller: 未満フラグ
+            for(ll k = 0; k < 2; k++){
+                for(ll j = 0; j <= (smaller ? 9 : num); j++){
+                    dpb[i+1][smaller || (j < num)][k || (j == 4) || (j == 9)] += dpb[i][smaller][k];
                 }
-            }
+            } 
         }
     }
 
-    cout << (dp_b[keta_b][0][1] + dp_b[keta_b][1][1]) - (dp_a[keta_a][0][1] + dp_a[keta_a][1][1]) << endl;
+    cout << dpb[ketab][0][1] + dpb[ketab][1][1] - dpa[ketaa][0][1] - dpa[ketaa][1][1] << endl;
 
 }

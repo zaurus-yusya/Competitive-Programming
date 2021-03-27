@@ -77,9 +77,30 @@ int main() {
         cin >> a[i];
     }
 
-    
-
     ll ans = INF;
+
+    for(ll bit = 0; bit < (1<<(n-1)); bit++){
+
+        for(ll i = 0; i < n; i++){
+            ll now = 0;
+            ll o = 0;
+
+            rep(i, n){
+                o |= a[i];
+                if((bit>>i) & 1){
+                    now ^= o;
+                    o = 0;
+                }else{
+
+                }
+            }
+            now ^= o;
+            ans = min(ans, now);
+        }
+    }
+
+
+    /*
     for(ll bit = 0; bit < (1<<(n-1)); bit++){
         UnionFind uf(n);
         vector<ll> tmp;
@@ -116,6 +137,7 @@ int main() {
 
 
     }
+    */
 
     cout << ans << endl;
 

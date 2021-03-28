@@ -31,22 +31,107 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+void slide(vector<ll> &vec, ll ind, ll x){
+    vector<ll> res(vec.size() + 1);
+    ll now = 0;
+    for(ll i = 0; i <= ind; i++){
+        res[i] = vec[i];
+    }
+    res[ind+1] = x;
+    for(ll i = ind+1; i < vec.size(); i++){
+        res[i+1] = vec[i];
+    }
+    vec = res;
+}
+
+void left_insert(vector<ll> &vec, ll x){
+    vector<ll> res(vec.size() + 1);
+    rep(i, vec.size()){
+        res[i+1] = vec[i];
+    }
+    res[0] = x;
+    vec = res;
+}
+
+
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t, n, q; cin >> t >> n >> q;
     cerr << t << " " << n << " " << q << endl;
     ll x; 
+    ll Q;
     rep(T, t){
-        cerr << "in" << T << endl;
+        
+        cerr << "Test in " << T << endl;
         cout << "1 2 3" << endl;
+        Q++;
         fflush(stdout);
 
         cin >> x;
         cerr << x << endl;
+        vector<ll> res;
+        if(x == 1){
+            res = {2, 1, 3};
+        }else if(x == 2){
+            res = {1, 2, 3};
+        }else{
+            res = {1, 3, 2};
+        }
+
+        for(ll i = 3; i < n; i++){
+            
+            ll mid = (0 + i-1)/2;
+            ll L = 0, R = (i-1);
+            cerr << "mid = " << mid << endl;
+
+            while(true){
+                ll l = res[mid], r = res[mid+1];
+                cout << l << " " << i+1 << " " << r << endl;
+                Q++;
+                fflush(stdout);
+                ll x; cin >> x;
+                if(x == (i+1)){
+                    //おわり
+                    slide(res, mid, (i+1));
+                    break;
+                }else if(x == l){
+                    
+                    if(mid == 0){
+                        //終わり
+                        left_insert(res, (i+1));
+                        break;
+                    }else{
+                        //左にある
+                        R = mid;
+                        mid = (L + mid) / 2;
+                        
+                    }
+                    
+                }else{
+
+                    if(mid == (i-2)){
+                        //終わり
+                        res.push_back(((i+1)));
+                        break;
+                    }else{
+                        //右にある
+                        L = mid;
+                        mid = (mid + R) / 2;
+                        
+                    }
+                    
+                }
+            }
+
+            cerr << "vec size = " << i+1 << endl;
+
+
+        }
         
         rep(i, n){
-            if(i == 0) cout << i+1;
-            else cout << " " << i+1;
+            if(i == 0) cout << res[i];
+            else cout << " " << res[i];
         }br;
         fflush(stdout);
 
@@ -55,7 +140,9 @@ int main() {
         if(x == -1){
             exit(0);
         }
-        
+    
     }
+    cerr << Q << endl;
+    
 
 }

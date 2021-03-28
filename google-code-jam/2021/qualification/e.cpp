@@ -34,48 +34,41 @@ using P = pair<ll, ll>;
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
+    ll p; cin >> p;
+
     rep(T, t){
-        ll x, y; cin >> x >> y;
-        string s; cin >> s;
-        ll n = s.size();
-        vector<vector<ll>> dp(n + 1, vector<ll>(2, INF));
-        // 0 : C, 1 : J
-        dp[0][0] = 0; dp[0][1] = 0;
-        for(ll i = 0; i < n; i++){
-            if(i == 0){
-                if(s[i] == 'C'){
-                    dp[i+1][0] = 0;
-                    dp[i+1][1] = INF;
-                }else if(s[i] == 'J'){
-                    dp[i+1][0] = INF;
-                    dp[i+1][1] = 0;
-                }else{
-                    dp[i+1][0] = 0;
-                    dp[i+1][1] = 0;
-                }
+        vector<string> vec(100);
+
+        rep(i, 100){
+            string s; cin >> s;
+            vec[i] = s;
+        }
+        vector<ll> score(10000);
+        rep(i, 10000){
+            ll cnt = 0;
+            rep(j, 100){
+                if(vec[j][i] == '1') cnt++;
             }
-            if(i > 0){
-                if(s[i] == 'C'){
-                    dp[i+1][1] = INF;
-                    /*if(dp[i][0] != -1)*/ dp[i+1][0] = min(dp[i+1][0], dp[i][0]);
-                    /*if(dp[i][1] != -1)*/ dp[i+1][0] = min(dp[i+1][0], dp[i][1] + y);
-                }else if(s[i] == 'J'){
-                    dp[i+1][0] = INF;
-                    /*if(dp[i][0] != -1)*/ dp[i+1][1] = min(dp[i+1][1], dp[i][0] + x);
-                    /*if(dp[i][1] != -1)*/ dp[i+1][1] = min(dp[i+1][1], dp[i][1]);
-                }else{
-                    /*if(dp[i][0] != -1)*/ dp[i+1][0] = min(dp[i+1][0], dp[i][0]);
-                    /*if(dp[i][0] != -1)*/ dp[i+1][1] = min(dp[i+1][1], dp[i][0] + x);
-                    /*if(dp[i][1] != -1)*/ dp[i+1][0] = min(dp[i+1][0], dp[i][1] + y);
-                    /*if(dp[i][1] != -1)*/ dp[i+1][1] = min(dp[i+1][1], dp[i][1]);
-                }
-            }
-            
-            
+            score[i] = cnt;
         }
 
-        ll ans = min(dp[n][0], dp[n][1]);
-        cout << "Case #" << (T+1) << ": " << ans << endl;
+        ld ma = -1; ll ind = -1;
+        rep(i, 100){
+            ld cnt = 0;
+            rep(j, 10000){
+                
+                if(vec[i][j] == '1'){
+                    cnt += (ld)(100-score[j]) / (ld)100;
+                }
+                
+            }
+            if(ma < cnt){
+                ma = cnt; ind = (i+1);
+            }
+
+        }
+
+        cout << "Case #" << (T+1) << ": " << ind << endl;
     }
 
 }

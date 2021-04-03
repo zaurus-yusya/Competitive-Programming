@@ -32,20 +32,34 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
 
-    vector<ll> A(n);
-    vector<ll> B(m);
+    vector<ll> S(n);
+    vector<ll> T(m);
     rep(i, n){
-        cin >> A[i];
+        cin >> S[i];
     }
     rep(i, m){
-        cin >> B[i];
+        cin >> T[i];
+    }
+    //レーベンシュタイン距離
+    vector<vector<ll>> dp(S.size() + 1, vector<ll>(T.size() + 1, INF));
+    dp[0][0] = 0;
+    rep(i, S.size() + 1) dp[i][0] = i;
+    rep(i, T.size() + 1) dp[0][i] = i;
+
+
+    for(ll i = 0; i < S.size(); i++){
+        for(ll j = 0; j < T.size(); j++){
+            chmin(dp[i+1][j+1], dp[i][j+1] + 1);
+            chmin(dp[i+1][j+1], dp[i+1][j] + 1);
+            if(S[i] == T[j]){
+                chmin(dp[i+1][j+1], dp[i][j]);
+            }else{
+                chmin(dp[i+1][j+1], dp[i][j] + 1);
+            }
+        }
     }
 
-    if(A.size() > B.size()){
-        vector<ll> C;
-        A = C;
-        A = B;
-        B = C;
-    }
+    cout << dp[S.size()][T.size()] << endl;
+    
 
 }

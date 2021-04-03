@@ -1,126 +1,92 @@
 #include <bits/stdc++.h>
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define pb push_back
-#define mp make_pair
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const int INF = 1e9;
-const int MOD = 1e9+7;
+const long long INF = 1e18;
+const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
+ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
+using P = pair<ll, ll>;
 
 // 0 false, 1 true 
-// string to int : -48
+// string number to int : -48 or - '0'
+// a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
+// global vector -> 0 initialization
+// DONT FORGET TO INTIALIZE
+// The type of GRID is CHAR. DONT USE STRING
+// If the result in local and judge is different, USE CODETEST!!
+// (a * b)over flow?   if(a > INF / b){ /* overflow */}
+
+vector<ll> dxx = {1, -1, 0, 0};
+vector<ll> dyy = {0, 0, 1, -1};
 
 int main() {
-    std::cout << std::fixed << std::setprecision(6);
-    ll T;
-    cin >> T;
-    rep(t, T){
-        ll r, c;
-        cin >> r >> c;
-        vector<vector<ld>> vec(r, vector<ld>(c));
-        vector<ld> yoko_sum(r);
-        vector<ld> tate_sum(c);
-        vector<ld> yoko_num(r, r);
-        vector<ld> tate_num(c, c);
-        for(long long i = 0; i < r; i++){
-            for(long long j = 0; j < c; j++){
-                cin >> vec[i][j];
-                yoko_sum[i] += vec[i][j];
-                tate_sum[j] += vec[i][j];
+    std::cout << std::fixed << std::setprecision(15);
+    ll t; cin >> t;
+    rep(T, t){
+        ll h, w; cin >> h >> w;
+        vector<vector<ll>> vec(h, vector<ll>(w));
+        ll direction[h][w][4];
+        ll sum = 0;
+        map<P, ll> mp;
+        rep(i, h){
+            rep(j, w){
+                cin >> vec[i][j]; sum += vec[i][j];
+                mp[{i, j}] = 1;
+                rep(k, 4) direction[i][j][k] = 0;
             }
         }
-
-        /*
-        rep(i,r){
-            cout << yoko_sum[i] << endl;
-        }
-
-        rep(i,c){
-            cout << tate_sum[i] << endl;
-        }
-
-        rep(i,r){
-            cout << yoko_num[i] << endl;
-        }
-
-        rep(i,c){
-            cout << tate_num[i] << endl;
-        }
-        */
-
-        /*
-       rep(i,r){
-           rep(j,c){
-               cout << yoko_num[i] + tate_num[j] - 1<< " ";
-           }
-           cout << endl;
-       }
-        
-
-        cout << endl;
-        rep(i,r){
-            rep(j,c){
-                cout << yoko_sum[i] + tate_sum[j] - vec[i][j]<< " ";
-            }
-            cout << endl;
-        }
-        */
 
         ll ans = 0;
-        vector<vector<ld>> res(r, vector<ld>(c));
+        map<P, ll> tmp;
         while(true){
+            ans += sum;
+            cout << "sum = " << sum << endl;
             
-            bool flag = false;
-            rep(i,r){
-                rep(j,c){
-                    if(res[i][j] == 0){
-                        long double tmp = (double)yoko_sum[i] + tate_sum[j] - vec[i][j];
-                        long double tmp2 = (double)yoko_num[i] + tate_num[j] - 1;
-                        long double me = tmp / tmp2;
-                        //cout << tmp / tmp2 << " ";
-                        ans += vec[i][j];
-                        if(vec[i][j] < me){
-                            res[i][j] = 1;
-                            flag = true;
-                        }
+            tmp = mp; mp.clear();
+            //見るとこを全部見る
+            for(auto i: tmp){
+                ll x = i.first.second, y = i.first.first;
+
+                rep(j, 4){
+                    ll dx = dxx[j], dy = dyy[j];
+                    //壁ならスルー
+                    if(x + dx < 0 || x + dx >= w) continue;
+                    if(y + dy < 0 || y + dy >= h) continue;
+
+                    //脱落チェック
+                    if(vec[y][x] < vec[y + dy][x + dx]){
+                        //合計引く
+                        cout << "fall " << y << " " << x << " " << y+dy << " " << x+dx << " " << vec[y][x] << " " << vec[y + dy][x + dx]<< endl;
+                        sum -= vec[y][x];
+                        //次見るところに追加
+                        mp[{y + dy,x + dx}] = 1;
                     }
                 }
+
             }
 
-            if(flag == true){
-                rep(i,r){
-                    rep(j,c){
-                        if(res[i][j] == 1){
-                            res[i][j] == 2;
-                            yoko_num[i]--;
-                            tate_num[j]--;
-                            yoko_sum[i]-= vec[i][j];
-                            tate_sum[j]-= vec[i][j];
-                        }
-                    }
-                }
-            }else{
-                break;
-            }
+            if(mp.size() == 0) break;
+
             
+            //sumの減算
         }
 
-
-        
-        cout << "Case #" << t+1 <<": ";
-        cout << ans << endl;
-        
-
-
+        cout << "Case #" << (T+1) << ":" << ans << '\n';
     }
 
 }

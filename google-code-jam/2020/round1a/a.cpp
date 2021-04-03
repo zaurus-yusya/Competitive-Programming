@@ -1,191 +1,114 @@
 #include <bits/stdc++.h>
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
+typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define pb push_back
-#define mp make_pair
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const int INF = 1e9;
-const int MOD = 1e9+7;
+const long long INF = 1e18;
+const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
+ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
+using P = pair<ll, ll>;
 
 // 0 false, 1 true 
-// string to int : -48
+// string number to int : -48 or - '0'
+// a to A : -32
 // ceil(a)  1.2->2.0
 // c++17	g++ -std=c++17 a.cpp
+// global vector -> 0 initialization
+// DONT FORGET TO INTIALIZE
+// The type of GRID is CHAR. DONT USE STRING
+// If the result in local and judge is different, USE CODETEST!!
+// (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll T;
-    cin >> T;
-    rep(t,T){
-        ll n;
-        cin >> n;
-        vector<string> vec(n);
-        vector<string> vec2(n);
-        vector<ll> vec_size(n);
-        vector<ll> vec_ast(n);
-        //test1
-        ll size = 0;
+    ll t; cin >> t;
+    //100
+    //50 * 100
+    rep(T, t){
+        ll n; cin >> n;
+        vector<string> s(n);
+        rep(i, n) cin >> s[i];
+
+        vector<string> l;
+        vector<string> r;
+        ll l_max = 0, r_max = 0;
+        // l
         rep(i, n){
-            cin >> vec[i];
-            vec2[i] = vec[i];
-            vec_size[i] = (ll)vec[i].size();
-            reverse(all(vec[i]));
-            size = max(size, (ll)vec[i].size());
-        }
-
-
-        rep(i,n){
-            rep(j,vec_size[i]){
-                if(vec[i][j] == '*'){
-                    vec_ast[i] = j;
-                }
+            string tmp = "";
+            for(ll j = 0; j < s[i].size(); j++){
+                if(s[i][j] == '*') break;
+                tmp += s[i][j];
+            }
+            if(tmp != ""){
+                l.push_back(tmp);
+                chmax(l_max, (ll)tmp.size());
             }
         }
-        /*
-        rep(i,n){
-            cout << vec_ast[i] << endl;
+        // r
+        rep(i, n){
+            string tmp = "";
+            for(ll j = s[i].size() - 1; j < s[i].size(); j--){
+                if(s[i][j] == '*') break;
+                tmp += s[i][j];
+            }
+            if(tmp != ""){
+                r.push_back(tmp);
+                chmax(r_max, (ll)tmp.size());
+            }
         }
-        */
-        
-        //back
-        vector<ll> ast_flag(n);
-        vector<char> ans;
+
+        //cerr << l_max << " " << r_max << endl;
+
         bool flag = true;
-        rep(i,size){
-            char tmp = '-';
-            rep(j,n){
-                if(i >= vec_size[j]){
-                    continue;
-                }
-                if(ast_flag[j] == 1){
-                    continue;
-                }
-                if(vec[j][i] == '*'){
-                    ast_flag[j] = 1;
-                    continue;
-                }
+        vector<char> lf(l_max, ' '), rf(r_max, ' ');
 
-                if(tmp == '-'){
-                    //cout << vec[j][i] << endl;
-                    tmp = vec[j][i];
-                }else{
-                    if(vec[j][i] != tmp){
-                        //cout << vec[j][i] << endl;
-                        flag = false;
-                    }
+        rep(i, l.size()){
+            rep(j, l[i].size()){
+                if(lf[j] == ' '){
+                    lf[j] = l[i][j];
+                }else if(lf[j] != l[i][j]){
+                    //cerr << "l " << i << " " << j << endl;
+                    flag = false;
                 }
             }
-            if(flag && tmp != '-'){
-                ans.push_back(tmp);
-            }else{
-                break;
-            }
-            
         }
-        ///back
-
-        
-        //front
-        vector<ll> ast_flag2(n);
-        vector<char> ans2;
-        bool flag2 = true;
-        rep(i,size){
-            char tmp = '-';
-            rep(j,n){
-                if(i >= vec_size[j]){
-                    continue;
-                }
-                if(ast_flag2[j] == 1){
-                    continue;
-                }
-                if(vec2[j][i] == '*'){
-                    ast_flag2[j] = 1;
-                    continue;
-                }
-                if(tmp == '-'){
-                    //cout << vec[j][i] << endl;
-                    tmp = vec2[j][i];
-                }else{
-                    if(vec2[j][i] != tmp){
-                        //cout << "ok" << endl;
-                        flag2 = false;
-                    }
+        rep(i, r.size()){
+            rep(j, r[i].size()){
+                if(rf[j] == ' '){
+                    rf[j] = r[i][j];
+                }else if(rf[j] != r[i][j]){
+                    //cerr << "r " << i << " " << j << endl;
+                    flag = false;
                 }
             }
-            if(flag2 && tmp != '-'){
-                ans2.push_back(tmp);
-            }else{
-                break;
-            }
-            
         }
-        ///front
-        
 
-        
-        cout << "Case #" << t+1 <<": ";
-        if(flag == false || flag2 == false){
-            cout << "*" << endl;
+        if(flag){
+            string ans = "";
+            rep(i, lf.size()) ans += lf[i];
+            rep(i, n){
+                rep(j, s[i].size()){
+                    if(s[i][j] != '*') ans += s[i][j];
+                }
+            }
+            rep(i, rf.size()) ans += rf[rf.size() - 1 - i];
+
+            cout << "Case #" << (T+1) << ": " << ans << endl;
         }else{
-            if(ans2.size() != 0){
-                rep(i,ans2.size()){
-                    cout << ans2[i];
-                }
-            }
-
-            rep(i,n){
-                rep(j,vec2[i].size()){
-                    if(vec2[i][j] != '*'){
-                        cout << vec2[i][j];
-                    }
-                }
-            }
-
-            if(ans.size() != 0){
-                reverse(all(ans));
-                rep(i,ans.size()){
-                    cout << ans[i];
-                }
-                cout << endl;
-            }
-
+            cout << "Case #" << (T+1) << ": *" << endl;
         }
-
-        /*
-        if(flag == false){
-            cout << "*" << endl;
-        }else{
-            reverse(all(ans));
-            rep(i,ans.size()){
-                cout << ans[i];
-            }
-            cout << endl;
-        }
-        
-        cout << "Case #" << t+1 <<": ";
-        if(flag2 == false){
-            cout << "*" << endl;
-        }else{
-            //reverse(all(ans2));
-            rep(i,ans2.size()){
-                cout << ans2[i];
-            }
-            cout << endl;
-        }
-        */
-        
-        
-
-        
-        
-
-
     }
 
 }

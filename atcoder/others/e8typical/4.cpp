@@ -33,52 +33,43 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; ll k;
-    cin >> s >> k;
-    vector<queue<ll>> alphabet(26);
-
-    rep(i, s.size()){
-        ll posiex = s[i] - 'a';
-        alphabet[posiex].push(i);
-    }
-
-    string ans = "";
-
-    ll cnt = 0;
-    ll lastchoice = -1;
-
-    while(cnt < k){
-        //cout << "cnt = " << cnt << endl;
-        for(ll i = 0; i < 26; i++){
-            bool flag = false;
-
-            while(!alphabet[i].empty()){
-                ll posi = alphabet[i].front();
-                if(lastchoice < posi && posi <= s.size() - k + cnt){
-                    //取れた
-                    ans += i + 'a';
-                    lastchoice = posi;
-                    //cout << lastchoice << endl;
-                    cnt++;
-                    alphabet[i].pop();
-                    flag = true;
-                    break;
-                }else{
-                    //取れなかった
-                    if(lastchoice >= posi){
-                        //すでに見てるところがlastchoiceより左だったらpopして次を見る
-                        alphabet[i].pop(); //この処理は全体を通してs.size()回
-                    }else{
-                        break;
-                    }
-                }
-            }
-
-            if(flag) break; //文字取れてたらbreak
+    ll h, w; cin >> h >> w;
+    vector<vector<ll>> vec(h, vector<ll>(w));
+    rep(i, h){
+        rep(j, w){
+            cin >> vec[i][j];
         }
-
     }
 
-    cout << ans << endl;
+    vector<ll> sumr(h);
+    vector<ll> sumc(w);
+    rep(i, h){
+        ll sum = 0;
+        rep(j, w){
+            sum += vec[i][j];
+        }
+        sumr[i] = sum;
+    }
+    rep(j, w){
+        ll sum = 0;
+        rep(i, h){
+            sum += vec[i][j];
+        }
+        sumc[j] = sum;
+    }
+
+    vector<vector<ll>> ans(h, vector<ll>(w));
+    rep(i, h){
+        rep(j, w){
+            ans[i][j] = sumr[i] + sumc[j] - vec[i][j];
+        }
+    }
+
+    rep(i, h){
+        rep(j, w){
+            cout << ans[i][j] << " ";
+        }br;
+    }
+
 
 }

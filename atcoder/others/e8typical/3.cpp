@@ -31,54 +31,44 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+vector<ll> seen;
+ll ma = 0;
+ll ma_node = -1;
+void dfs(vector<vector<ll>> &g, ll v, ll score){
+    seen[v] = 1;
+
+    if(ma < score){
+        ma = score;
+        ma_node = v;
+    }
+
+    for(auto next: g[v]){
+        if(seen[next] == 1){
+            continue;
+        }else{
+            dfs(g, next, score + 1);
+        }
+    }
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; ll k;
-    cin >> s >> k;
-    vector<queue<ll>> alphabet(26);
-
-    rep(i, s.size()){
-        ll posiex = s[i] - 'a';
-        alphabet[posiex].push(i);
+    ll n; cin >> n;
+    vector<vector<ll>> g(n);
+    rep(i, n-1){
+        ll a, b; cin >> a >> b; a--; b--;
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
 
-    string ans = "";
+    seen.assign(n, 0);
+    dfs(g, 0, 0);
+    ma = 0;
+    seen.assign(n, 0);
+    dfs(g, ma_node, 0);
 
-    ll cnt = 0;
-    ll lastchoice = -1;
+    cout << ma + 1 << endl;
 
-    while(cnt < k){
-        //cout << "cnt = " << cnt << endl;
-        for(ll i = 0; i < 26; i++){
-            bool flag = false;
 
-            while(!alphabet[i].empty()){
-                ll posi = alphabet[i].front();
-                if(lastchoice < posi && posi <= s.size() - k + cnt){
-                    //取れた
-                    ans += i + 'a';
-                    lastchoice = posi;
-                    //cout << lastchoice << endl;
-                    cnt++;
-                    alphabet[i].pop();
-                    flag = true;
-                    break;
-                }else{
-                    //取れなかった
-                    if(lastchoice >= posi){
-                        //すでに見てるところがlastchoiceより左だったらpopして次を見る
-                        alphabet[i].pop(); //この処理は全体を通してs.size()回
-                    }else{
-                        break;
-                    }
-                }
-            }
-
-            if(flag) break; //文字取れてたらbreak
-        }
-
-    }
-
-    cout << ans << endl;
 
 }

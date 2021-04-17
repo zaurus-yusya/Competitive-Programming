@@ -31,54 +31,53 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; ll k;
-    cin >> s >> k;
-    vector<queue<ll>> alphabet(26);
-
-    rep(i, s.size()){
-        ll posiex = s[i] - 'a';
-        alphabet[posiex].push(i);
+    ll n, l; cin >> n >> l;
+    ll k; cin >> k;
+    vector<long long> a;
+    a.push_back(0);
+    for(long long i = 0; i < n; i ++){
+        ll x; cin >> x;
+        a.push_back(x);
     }
+    a.push_back(l);
 
-    string ans = "";
+    ll ok = -1, ng = l + 1;
 
-    ll cnt = 0;
-    ll lastchoice = -1;
+    while((ng - ok) > 1){
+        ll mid = (ok + ng) / 2;
 
-    while(cnt < k){
-        //cout << "cnt = " << cnt << endl;
-        for(ll i = 0; i < 26; i++){
-            bool flag = false;
-
-            while(!alphabet[i].empty()){
-                ll posi = alphabet[i].front();
-                if(lastchoice < posi && posi <= s.size() - k + cnt){
-                    //取れた
-                    ans += i + 'a';
-                    lastchoice = posi;
-                    //cout << lastchoice << endl;
-                    cnt++;
-                    alphabet[i].pop();
-                    flag = true;
-                    break;
-                }else{
-                    //取れなかった
-                    if(lastchoice >= posi){
-                        //すでに見てるところがlastchoiceより左だったらpopして次を見る
-                        alphabet[i].pop(); //この処理は全体を通してs.size()回
-                    }else{
-                        break;
-                    }
-                }
+        ll tmp = 0, cnt = 1;
+        bool flag = true;
+        for(ll i = 1; i <= n+1; i++){
+            
+            if(tmp + a[i] - a[i-1] >= mid){
+                //切る
+                if(i != n+1) cnt += 1;
+                tmp = 0;
+            }else{
+                //切らない
+                tmp += a[i] - a[i-1];
             }
 
-            if(flag) break; //文字取れてたらbreak
+        }
+
+        if(tmp != 0){
+            if(tmp < mid){
+                cnt -= 1;
+            }
+        }
+
+        if(cnt >= k+1){
+            ok = mid;
+        }else{
+            ng = mid;
         }
 
     }
+    cout << ok << endl;
 
-    cout << ans << endl;
 
 }

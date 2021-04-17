@@ -33,52 +33,23 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; ll k;
-    cin >> s >> k;
-    vector<queue<ll>> alphabet(26);
+    ll n; cin >> n;
+    vector<long long> a(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> a[i];
+    }
+    ll q; cin >> q;
+    vector<long long> b(q);
+    for(long long i = 0; i < q; i ++){
+        cin >> b[i];
+    }
+    sort(all(a));
 
-    rep(i, s.size()){
-        ll posiex = s[i] - 'a';
-        alphabet[posiex].push(i);
+    ll ans = 0;
+
+    rep(i, q){
+        
     }
 
-    string ans = "";
-
-    ll cnt = 0;
-    ll lastchoice = -1;
-
-    while(cnt < k){
-        //cout << "cnt = " << cnt << endl;
-        for(ll i = 0; i < 26; i++){
-            bool flag = false;
-
-            while(!alphabet[i].empty()){
-                ll posi = alphabet[i].front();
-                if(lastchoice < posi && posi <= s.size() - k + cnt){
-                    //取れた
-                    ans += i + 'a';
-                    lastchoice = posi;
-                    //cout << lastchoice << endl;
-                    cnt++;
-                    alphabet[i].pop();
-                    flag = true;
-                    break;
-                }else{
-                    //取れなかった
-                    if(lastchoice >= posi){
-                        //すでに見てるところがlastchoiceより左だったらpopして次を見る
-                        alphabet[i].pop(); //この処理は全体を通してs.size()回
-                    }else{
-                        break;
-                    }
-                }
-            }
-
-            if(flag) break; //文字取れてたらbreak
-        }
-
-    }
-
-    cout << ans << endl;
 
 }

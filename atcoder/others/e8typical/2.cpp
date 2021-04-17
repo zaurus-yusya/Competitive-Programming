@@ -31,54 +31,33 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+ll n;
+
+void calc(ll v, ll l, ll r, string s){
+
+    if(l > n/2 || r > n/2){
+        return;
+    }
+
+    if(v == n){
+        if(l == r){
+            cout << s << "\n";
+        }
+    }else{
+        calc(v+1, l+1, r, s + '(');
+        if(l > r){
+            calc(v+1, l, r+1, s + ')');
+        }
+    }
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; ll k;
-    cin >> s >> k;
-    vector<queue<ll>> alphabet(26);
+    cin >> n;
+    if(n % 2 != 0) return 0;
 
-    rep(i, s.size()){
-        ll posiex = s[i] - 'a';
-        alphabet[posiex].push(i);
-    }
+    calc(0, 0, 0, "");
 
-    string ans = "";
 
-    ll cnt = 0;
-    ll lastchoice = -1;
-
-    while(cnt < k){
-        //cout << "cnt = " << cnt << endl;
-        for(ll i = 0; i < 26; i++){
-            bool flag = false;
-
-            while(!alphabet[i].empty()){
-                ll posi = alphabet[i].front();
-                if(lastchoice < posi && posi <= s.size() - k + cnt){
-                    //取れた
-                    ans += i + 'a';
-                    lastchoice = posi;
-                    //cout << lastchoice << endl;
-                    cnt++;
-                    alphabet[i].pop();
-                    flag = true;
-                    break;
-                }else{
-                    //取れなかった
-                    if(lastchoice >= posi){
-                        //すでに見てるところがlastchoiceより左だったらpopして次を見る
-                        alphabet[i].pop(); //この処理は全体を通してs.size()回
-                    }else{
-                        break;
-                    }
-                }
-            }
-
-            if(flag) break; //文字取れてたらbreak
-        }
-
-    }
-
-    cout << ans << endl;
 
 }

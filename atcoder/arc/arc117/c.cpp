@@ -31,54 +31,29 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+vector<char> hand = {'B', 'W', 'R'};
+
+char janken(char a, char b){
+    if((a == 'B' && b == 'B') || (a == 'W' && b == 'R') || (a == 'R' && b == 'W')){
+        return 'B';
+    }
+    if((a == 'W' && b == 'W') || (a == 'B' && b == 'R') || (a == 'R' && b == 'B')){
+        return 'W';
+    }
+    if((a == 'R' && b == 'R') || (a == 'B' && b == 'W') || (a == 'W' && b == 'B')){
+        return 'R';
+    }
+
+
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; ll k;
-    cin >> s >> k;
-    vector<queue<ll>> alphabet(26);
-
-    rep(i, s.size()){
-        ll posiex = s[i] - 'a';
-        alphabet[posiex].push(i);
+    ll n; cin >> n;
+    string s; cin >> s;
+    if( (n % 2) == 1){
+        s += s;
     }
-
-    string ans = "";
-
-    ll cnt = 0;
-    ll lastchoice = -1;
-
-    while(cnt < k){
-        //cout << "cnt = " << cnt << endl;
-        for(ll i = 0; i < 26; i++){
-            bool flag = false;
-
-            while(!alphabet[i].empty()){
-                ll posi = alphabet[i].front();
-                if(lastchoice < posi && posi <= s.size() - k + cnt){
-                    //取れた
-                    ans += i + 'a';
-                    lastchoice = posi;
-                    //cout << lastchoice << endl;
-                    cnt++;
-                    alphabet[i].pop();
-                    flag = true;
-                    break;
-                }else{
-                    //取れなかった
-                    if(lastchoice >= posi){
-                        //すでに見てるところがlastchoiceより左だったらpopして次を見る
-                        alphabet[i].pop(); //この処理は全体を通してs.size()回
-                    }else{
-                        break;
-                    }
-                }
-            }
-
-            if(flag) break; //文字取れてたらbreak
-        }
-
-    }
-
-    cout << ans << endl;
+    
 
 }

@@ -33,23 +33,17 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
+    ll h, w; cin >> h >> w;
+    if(h == 1 || w == 1){
+        cout << h*w << endl; return 0;
     }
-    ll q; cin >> q;
-    vector<long long> b(q);
-    for(long long i = 0; i < q; i ++){
-        cin >> b[i];
-    }
-    sort(all(a));
-
     ll ans = 0;
-
-    rep(i, q){
-        
+    for(ll i = 0; i < h; i++){
+        if(i % 2 == 1) continue;
+        for(ll j = 0; j < w; j++){
+            if(j % 2 == 0) ans++;
+        }
     }
 
-
+    cout << ans << endl;
 }

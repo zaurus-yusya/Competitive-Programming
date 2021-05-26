@@ -31,108 +31,55 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-void tree_check(vector<vector<ll>> &g){
-    rep(i, g.size()){
-        rep(j, g[i].size()){
-            cout << g[i][j] << " ";
-        }br;
+ll n;
+ll cnt = 0;
+vector<pair<ll, ll>> inout(n);
+vector<ll> depth(n);
+vector<ll> seen(n);
+void dfs(vector<vector<ll>> &g, ll v, ll d){
+    //in
+    inout[v].first = cnt;
+    depth[v] = d;
+    seen[v] = 1;
+    cnt++;
+    for(ll next : g[v]){
+        if(seen[next] == 0){
+            dfs(g, next, d+1);
+            cnt++;
+        }
     }
+    //out
+    inout[v].second = cnt;
 }
-
-vector<vector<ll>> dm(200010);
-// need graph and root node 
-struct LCA
-{
-    vector<vector<ll>> parent; // parent[k][u] : distance from u to parent is 2^k
-    vector<ll> depth; // depth from root
-    LCA(const vector<vector<ll>> &g, ll root){
-        init(g, root);
-    }
-
-    void init(const vector<vector<ll>> &g, ll root){
-        ll V = g.size(); // node num
-        ll K = 1;
-        while((1 << K) < V) K++;
-        parent.assign(K, vector<ll> (V, -1));
-        depth.assign(V, -1);
-
-        dfs(g, root, -1, 0);
-        
-        for(ll k = 0; k+1 < K; k++){
-            for(ll v = 0; v < V; v++){
-                if(parent[k][v] < 0){
-                    parent[k+1][v] = -1;
-                }else{
-                    parent[k+1][v] = parent[k][parent[k][v]];
-                }
-            }
-        }
-    }
-
-    void dfs(const vector<vector<ll>> &g, ll v, ll p, ll d){ // p:parent node, d:depth value
-        parent[0][v] = p;
-        depth[v] = d;
-        dm[d].push_back(v);
-        for(ll i = 0; i < g[v].size(); i++){
-            if(g[v][i] != p) dfs(g, g[v][i], v, d+1);
-        }
-    }
-
-    ll lca(ll u, ll v){
-        if(depth[u] < depth[v]) swap(u, v); // u is more deep
-        ll K = parent.size();
-        // u and v are same depth from lca
-        for(ll k = 0; k < K; k++){
-            if((depth[u] - depth[v]) >> k & 1){
-                u = parent[k][u];
-            }
-        }
-
-        if(u == v) return u;
-        for(ll k = K-1; k >= 0; k--){
-            if (parent[k][u] != parent[k][v]) {
-                u = parent[k][u];
-                v = parent[k][v];
-            }
-        }
-        return parent[0][u];
-    }
-
-    ll get_distance(ll u, ll v){ // distance from u to v
-        return depth[u] + depth[v] - 2 * depth[lca(u, v)];
-    }
-
-    bool is_on_path(ll u, ll v, ll x){ // is x is on path from u to v?
-        return get_distance(u, x) + get_distance(v, x) == get_distance(u, v);
-    }
-};
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
+    cin >> n;
     vector<vector<ll>> g(n);
-    for(ll i = 1; i < n; i++){
+    depth.assign(n, 0);
+    inout.assign(n, {-1, -1});
+    seen.assign(n, 0);
+    rep(i, n-1){
         ll p; cin >> p; p--;
-        g[i].push_back(p);
-        g[p].push_back(i);
+        g[i+1].push_back(p); g[p].push_back(i+1);
     }
 
-    //tree_check(g);
+    dfs(g, 0, 0);
+    vector<vector<ll>> hukasa(n);
+    rep(i, n){
+        ll x = depth[i];
+        hukasa[x].push_back(inout[i].first);
+    }
+    rep(i, n){
+        sort(all(hukasa[i]));
+    }
 
-    LCA l(g, 0);
-    
+
     ll q; cin >> q;
     rep(i, q){
         ll u, d; cin >> u >> d; u--;
-        ll cnt = 0;
-        rep(i, dm[d].size()){
-            if(l.is_on_path(dm[d][i], 0, u)){
-                cnt++;
-            }
-        }
-        cout << cnt << endl;
-
+        ll r = lower_bound(all(hukasa[d]), inout[u].second) - hukasa[d].begin();
+        ll l = lower_bound(all(hukasa[d]), inout[u].first) - hukasa[d].begin();
+        cout << r - l << endl;
     }
-    
-
 }

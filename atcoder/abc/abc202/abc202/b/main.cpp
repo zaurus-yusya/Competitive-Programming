@@ -33,6 +33,23 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    string s; cin >> s;
+    string res = "";
+    rep(i, s.size()){
+        ll x = s[s.size()-1-i] - '0';
+        if(x == 0){
+            res += '0';
+        }else if(x == 1){
+            res += '1';
+        }else if(x == 6){
+            res += '9';
+        }else if(x == 8){
+            res += '8';
+        }else{
+            res += '6';
+        }
+
+    }
+    cout << res << endl;
 
 }

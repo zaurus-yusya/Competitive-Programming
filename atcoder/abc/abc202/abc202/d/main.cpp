@@ -31,8 +31,84 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+map<string, ll> mp;
+
+void calc(ll a, ll b, ll nowa, ll nowb, string s){
+
+    if(nowa + nowb == a + b){
+        mp[s]++;
+    }else{
+
+        if(nowa < a){
+            s += 'a';
+            calc(a, b, nowa+1, nowb, s);
+            s.pop_back();
+        }
+        if(nowb < b){
+            s += 'b';
+            calc(a, b, nowa, nowb+1, s);
+        }
+
+    }
+
+}
+
+ll ncr(ll n, ll r){
+    ll res = 1;
+    for(ll i = 1; i <= r; i++){
+        res *= (n+1-i);
+        res /= i;
+    }
+    return res;
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll a, b, k; cin >> a >> b >> k;
+
+    //calc(a, b, 0, 0, "");
+    //cout << ncr(3, 2) << endl;
+
+    string res = "";
+    ll cnt = 0;
+    ll nowa = a, nowb = b;
+    rep(i, a+b){
+        if(nowa == 0){
+            res += 'b'; continue;
+        }
+        if(nowb == 0){
+            res += 'a'; continue;
+        }
+
+        //aかどうか
+        ll x = ncr(a+b-1-i, nowb);
+        if(cnt + x < k){
+            //b
+            cnt += x;
+            res += 'b';
+            nowb -= 1;
+        }else{
+            //a
+            res += 'a';
+            nowa -= 1;
+        }
+
+    }
+    cout << res << endl;
     
+
+    /*
+    ll cnt = 0;
+    for(auto i : mp){
+        cnt++;
+        if(cnt == k){
+            cout << i.first << endl;
+            break;
+        }
+        //cout << i.first << " " << i.second << endl;
+    }
+    */
+
+
 
 }

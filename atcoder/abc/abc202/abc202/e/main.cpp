@@ -31,8 +31,55 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+ll n;
+ll cnt = 0;
+vector<pair<ll, ll>> inout(n);
+vector<ll> depth(n);
+vector<ll> seen(n);
+void dfs(vector<vector<ll>> &g, ll v, ll d){
+    //in
+    inout[v].first = cnt;
+    depth[v] = d;
+    seen[v] = 1;
+    cnt++;
+    for(ll next : g[v]){
+        if(seen[next] == 0){
+            dfs(g, next, d+1);
+            cnt++;
+        }
+    }
+    //out
+    inout[v].second = cnt;
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    cin >> n;
+    vector<vector<ll>> g(n);
+    depth.assign(n, 0);
+    inout.assign(n, {-1, -1});
+    seen.assign(n, 0);
+    rep(i, n-1){
+        ll p; cin >> p; p--;
+        g[i+1].push_back(p); g[p].push_back(i+1);
+    }
 
+    dfs(g, 0, 0);
+    vector<vector<ll>> hukasa(n);
+    rep(i, n){
+        ll x = depth[i];
+        hukasa[x].push_back(inout[i].first);
+    }
+    rep(i, n){
+        sort(all(hukasa[i]));
+    }
+
+
+    ll q; cin >> q;
+    rep(i, q){
+        ll u, d; cin >> u >> d; u--;
+        ll r = lower_bound(all(hukasa[d]), inout[u].second) - hukasa[d].begin();
+        ll l = lower_bound(all(hukasa[d]), inout[u].first) - hukasa[d].begin();
+        cout << r - l << endl;
+    }
 }

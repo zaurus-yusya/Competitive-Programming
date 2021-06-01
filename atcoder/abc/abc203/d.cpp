@@ -34,10 +34,78 @@ using P = pair<ll, ll>;
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, k; cin >> n >> k;
-    ll ma = 0;
-    for(ll i = 1; i <= 800; i++){
-        cout << (n - i + 1)*(n - i + 1) << endl;
+    ll X = k*k/2 + 1;
+
+    vector<vector<ll>> a(n, vector<ll>(n));
+    rep(i, n)rep(j, n){
+        cin >> a[i][j];
+    }
+
+    vector<vector<long long>> vec(n, vector<long long>(n));
+    vector<vector<long long>> sum(n+1, vector<long long>(n+1));
+    ll ok = 1e9+1, ng = -1;
+    while(ok - ng > 1){
+        ll mid = (ng + ok) / 2;
+
+        rep(i, n){
+            rep(j, n){
+                if(a[i][j] > mid){
+                    vec[i][j] = 1;
+                }else{
+                    vec[i][j] = 0;
+                }
+            }
+        }
+        for(long long i = 0; i < n; i++){
+            for(long long j = 0; j < n; j++){
+                sum[i+1][j+1] = sum[i][j+1] + sum[i+1][j] - sum[i][j] + vec[i][j];
+            }
+        }
+
+        bool flag = false;
+        for(ll i = k; i <= n; i++){
+            for(ll j = k; j <= n; j++){
+                if(sum[i][j] - sum[i-k][j] - sum[i][j-k] + sum[i-k][j-k] < X){
+                    flag = true; break;
+                }
+            }
+            if(flag) break;
+        }
+
+        if(flag){
+            ok = mid;
+        }else{
+            ng = mid;
+        }
+
+
+    }
+
+    cout << ok << endl;
+
+
+    /*
+    long long h, w; cin >> h >> w;
+    vector<vector<long long>> vec(h, vector<long long>(w));
+    for(long long i = 0; i < h; i++){
+        for(long long j = 0; j < w; j++){
+            cin >> vec[i][j];
+        }
     }
     
-
+    vector<vector<long long>> sum(h+1, vector<long long>(w+1));
+    for(long long i = 0; i < h; i++){
+        for(long long j = 0; j < w; j++){
+            sum[i+1][j+1] = sum[i][j+1] + sum[i+1][j] - sum[i][j] + vec[i][j];
+        }
+    }
+    
+    long long q; cin >> q;
+    // sum of [x1, y1) ~ [x2, y2)
+    for(long long i = 0; i < q; i++){
+        ll x1, y1, x2, y2;
+        cin >> x1 >> y1 >> x2 >> y2;
+        cout << sum[x2][y2] - sum[x1][y2] - sum[x2][y1] + sum[x1][y1] << endl;
+    }
+    */
 }

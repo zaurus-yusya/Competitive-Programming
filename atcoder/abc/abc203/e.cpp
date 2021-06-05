@@ -33,6 +33,54 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n, m; cin >> n >> m;
+    vector<P> vec(m);
+    rep(i, m){
+        ll x, y; cin >> x >> y; vec[i] = {x, y};
+    }
+    sort(all(vec));
+
+    ll now = -1;
+    set<ll> st; st.insert(n);
+
     
 
+    set<ll> add;
+    set<ll> sub;
+    
+    rep(i, m){
+
+        if(vec[i].first != now){
+            for (auto itr = sub.begin(); itr != sub.end(); ++itr) {
+                st.erase(*itr);
+            }
+            for (auto itr = add.begin(); itr != add.end(); ++itr) {
+                st.insert(*itr);
+            }
+
+            add.clear();
+            sub.clear();
+            now = vec[i].first;
+        }
+
+        if(vec[i].second != 0 && st.count(vec[i].second - 1)){
+            add.insert(vec[i].second);
+        }
+        if(st.count(vec[i].second)){
+            sub.insert(vec[i].second);
+        }
+        if(vec[i].second != 2*n && st.count(vec[i].second + 1)){
+            add.insert(vec[i].second);
+        }
+
+    }
+    for (auto itr = sub.begin(); itr != sub.end(); ++itr) {
+        st.erase(*itr);
+    }
+    for (auto itr = add.begin(); itr != add.end(); ++itr) {
+        st.insert(*itr);
+    }
+
+    cout << st.size() << endl;
+    
 }

@@ -32,77 +32,58 @@ using P = pair<ll, ll>;
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
 vector<ll> seen;
-vector<ll> label;
-ll cnt = 0;
-void dfs(vector<vector<ll>> &g, ll v){
-    seen[v] = 1;
-    for(auto next: g[v]){
+vector<ll> depth;
+void dfs(vector<vector<ll>> &g, ll v, ll d){
+    seen[v] = 1; depth[v] = d;
+    for(auto next : g[v]){
         if(!seen[next]){
-            dfs(g, next);
-        }
-    }
-    label[cnt] = v; cnt++;
-}
-
-ll countt = 0;
-vector<vector<ll>> new_g;
-vector<ll> tmp_g;
-void rdfs(vector<vector<ll>> &g, ll v){
-    seen[v] = 1;
-    tmp_g.push_back(v);
-    countt++;
-    for(auto next: g[v]){
-        if(!seen[next]){
-            rdfs(g, next);
+            dfs(g, next, d + 1);
         }
     }
 }
-
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
+    ll n; cin >> n;
     vector<vector<ll>> g(n);
-    vector<vector<ll>> rg(n);
-    map<P, ll> mp;
-    rep(i, m){
+    rep(i, n-1){
         ll a, b; cin >> a >> b; a--; b--;
-        if(mp[{a, b}] == 0){
-            g[a].push_back(b);
-            rg[b].push_back(a);
-        }
-        mp[{a, b}]++;
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
 
     seen.assign(n, 0);
-    label.assign(n, 0);
+    depth.assign(n, 0);
+    dfs(g, 0, 0);
 
+    ll odd = 0, even = 0;
     rep(i, n){
-        if(!seen[i]){
-            dfs(g, i);
-        }
-    }
-    
-    seen.assign(n, 0);
-    ll ans = 0;
-    rep(i, n){
-        if(!seen[label[n-1-i]]){
-            rdfs(rg, label[n-1-i]);
-            new_g.push_back(tmp_g);
-            tmp_g.clear();
-            ans += countt * (countt - 1) / 2;
-            countt = 0;
+        if(depth[i] % 2 == 0){
+            even++;
+        }else{
+            odd++;
         }
     }
 
-    cout << ans << endl;
-
-    rep(i, new_g.size()){
-        rep(j, new_g[i].size()){
-            cout << new_g[i][j] << ' ';
+    ll cnt = 0;
+    if(odd >= n/2){
+        rep(i, n){
+            if(depth[i] % 2 == 1){
+                cout << i+1 << ' ';
+                cnt++;
+            }
+            if(cnt >= n/2)break;
+        }br;
+    }else{
+        rep(i, n){
+            if(depth[i] % 2 == 0){
+                cout << i+1 << ' ';
+                cnt++;
+            }
+            if(cnt >= n/2)break;
         }br;
     }
     
-   
+
 
 }

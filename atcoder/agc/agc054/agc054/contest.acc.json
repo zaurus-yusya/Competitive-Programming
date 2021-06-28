@@ -1,0 +1,75 @@
+{
+  "contest": {
+    "id": "agc054",
+    "title": "AtCoder Grand Contest 054",
+    "url": "https://atcoder.jp/contests/agc054"
+  },
+  "tasks": [
+    {
+      "id": "agc054_a",
+      "label": "A",
+      "title": "Remove Substrings",
+      "url": "https://atcoder.jp/contests/agc054/tasks/agc054_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "agc054_b",
+      "label": "B",
+      "title": "Greedy Division",
+      "url": "https://atcoder.jp/contests/agc054/tasks/agc054_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "agc054_c",
+      "label": "C",
+      "title": "Roughly Sorted",
+      "url": "https://atcoder.jp/contests/agc054/tasks/agc054_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "agc054_d",
+      "label": "D",
+      "title": "(ox)",
+      "url": "https://atcoder.jp/contests/agc054/tasks/agc054_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "agc054_e",
+      "label": "E",
+      "title": "ZigZag Break",
+      "url": "https://atcoder.jp/contests/agc054/tasks/agc054_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    },
+    {
+      "id": "agc054_f",
+      "label": "F",
+      "title": "Decrement",
+      "url": "https://atcoder.jp/contests/agc054/tasks/agc054_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests",
+        "submit": "main.cpp"
+      }
+    }
+  ]
+}

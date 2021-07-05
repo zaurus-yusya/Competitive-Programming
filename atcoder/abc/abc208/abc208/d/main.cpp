@@ -19,7 +19,6 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
-const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -32,42 +31,35 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> a(2 * n);
-    ll sum = 0;
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i]; sum += a[i];
+    ll n, m; cin >> n >> m;
+
+    vector<vector<ll>> dist(n, vector<ll>(n, INF));
+    rep(i, m){
+        ll a, b, c; cin >> a >> b >> c; a--; b--;
+        dist[a][b] = c;
     }
-    rep(i, n){
-        a[n + i] = a[i];
-    }
-    if(sum % 10 != 0){
-        cout << "No" << endl; return 0;
-    }
-    ll x = sum / 10;
-    ll right = 0;
-    ll s = 0;
-    for(ll left = 0; left < 2 * n; left++){
-        while(right < 2 * n && s + a[right] <= x){
-            s += a[right];
-            right++;
-            if(s == x){
-                cout << "Yes" << endl; return 0;
-            }
-        }
-        if(right == left){
-            right++;
-        }else{
-            s -= a[left];
-            if(s == x){
-                cout << "Yes" << endl; return 0;
+
+    ll ans = 0;
+    rep(k, n){
+        rep(i, n){
+            rep(j, n){
+                dist[i][j] = min(dist[i][j], dist[i][k] + dist[k][j]);
             }
         }
 
-    }
-    cout << "No" << endl;
+        rep(i, n){
+            rep(j, n){
+                if(i == j) ans += 0;
+                else if(dist[i][j] != INF) ans += dist[i][j];
+            }
+        }
+    }   
+
+    cout << ans << endl;
+
+
+
 
 }

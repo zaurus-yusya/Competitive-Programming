@@ -34,6 +34,32 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t; cin >> t;
+
+    vector<ll> vec(101);
+    vector<ll> vec2(101);
+    vec[1] = 1; vec2[1] = 1;
+    ll mi = 1, ma = 1;
+    ll ans = 1;
+    for(ll i = 1; i <= 100; i++){
+        mi = (1 + i) * i / 2;
+        ma = (1 + 2 * i - 1) * i / 2;
+        vec[i] = mi;
+        vec2[i] = ma;
+    }
+
+    //vecdbg(vec);
+    //vecdbg(vec2);
+
+    rep(T, t){
+        ll n; cin >> n;
+        ll ans = 1;
+        for(ll i = 1; i <= 100; i++){
+            if(vec2[i] >= n){
+                ans = i; break;
+            }
+        }
+        cout << ans << endl;
+    }
 
 }

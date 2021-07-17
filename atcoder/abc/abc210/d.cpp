@@ -19,7 +19,6 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
-const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -34,31 +33,50 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n, a, b; cin >> n >> a >> b;
-        // n文字　l*a + b
-        string s; cin >> s;
-        char now = '2';
-        ll cnt = 0;
-        rep(i, n){
-            if(now != s[i]){
-                cnt++;
-                now = s[i];
-            }
-        }
-
-        if(b < 0){
-            //まとめて
-            if(cnt <= 2){
-                cout << a * n + b * cnt << endl;
-            }else{
-                cout << a * n + b * ((cnt/2) + 1) << endl;
-            }
-        }else{
-            //1文字づつ
-            cout << a * n + b * n << endl;
+    ll h, w, c; cin >> h >> w >> c;
+    vector<vector<ll>> vec(h, vector<ll>(w)); //1000 * 1000   10^6
+    rep(i, h){
+        rep(j, w){
+            cin >> vec[i][j];
         }
     }
+    vector<vector<ll>> vec2(h, vector<ll>(w));
 
+    rep(i, h){
+        rep(j, w){
+            vec2[i][j] = vec[i][j] + c * (i+j);
+        }
+    }
+    vecvecdbg(vec2);
+
+    /*
+
+    vector<ll> mi;
+
+    rep(j, w){
+        ll tmp = INF;
+        for(ll i = 0, k = j; i < h && k >= 0; i++, k--){
+            tmp = min(tmp, vec[i][k]);
+        }
+        mi.push_back(tmp);
+    }
+    for(ll i = 1; i < h; i++){
+        ll tmp = INF;
+        for(ll k = i, j = w-1; k < h && j >= 0; k++, j--){
+            tmp = min(tmp, vec[k][j]);
+        }
+        mi.push_back(tmp);
+    }
+
+    //vecdbg(mi);
+    ll ans = 1e18;
+    for(ll i = 0; i < mi.size(); i++){
+        for(ll j = i+1; j < mi.size(); j++){
+            ll x = mi[i] + mi[j] + c * (j-i);
+            //cout << mi[i] << " " << mi[j] << " " << c << " " << j-i << " " << x << endl;
+            ans = min(ans, x);
+        }
+    }
+    cout << ans << endl;
+    */
 }

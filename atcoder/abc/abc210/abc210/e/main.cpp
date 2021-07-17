@@ -19,7 +19,6 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
-const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -34,31 +33,6 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n, a, b; cin >> n >> a >> b;
-        // n文字　l*a + b
-        string s; cin >> s;
-        char now = '2';
-        ll cnt = 0;
-        rep(i, n){
-            if(now != s[i]){
-                cnt++;
-                now = s[i];
-            }
-        }
-
-        if(b < 0){
-            //まとめて
-            if(cnt <= 2){
-                cout << a * n + b * cnt << endl;
-            }else{
-                cout << a * n + b * ((cnt/2) + 1) << endl;
-            }
-        }else{
-            //1文字づつ
-            cout << a * n + b * n << endl;
-        }
-    }
+    
 
 }

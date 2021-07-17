@@ -32,8 +32,69 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+ll calc(ll x1, ll y1, ll x2, ll y2){
+    return abs(x1 - x2) + abs(y1 - y2);
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        vector<long long> a(n);
+        vector<long long> x(n);
+        vector<long long> y(n);
+        for(long long i = 0; i < n; i ++){
+            cin >> a[i];
+            x[i] = a[i]; y[i] = i;
+
+        }
+        //vecdbg(x);
+        //vecdbg(y);
+
+        ll ans = 0;
+        //1個はOK
+        ans += n;
+        //2個はOK
+        ans += n-1;
+        //3個検証
+        vector<ll> vec = {0, 1, 2};
+        for(ll i = 0; i < n-2; i++){
+            bool flag = true;
+            do{
+
+                if(calc(x[i + vec[0]], y[i + vec[0]], x[i + vec[1]], y[i + vec[1]]) == calc(x[i + vec[0]], y[i + vec[0]], x[i + vec[2]], y[i + vec[2]]) + calc(x[i + vec[2]], y[i + vec[2]], x[i + vec[1]], y[i + vec[1]])){
+                    flag = false;
+                }
+
+            }while(next_permutation(vec.begin(), vec.end()));
+
+            if(flag){
+                //cout << "3i = " << i << endl;
+                ans++;
+            }
+
+        }
+        //4個検証
+        vec.push_back(3);
+        for(ll i = 0; i < n-3; i++){
+            bool flag = true;
+            do{
+
+                if(calc(x[i + vec[0]], y[i + vec[0]], x[i + vec[1]], y[i + vec[1]]) == calc(x[i + vec[0]], y[i + vec[0]], x[i + vec[2]], y[i + vec[2]]) + calc(x[i + vec[2]], y[i + vec[2]], x[i + vec[1]], y[i + vec[1]])){
+                    flag = false;
+                }
+
+            }while(next_permutation(vec.begin(), vec.end()));
+            if(flag){
+                //cout << "4i = " << i << endl;
+                ans++;
+            }
+        }
+        //5個以上はダメ
+        cout << ans << endl;
+
+
+    }
 
 }

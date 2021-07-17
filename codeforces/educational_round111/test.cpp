@@ -34,31 +34,16 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n, a, b; cin >> n >> a >> b;
-        // n文字　l*a + b
-        string s; cin >> s;
-        char now = '2';
-        ll cnt = 0;
-        rep(i, n){
-            if(now != s[i]){
-                cnt++;
-                now = s[i];
-            }
-        }
-
-        if(b < 0){
-            //まとめて
-            if(cnt <= 2){
-                cout << a * n + b * cnt << endl;
-            }else{
-                cout << a * n + b * ((cnt/2) + 1) << endl;
-            }
-        }else{
-            //1文字づつ
-            cout << a * n + b * n << endl;
-        }
+    ll n; cin >> n;
+    vector<ll> vec;
+    rep(i, n){
+        vec.push_back(i);
     }
+    do{
+        for(ll i = 0; i < n; i++){
+            cout << vec[i] << " ";
+        }
+        cout << endl;
+    }while(next_permutation(vec.begin(), vec.end()));
 
 }

@@ -143,6 +143,10 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll k; cin >> k;
 
+    if(k % 9 != 0){
+        cout << 0 << endl; return 0;
+    }
+
     mint ans = 0;
 
     

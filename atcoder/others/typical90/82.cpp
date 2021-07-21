@@ -135,19 +135,43 @@ template<long long mod> struct MPow {
     }
 };
 
+
 typedef ModInt<1000000007> mint;
 MComb<1000000007> com(510000);
 MPow<1000000007> mpow;
+
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll l, r; cin >> l >> r;
 
-    ll cnt = 1;
-    while(true){
-        ll x = POW(10, cnt);
-    
-        cnt++;
+    mint ans = 0;
+    for(ll i = 1; i <= 18; i++){
+
+        ll hidari = POW(10, i-1);
+        ll migi = POW(10, i) - 1;
+
+        //cout << hidari << " " << migi << endl;
+
+        if(hidari > r) continue;
+        if(migi < l) continue;
+
+        hidari = max(hidari, l);
+        migi = min(migi, r);
+
+        mint tmp = 1;
+        tmp *= i;
+        tmp *= (hidari + migi);
+        tmp *= (migi - hidari + 1);
+        tmp /= 2;
+        ans += tmp;
+
     }
 
+    if(l == 1e18 || r == 1e18){
+        ans += 19 * (INF % MOD);
+    }
+
+    cout << ans << endl;
+    
 }

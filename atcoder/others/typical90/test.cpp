@@ -1,62 +1,83 @@
-#include <bits/stdc++.h>
-// #include <atcoder/all>
-// using namespace atcoder;
-typedef long long ll;
-typedef long double ld;
-#define rep(i,n) for(ll i=0;i<(n);i++)
-#define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#include <map>
+#include <set>
+#include <list>
+#include <cmath>
+#include <ctime>
+#include <deque>
+#include <queue>
+#include <stack>
+#include <string>
+#include <bitset>
+#include <cstdio>
+#include <limits>
+#include <vector>
+#include <climits>
+#include <cstring>
+#include <cstdlib>
+#include <fstream>
+#include <numeric>
+#include <sstream>
+#include <iostream>
+#include <algorithm>
+#include <unordered_map>
+
 using namespace std;
-const long long INF = 1e18;
-const long long MOD = 1e9+7;
-using Graph = vector<vector<ll>>;
-template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
-template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
-ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
-ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
-ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
-using P = pair<ll, ll>;
-
-// 0 false, 1 true 
-// string number to int : -48 or - '0'
-// a to A : -32
-// ceil(a)  1.2->2.0
-// c++17	g++ -std=c++17 a.cpp
-// global vector -> 0 initialization
-// DONT FORGET TO INTIALIZE
-// The type of GRID is CHAR. DONT USE STRING
-// If the result in local and judge is different, USE CODETEST!!
-// (a * b)over flow?   if(a > INF / b){ /* overflow */}
-
 int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll n, k; cin >> n >> k;
-    vector<long long> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i]; a[i]--;
+    //ある英単語wの受け取り
+    string w; cin >> w;
+
+    //wに含まれる文字の種類をmapで管理
+    map<char, int> mp_w;
+    for(int i = 0; i < w.size(); i++){
+        mp_w[w[i]]++;
     }
 
-    vector<vector<ll>> vec(63, vector<ll>(n));
-    rep(i, n){
-        vec[0][i] = a[i];
-    }
-    for(ll i = 0; i <= 60; i++){
-        rep(j, n){
-            vec[i+1][j] = vec[i][vec[i][j]];
+    //求める答えの個数を変数ansとする
+    int ans = 0;
+
+    //英単語のリストLの中に重複する単語があるかチェックするmapを設定
+    map<string, int> dupulicate_check;
+
+    //while文で英単語のリストLの単語を最後の単語まで入力を受け付ける
+    string s;
+    while(cin >> s) { 
+        //このループの中で英単語Wと、英単語リストLの中の1つの単語に関して似ているか判定する
+        
+
+        //英単語リストLの中で同じ単語が出てきた場合、2回目以降は判定しないものとする。
+        if(dupulicate_check.count(s) > 0) continue;
+        dupulicate_check[s]++;
+
+        //sに含まれる文字の種類をmapで管理 (s: 英単語リストLの中の1つの単語)
+        map<char, int> mp_s;
+        for(int i = 0; i < s.size(); i++){
+            mp_s[s[i]]++;
         }
-    }
 
-    ll ans = 0, cnt = 0;
-    while(k > 0){
-        if(k & 1){
-            ans = vec[cnt][ans];
+
+        //wとsが似ているか判定する。flagの値がtrueだったら似ているとする
+        bool flag = true;
+
+        //wに含まれる文字全てがsに含まれるか
+        for(auto i : mp_w){
+            if(mp_s.count(i.first) == 0){
+                flag = false;
+            }
         }
-        k = k >> 1; cnt++;
+
+        //sに含まれる文字全てがwに含まれるか
+        for(auto i : mp_s){
+            if(mp_w.count(i.first) == 0){
+                flag = false;
+            }
+        }
+
+        //flagの値がtrueだったら答えをインクリメント
+        if(flag) ans++;
+
     }
-    cout << ans + 1 << endl;
 
+    cout << ans << endl;
 
+    return 0;
 }

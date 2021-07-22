@@ -139,6 +139,8 @@ typedef ModInt<1000000007> mint;
 MComb<1000000007> com(510000);
 MPow<1000000007> mpow;
 
+mint dp[100010];
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll k; cin >> k;
@@ -148,7 +150,16 @@ int main() {
     }
 
     mint ans = 0;
+    dp[0] = 1;
 
-    
+    for(ll i = 0; i <= 100000; i++){
+        
+        for(ll j = 1; j <= 9; j++){
+            if((i - j) >= 0){
+                dp[i] += dp[i-j];
+            }
+        }
+    }
+    cout << dp[k] << endl;
 
 }

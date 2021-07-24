@@ -29,7 +29,41 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 
+template <typename T>
+vector<vector<T>> mat_mul(vector<vector<T>> a, vector<vector<T>> b){
+    ll I = a.size(), J = b[0].size(), K = b.size();
+    vector<vector<T>> res(I, vector<T>(J));
 
+    rep(i, I){
+        rep(j, J){
+            ll tmp = 0;
+            rep(k, K){
+                tmp += a[i][k] * b[k][j];
+            }
+            res[i][j] = tmp;
+        }
+    }
+
+    return res;
+}
+
+template <typename T>
+vector<vector<T>> mat_pow(vector<vector<T>> a, ll n){
+    vector<vector<T>> res(a.size(), vector<T>(a[0].size()));
+    rep(i, a.size()) res[i][i] = 1;
+
+    while(n > 0){
+        if(n & 1 == 1){
+            res = mat_mul(a, res);
+        }
+        a = mat_mul(a, a);
+        n >>= 1;
+    }
+
+    return res;
+}
+
+ll vec[200010][3][3];
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
@@ -39,102 +73,93 @@ int main() {
     rep(i, n){
         cin >> x[i] >> y[i];
     }
+
+    rep(i, 3){
+        rep(j, 3){
+            if(i == j) vec[0][i][j] = 1;
+            else vec[0][i][j] = 0;
+        }
+    }
+    
     ll m; cin >> m;
-    vector<pair<ll, ll>> op(m);
-    //1 x -> y, y -> -x
-    //2 x -> -y, y -> x
-    //3 x -> x + (p-x)*2
-    //4 y -> y + (p-y)*2
-    vector<ll> hanten_num(m+1);
 
-    vector<ll> xxx(m+1);
-    vector<ll> yyy(m+1);
-    xxx[0] = 1;
-    yyy[0] = 1;
-    vector<ll> xx(m+1);
-    vector<ll> xx_sousa(m+1);
-    vector<ll> yy(m+1);
-    vector<ll> yy_sousa(m+1);
-    ll hanten = 0;
+    vector<vector<ll>> one = {{0, 1, 0}, {-1, 0, 0}, {0, 0, 1}};
+    vector<vector<ll>> two = {{0, -1, 0}, {1, 0, 0}, {0, 0, 1}};
+    vector<vector<ll>> three = {{-1, 0, 1}, {0, 1, 0}, {0, 0, 1}};
+    vector<vector<ll>> four = {{1, 0, 0}, {0, -1, 1}, {0, 0, 1}};
+
     rep(i, m){
-        ll o; cin >> o;
+        ll t; cin >> t;
 
-        if(o < 3){
-            op[i] = {o, 0};
-
-            hanten++;
-            hanten_num[i+1] = hanten;
-
-            if(o == 1){
-                //sousa_x[i+1] *= -1;
-                //sousa_y[i+1] *= 1;
-                xxx[i+1] = x[i] * -1;
-                yyy[i+1] = y[i];
-            }else{
-                //sousa_x[i+1] *= 1;
-                //sousa_y[i+1] *= -1;
-                xxx[i+1] = x[i];
-                yyy[i+1] = y[i] * -1;
+        if(t == 1){
+            
+            vector<vector<ll>> tmp(3, vector<ll>(3));
+            rep(h, 3)rep(w, 3){
+                tmp[h][w] = vec[i][h][w];
             }
-
-        }else{
-            ll p; cin >> p;
-            op[i] = {o, p};
-
-            hanten_num[i+1] = hanten;
-
-            if(hanten_num[i] % 2 == 0){
-                if(o == 3){
-                    //x変更
-                    //sousa_x[i+1] = sousa_x[i] + (p - now_x) * 2;
-                    //sousa_y[i+1] *= 1;
-                    xx[i+1] = xx[i] + p*2;
-                    xx_sousa[i+1] = xx_sousa[i] + 1;
-                    yy[i+1] = yy[i];
-                    yy_sousa[i+1] = yy_sousa[i];
-                }else{
-                    //y変更
-                    //sousa_x[i+1] *= sousa_x[i] + (p - now_x) * 2;
-                    //sousa_y[i+1] *= 1;
-                    yy[i+1] = yy[i] + p*2;
-                    yy_sousa[i+1] = yy_sousa[i] + 1;
-                    xx[i+1] = xx[i];
-                    xx_sousa[i+1] = xx_sousa[i];
-                }
-            }else{
-                if(o == 3){
-                    //y変更
-                    yy[i+1] = yy[i] + p*2;
-                    yy_sousa[i+1] = yy_sousa[i] + 1;
-                    xx[i+1] = xx[i];
-                    xx_sousa[i+1] = xx_sousa[i];
-                }else{
-                    //x変更
-                    xx[i+1] = xx[i] + p*2;
-                    xx_sousa[i+1] = xx_sousa[i] + 1;
-                    yy[i+1] = yy[i];
-                    yy_sousa[i+1] = yy_sousa[i];
-                }
+            tmp = mat_mul(one, tmp);
+            rep(h, 3)rep(w, 3){
+                vec[i+1][h][w] = tmp[h][w];
             }
             
         }
+        if(t == 2){
+
+            vector<vector<ll>> tmp(3, vector<ll>(3));
+            rep(h, 3)rep(w, 3){
+                tmp[h][w] = vec[i][h][w];
+            }
+            tmp = mat_mul(two, tmp);
+            rep(h, 3)rep(w, 3){
+                vec[i+1][h][w] = tmp[h][w];
+            }
+
+        }
+        if(t == 3){
+            ll p; cin >> p;
+            three[0][2] = 2 * p;
+
+            vector<vector<ll>> tmp(3, vector<ll>(3));
+            rep(h, 3)rep(w, 3){
+                tmp[h][w] = vec[i][h][w];
+            }
+            tmp = mat_mul(three, tmp);
+            rep(h, 3)rep(w, 3){
+                vec[i+1][h][w] = tmp[h][w];
+            }
+
+            three[0][2] = 1;
+        }
+        if(t == 4){
+            ll p; cin >> p;
+            four[1][2] *= 2 * p;
+
+            vector<vector<ll>> tmp(3, vector<ll>(3));
+            rep(h, 3)rep(w, 3){
+                tmp[h][w] = vec[i][h][w];
+            }
+            tmp = mat_mul(four, tmp);
+            rep(h, 3)rep(w, 3){
+                vec[i+1][h][w] = tmp[h][w];
+            }
+
+            four[1][2] = 1;
+
+        }
 
     }
-
-    
-
-    
-    
-
 
     ll q; cin >> q;
     rep(i, q){
         ll a, b; cin >> a >> b; b--;
-        if(hanten_num[a] % 2 == 0){
-            cout << xxx[a] * (x[b] + xx[a] - xx_sousa[a]*2*x[b]) << " " << yyy[a] * (y[b] + yy[a] - yy_sousa[a]*2*y[b]) << "\n";
-        }else{
-            cout << yyy[a] * (y[b] + yy[a] - yy_sousa[a]*2*y[b]) << " " << xxx[a] * (x[b] + xx[a] - xx_sousa[a]*2*x[b])<< "\n";
-        }
+        ll X = 0, Y = 0;
+        X += vec[a][0][0] * x[b];
+        X += vec[a][0][1] * y[b];
+        X += vec[a][0][2] * 1;
+        Y += vec[a][1][0] * x[b];
+        Y += vec[a][1][1] * y[b];
+        Y += vec[a][1][2] * 1;
+        cout << X << " " << Y << endl;
     }
-
+    
 }

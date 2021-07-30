@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-//const long long INF = 1e18;
+const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -32,38 +32,14 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-using S = long long;
-using F = long long;
-
-const S INF = 8e18;
-
-S op(S a, S b){ return std::max(a, b); }
-S e(){ return -INF; }
-S mapping(F f, S x){ return max(f, x); }
-F composition(F f, F g){ return max(f, g); }
-F id(){ return 0; }
-
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll w, n; cin >> w >> n;
-    vector<S> v(w + 10);
+    ll t; cin >> t;
 
-    lazy_segtree<S, op, e, F, mapping, composition, id> seg(v);
-
-    rep(i, n){
-
-        ll l, r; cin >> l >> r; r++;
-
-        ll x = seg.prod(l, r) + 1;
-
-        cout << x << endl;
-
-        seg.apply(l, r, x);
-
+    rep(T, t){
+    
 
     }
-
-
 
 }

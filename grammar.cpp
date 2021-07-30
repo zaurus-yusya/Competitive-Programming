@@ -336,6 +336,6 @@ lower_bound(vec.begin(), vec.end(), x) - vec.begin();
 upper_bound(vec.begin(), vec.end(), x) - vec.begin();
 
 //セグメント木　単位元
-// min:inf, 和:0, 積:1, xor:0, gcd:0
+// min: INF, max: -INF, 和: 0, 積: 1, xor: 0, gcd: 0, lcm: 1
 
 }

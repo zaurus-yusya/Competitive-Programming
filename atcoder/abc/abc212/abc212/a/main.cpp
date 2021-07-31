@@ -32,8 +32,18 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll a, b; cin >> a >> b;
+    if(0 < a && b == 0){
+        cout << "Gold" << endl;
+    }
+    if(a == 0 && 0 < b){
+        cout << "Silver" << endl;
+    }
+    if(0 < a && 0 < b){
+        cout << "Alloy" << endl;
+    }
 
 }

@@ -34,6 +34,27 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    string s; cin >> s;
+    vector<ll> vec = {s[0]-48, s[1]-48, s[2]-48, s[3]-48};
+
+    if(s[0] == s[1] && s[1] == s[2] && s[2] == s[3]){
+        cout << "Weak" << endl; return 0;
+    }
+
+    bool flag = true;
+    rep(i, 3){
+        if((vec[i] + 1) % 10 == (vec[i+1] % 10)){
+            continue;
+        }else{
+            flag = false;
+        }
+
+    }
+
+    if(flag){
+        cout << "Weak" << endl; 
+    }else{
+        cout << "Strong" << endl; 
+    }
 
 }

@@ -44,6 +44,7 @@ F composition(F f, F g){ return max(f, g); }
 F id(){ return 0; }
 
 
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll w, n; cin >> w >> n;

@@ -32,8 +32,64 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+struct INFO {
+    ll zikoku;
+    ll next;
+    ll tuku;
+    //INFO(ll zikoku = 0, ll next = 0, ll tuku = 0) : zikoku(zikoku), next(next) tuku(tuku) {}
+};
+
+bool cmp(INFO a, INFO b){
+  return a.zikoku < b.zikoku;
+}
+
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n, m, q; cin >> n >> m >> q;
+
+    vector<vector<INFO>> vec(n);
+
+    rep(i, m){
+        ll a, b, s, t; cin >> a >> b >> s >> t;
+        a--; b--;
+        vec[a].push_back({s, b, t});
+    }
     
+
+    rep(i, n){
+        sort(all(vec[i]), cmp);
+    }
+    
+
+    rep(i, n){
+
+        rep(j, vec[i].size()){
+            cout << vec[i][j].zikoku << " " << vec[i][j].next << " " << vec[i][j].tuku << endl;
+        }
+
+    }
+
+    rep(i, q){
+        ll x, y, z; cin >> x >> y >> z; y--;
+
+        ll now = y;
+        ll nowz = x;
+        bool bus = false;
+        while(true){
+
+            if(vec[now].size() == 0){
+                break;
+            }else{
+                ll tmp = lower_bound(vec[now].zikoku.begin(), vec[now].zikoku.end(), x) - vec[now].zikoku.begin();
+            }
+        }
+
+        cout << now << '\n';
+    }
+
+
+
+
 
 }

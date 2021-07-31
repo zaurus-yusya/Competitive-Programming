@@ -2,6 +2,8 @@
 
 contest=$1
 
+open https://atcoder.jp/contests/${contest}/tasks/${contest}_h 
+open https://atcoder.jp/contests/${contest}/tasks/${contest}_g 
 open https://atcoder.jp/contests/${contest}/tasks/${contest}_f 
 open https://atcoder.jp/contests/${contest}/tasks/${contest}_e 
 open https://atcoder.jp/contests/${contest}/tasks/${contest}_d 

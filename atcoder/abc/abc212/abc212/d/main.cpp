@@ -34,6 +34,31 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll q; cin >> q;
+
+    map<ll, ll> mp;
+    ll plus = 0;
+    rep(i, q){
+        ll t; cin >> t;
+        if(t == 1){
+            ll x; cin >> x;
+            mp[x - plus]++;
+        }
+        if(t == 2){
+            ll x; cin >> x;
+            plus += x;
+        }
+        if(t == 3){
+            ll x;
+            for(auto i: mp){
+                x = i.first; break;
+            }
+            mp[x]--;
+            if(mp[x] == 0) mp.erase(x);
+            //cout << "plus = " << plus << " x = " << x << endl;
+            cout << x + plus << '\n';
+        }
+    }
+
 
 }

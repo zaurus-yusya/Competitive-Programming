@@ -34,6 +34,32 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll n, m; cin >> n >> m;
+    vector<long long> a(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> a[i];
+    }
+    vector<long long> b(m);
+    for(long long i = 0; i < m; i ++){
+        cin >> b[i];
+    }
+    sort(all(a));
+    sort(all(b));
+
+    ll ans = INF;
+    rep(i, n){
+        ll x = lower_bound(b.begin(), b.end(), a[i]) - b.begin();
+        //cout << "x = " << x << endl;
+        if(x == 0){
+            ans = min(ans, abs(a[i] - b[x]));
+        }else if(x == m){
+            ans = min(ans, abs(a[i] - b[m-1]));
+        }else{
+            ans = min(ans, abs(a[i] - b[x]));
+            ans = min(ans, abs(a[i] - b[x-1]));
+        }
+    }
+    cout << ans << endl;
+
 
 }

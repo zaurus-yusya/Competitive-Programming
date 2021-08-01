@@ -146,41 +146,12 @@ int main() {
     ll n, m, K; cin >> n >> m >> K;
     vector<vector<ll>> g(n);
 
-    map<ll, ll> zeronai;
-    map<P, ll> ikenai;
-
     rep(i, m){
         ll u, v; cin >> u >> v; u--; v--;
         g[u].push_back(v); g[v].push_back(u);
-        ikenai[{u, v}]++;
-        ikenai[{v, u}]++;
-
-        if(u == 0){
-            zeronai[v]++;
-        }
-        if(v == 0){
-            zeronai[u]++;
-        }
     }
     //k日目　最後の町　通り
     dp[0][0] = 1;
-
-
-
-    //cout << "in " << endl;
-    // k * n * n
-    /*
-    for(ll i = 0; i < K; i++){
-        for(ll j = 0; j < n; j++){
-            for(ll k = 0; k < n; k++){
-                if(j == k) continue;
-                if(ikenai[{j, k}] == 0){
-                    dp[i+1][k] = dp[i+1][k] + dp[i][j];
-                }
-            }
-        }
-    }
-    */
 
     for(ll i = 0; i < K; i++){
         mint kasan = 0;
@@ -189,14 +160,16 @@ int main() {
 
             dp[i+1][j] = dp[i+1][j] - dp[i][j];
             for(ll k = 0; k < g[j].size(); k++){
-                dp[i+1][g[j][k]] = dp[i+1][g[j][k]] - dp[i][j];
+                //dp[i+1][g[j][k]] = dp[i+1][g[j][k]] - dp[i][j];
+                dp[i+1][g[j][k]] -=  dp[i][j];
             }
         }
 
         //cout << "i = " << i << " kasan = " << kasan << endl;
 
         for(ll j = 0; j < n; j++){
-            dp[i+1][j] = dp[i+1][j] + kasan;
+            //dp[i+1][j] = dp[i+1][j] + kasan;
+            dp[i+1][j] += kasan;
         }
         /*
         cout << "---" << endl;

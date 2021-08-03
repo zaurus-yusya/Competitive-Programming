@@ -32,6 +32,11 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+ll dist[1010][1010][4];
+struct x {
+    ll y, x, muki;
+};
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll h, w; cin >> h >> w;
@@ -39,65 +44,63 @@ int main() {
     ll rt, ct; cin >> rt >> ct; rt--; ct--;
     vector<vector<char>> vec(h, vector<char>(w));
     rep(i, h)rep(j, w) cin >> vec[i][j];
+    rep(i, 1010)rep(j, 1010)rep(k, 4) dist[i][j][k] = INF;
+
+    dist[rs][cs][0] = 0;
+    dist[rs][cs][1] = 0;
+    dist[rs][cs][2] = 0;
+    dist[rs][cs][3] = 0;
 
     vector<ll> dy = {-1, 1, 0, 0}; 
     vector<ll> dx = {0, 0, -1, 1};
-    vector<char> dc = {'d', 'u', 'l', 'r'};
 
-    deque<P> que;
-    deque<char> muki;
-    que.push_front({rs, cs});
-    muki.push_front('x');
-    vector<vector<ll>> dist(h, vector<ll>(w, -1));
-    dist[rs][cs] = 0;
-
-    bool flag = true;
+    deque<x> que;
+    que.push_front({rs, cs, 0});
+    que.push_front({rs, cs, 1});
+    que.push_front({rs, cs, 2});
+    que.push_front({rs, cs, 3});
+    
     ll cnt = 0;
     while(!que.empty()){
         cnt++;
-        P now = que.front();
-        ll now_y = now.first, now_x = now.second;
+        ll now_y = que.front().y, now_x = que.front().x, muki = que.front().muki;
         que.pop_front();
-        char direction = muki.front();
-        muki.pop_front();
-
         // d u l r
         rep(i, 4){
-            ll next_y = now_y + dy[i];
-            ll next_x = now_x + dx[i];
-            //範囲外ならcontinue
-            if(next_y < 0 || next_y >= h) continue;
-            if(next_x < 0 || next_x >= w) continue;
+            ll next_y = now_y + dy[i], next_x = now_x + dx[i];
+            ll next_cost = dist[now_y][now_x][muki];
+            
+            //場外ならcontinue
+            if(next_y < 0 || next_y >= h || next_x < 0 || next_x >= w) continue;
             //壁ならcontinue
             if(vec[next_y][next_x] == '#') continue;
-            //既に訪問済みならcontinue
-            //if(dist[next_y][next_x] >= 0) continue;
 
-            //push
-            if(direction == 'x'){
-                if(dist[next_y][next_x] != -1 && dist[next_y][next_x] < dist[now_y][now_x]) continue;
-                dist[next_y][next_x] = dist[now_y][now_x];
-                que.push_front({next_y, next_x});
-                muki.push_front(dc[i]);
+            //向きを変える
+            if(muki != i){
+                next_cost++;
+                if(next_cost < dist[next_y][next_x][i]){
+                    dist[next_y][next_x][i] = next_cost;
+                    que.push_back({next_y, next_x, i});
+                }
             }else{
-                if(direction == dc[i]){
-                    if(dist[next_y][next_x] != -1 && dist[next_y][next_x] < dist[now_y][now_x]) continue;
-                    dist[next_y][next_x] = dist[now_y][now_x];
-                    que.push_front({next_y, next_x});
-                    muki.push_front(dc[i]);
-                }else{
-                    if(dist[next_y][next_x] != -1 && dist[next_y][next_x] < dist[now_y][now_x] + 1) continue;
-                    dist[next_y][next_x] = dist[now_y][now_x] + 1;
-                    que.push_back({next_y, next_x});
-                    muki.push_back(dc[i]);
+                //進む
+                if(next_cost < dist[next_y][next_x][i]){
+                    dist[next_y][next_x][i] = next_cost;
+                    que.push_front({next_y, next_x, i});
                 }
             }
+            
+
+
         }
     }
 
     //vecvecdbg(dist);
-
-    cout << dist[rt][ct] << endl;
+    ll ans = INF;
+    rep(i, 4){
+        chmin(ans, dist[rt][ct][i]);
+    }
+    cout << ans << endl;
     cout << cnt << endl;
 
 }

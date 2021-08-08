@@ -1,106 +1,114 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all>
-// using namespace atcoder;
-typedef long long ll;
-typedef long double ld;
-#define rep(i,n) for(ll i=0;i<(n);i++)
-#define repr(i,n) for(ll i=(n-1);i>=0;i--)
-#define all(x) x.begin(),x.end()
-#define br cout << "\n";
 using namespace std;
-const long long INF = 1e18;
-const long long MOD = 1e9+7;
-using Graph = vector<vector<ll>>;
-template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
-template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
-ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
-ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
-ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
-using P = pair<ll, ll>;
-const double PI = acos(-1);
 
-// 0 false, 1 true 
-// string number to int : -48 or - '0'
-// a to A : -32
-// ceil(a)  1.2->2.0
-// c++17	g++ -std=c++17 a.cpp
-// global vector -> 0 initialization
-// DONT FORGET TO INTIALIZE
-// The type of GRID is CHAR. DONT USE STRING
-// If the result in local and judge is different, USE CODETEST!!
-// (a * b)over flow?   if(a > INF / b){ /* overflow */}
+//自分自身の記載(-1)が配列にあった場合それを検知する
+bool validation_check(vector<vector<int>> male, vector<vector<int>> female){
 
-ll dist[1010][1010][4];
-struct x {
-    ll y, x, muki;
-};
-
-int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll h, w; cin >> h >> w;
-    ll rs, cs; cin >> rs >> cs; rs--; cs--;
-    ll rt, ct; cin >> rt >> ct; rt--; ct--;
-    vector<vector<char>> vec(h, vector<char>(w));
-    rep(i, h)rep(j, w) cin >> vec[i][j];
-    rep(i, 1010)rep(j, 1010)rep(k, 4) dist[i][j][k] = INF;
-
-    dist[rs][cs][0] = 0;
-    dist[rs][cs][1] = 0;
-    dist[rs][cs][2] = 0;
-    dist[rs][cs][3] = 0;
-
-    vector<ll> dy = {-1, 1, 0, 0}; 
-    vector<ll> dx = {0, 0, -1, 1};
-
-    deque<x> que;
-    que.push_front({rs, cs, 0});
-    que.push_front({rs, cs, 1});
-    que.push_front({rs, cs, 2});
-    que.push_front({rs, cs, 3});
+    bool is_valid = true;
     
-    ll cnt = 0;
-    while(!que.empty()){
-        cnt++;
-        ll now_y = que.front().y, now_x = que.front().x, muki = que.front().muki;
-        que.pop_front();
-        // d u l r
-        rep(i, 4){
-            ll next_y = now_y + dy[i], next_x = now_x + dx[i];
-            ll next_cost = dist[now_y][now_x][muki];
-            
-            //場外ならcontinue
-            if(next_y < 0 || next_y >= h || next_x < 0 || next_x >= w) continue;
-            //壁ならcontinue
-            if(vec[next_y][next_x] == '#') continue;
+    for(int i = 0; i < male.size(); i++){
+        auto index = find(male[i].begin(), male[i].end(), -1);
+        if(index != male[i].end()) is_valid = false;
+    }
 
-            //向きを変える
-            if(muki != i){
-                next_cost++;
-                if(next_cost < dist[next_y][next_x][i]){
-                    dist[next_y][next_x][i] = next_cost;
-                    que.push_back({next_y, next_x, i});
-                }
-            }else{
-                //進む
-                if(next_cost < dist[next_y][next_x][i]){
-                    dist[next_y][next_x][i] = next_cost;
-                    que.push_front({next_y, next_x, i});
-                }
-            }
-            
-
-
+    for(int i = 0; i < female.size(); i++){
+        auto index = find(female[i].begin(), female[i].end(), -1);
+        if(index != female[i].end()){
+            is_valid = false;
         }
     }
 
-    //vecvecdbg(dist);
-    ll ans = INF;
-    rep(i, 4){
-        chmin(ans, dist[rt][ct][i]);
-    }
-    cout << ans << endl;
-    cout << cnt << endl;
+    return is_valid;
+}
 
+//計算量評価
+/* 女性のペアは一度組まれたら、そこから誰ともペアが組まれていない状態に変化することはない 
+よって全ての男性に対して希望順位の女性を1人1人見ていった場合、全員分見た状態でペアが男性の人数分できている*/
+//時間計算量 O(nk logn)  ※mapやsetの操作がボトルネックでlogn
+//空間計算量 O(nk)
+vector<int> matching(vector<vector<int>> male, vector<vector<int>> female){
+    if(!validation_check(male, female)){
+        cout << "Validation Error." << endl; //自分自身(-1)が配列に含まれていた場合終了する
+        exit(0);
+    }
+
+    //男性n人、女性k人とする
+    int n = male.size();
+    int k = female.size();
+
+    //maleのindexに対してペアとなるfemaleのindexを格納する配列(returnする配列)
+    vector<int> male_match(n, -1);
+    //femaleのindexに対してペアとなるmaleのindexを格納する配列
+    vector<int> female_match(k, -1);
+
+    //男性それぞれに対して次にアプローチをかける女性のindexを持っておく（初期値は第一希望: 配列0番目）
+    vector<int> male_approach_index(n, 0);
+
+    //ペアが決まった男性は下記のsetで管理
+    set<int> male_decided;
+
+    vector<map<int, int>> female_desired(k); //女性の希望順位をmapで管理 ある男性の希望順位をO(logn)で取得可能にするため
+    for(int i = 0; i < k; i++){
+        for(int j = 0; j < n; j++){
+            female_desired[i][female[i][j]] = j;
+        }
+    }
+
+    while(male_decided.size() < n){
+
+        for(int i = 0; i < n; i++){ //男性を順番に見ていく
+            if(male_decided.count(i)) continue;
+
+            //ペアが決まっていない男性は現時点で最も希望順位の高い女性にアプローチする
+            int approach_female = male[i][male_approach_index[i]];
+
+            //その女性がペアを組んでいなかったらペアを組む
+            if(female_match[approach_female] == -1){
+                male_match[i] = approach_female;
+                female_match[approach_female] = i;
+                male_decided.insert(i);
+            }else{
+            //ペアを組んでいた場合、女性目線で、アプローチをかけられた男性の方が条件が良かったらペアを付け替える
+                int paired_male = female_match[approach_female];
+                if(female_desired[approach_female][i] < female_desired[approach_female][paired_male]){
+                    male_match[i] = approach_female;
+                    female_match[approach_female] = i;
+                    male_match[paired_male] = -1;
+
+                    male_decided.insert(i);
+                    male_decided.erase(paired_male);
+                }
+            }
+
+            //次回は現在の希望順位の次の女性を見る
+            male_approach_index[i] += 1;
+        }
+    }
+
+    return male_match;
+
+}
+
+int main(){
+
+    //使用例
+
+    vector<vector<int>> male = {
+        {1, 0, 2, 3},
+        {1, 2, 0, 3},
+        {3, 0, 1, 2}
+    };
+    vector<vector<int>> female = {
+        {0, 1, 2},
+        {1, 0, 2},
+        {2, 0, 1},
+        {2, 0, 1}
+    };
+
+    vector<int> result = matching(male, female);
+
+    for(int i = 0; i < result.size(); i++){
+        cout << "男性: " << i << " 女性: " << result[i] << endl; 
+    }
+    
 }

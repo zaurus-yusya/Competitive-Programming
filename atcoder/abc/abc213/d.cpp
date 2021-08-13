@@ -67,7 +67,7 @@ int main() {
         sort(all(vec[i]));
     }
 
-    dfs(vec, 0, -1);
+    dfs(&vec, 0, -1);
     //cout << ans.size() << endl;
     rep(i, ans.size()){
         if(i == 0){

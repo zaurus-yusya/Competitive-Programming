@@ -32,9 +32,103 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+template <typename T>
+struct Compress {
+
+    //元の座標のリスト 座圧前の座標群をsortして重複を削除する
+    vector<T> zahyo_list; 
+
+    //元の配列が座圧されたものに書き換わる O(n logn)
+    Compress(vector<T> &vec){
+        zahyo_list = vec;
+        sort(zahyo_list.begin(), zahyo_list.end());
+        zahyo_list.erase(unique(zahyo_list.begin(), zahyo_list.end()), zahyo_list.end());
+        for(ll i = 0; i < vec.size(); i++){
+            vec[i] = lower_bound(zahyo_list.begin(), zahyo_list.end(), vec[i]) - zahyo_list.begin();
+        }
+    }
+
+    //座圧後の配列の値の元の値を返す O(1)
+    T moto_value(ll i){
+        return zahyo_list[i];
+    }
+};
+
+
+template <typename T>
+struct Compress2 {
+
+    //元の座標のリスト 座圧前の座標群をsortして重複を削除する
+    vector<ll> zahyo_list_y;
+    vector<ll> zahyo_list_x;
+
+    //元の配列が座圧されたものに書き換わる O(n logn)
+    //※y座標とx座標をそれぞれ別の一次元配列に入れておく必要あり
+    Compress2(vector<T> &vec_y, vector<T> &vec_x, int n = 0){
+        zahyo_list_y = vec_y;
+        zahyo_list_x = vec_x;
+
+        //右と下の余白を考慮
+        for(int i = 0; i < n; i++){
+            
+        }
+        sort(zahyo_list_y.begin(), zahyo_list_y.end());
+        sort(zahyo_list_x.begin(), zahyo_list_x.end());
+        zahyo_list_y.erase(unique(zahyo_list_y.begin(), zahyo_list_y.end()), zahyo_list_y.end());
+        zahyo_list_x.erase(unique(zahyo_list_x.begin(), zahyo_list_x.end()), zahyo_list_x.end());
+
+        for(ll i = 0; i < vec_y.size(); i++){
+            vec_y[i] = lower_bound(zahyo_list_y.begin(), zahyo_list_y.end(), vec_y[i]) - zahyo_list_y.begin();
+            vec_x[i] = lower_bound(zahyo_list_x.begin(), zahyo_list_x.end(), vec_x[i]) - zahyo_list_x.begin();
+        }
+    }
+
+    //座圧後の配列の値の元の値を返す O(1)
+    T moto_value_y(ll i){
+        return zahyo_list_y[i];
+    }
+    T moto_value_x(ll i){
+        return zahyo_list_x[i];
+    }
+};
+
+
+
+
+template <typename T>
+vector<T> zaatsu(vector<T> & x){
+    vector<T> res = x;
+    sort(res.begin(), res.end());
+    res.erase(unique(res.begin(), res.end()), res.end());
+
+    for(ll i = 0; i < x.size(); i++){
+        x[i] = lower_bound(res.begin(), res.end(), x[i]) - res.begin();
+    }
+    return res;
+}
+
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll h, w, n; cin >> h >> w >> n;
+
+    vector<ll> A(n); vector<ll> B(n);
+    rep(i, n){
+        cin >> A[i] >> B[i];
+    }
+
+    //Compress<ll> ca(A);
+    //Compress<ll> cb(B);
+    Compress2<ll> ca(A, B);
+    /*
+    zaatsu(A);
+    zaatsu(B);
+    */
+    rep(i, n){
+        cout << A[i]+1 << " " << B[i]+1 << endl;
+    }
+
+    /*
     
     vector<P> a(n);
     vector<P> b(n);
@@ -74,9 +168,6 @@ int main() {
     rep(i, n){
         cout << ansa[i] << " " << ansb[i] << '\n';
     }
-
-    
-
-
+    */
 
 }

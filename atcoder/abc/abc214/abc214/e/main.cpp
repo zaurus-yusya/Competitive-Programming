@@ -31,53 +31,7 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-/*
-//segment tree
-//init O(N)  update query O(logN)
-ll n;
-ll dat[1<<18];
 
-ll K = -1;
-void init(ll n_){
-    n = 1;
-    while(n < n_) n *= 2;
-    for(ll i = 0; i < 2*n - 1; i++) dat[i] = INF;
-}
-// RMQ min [a, b)
-// index k value to a
-void update(ll k, ll a){
-    k += n - 1;
-    dat[k] = a;
-    while(k > 0){
-        k = (k-1) / 2;
-        dat[k] = min(dat[k*2 + 1], dat[k*2 + 2]);
-    }
-}
-ll query(ll a, ll b, ll k=0, ll l=0, ll r=n){
-    if(r <= a || b <= l){
-        return INF;
-        K = INF;
-    }
-
-    if(a <= l && r <= b){
-        return dat[k];
-        K = k;
-    }
-    else{
-        ll vl = query(a, b, k*2 + 1, l, (l+r) / 2);
-        ll vr = query(a, b, k*2 + 2, (l+r) / 2, r);
-        return min(vl, vr);
-    }
-}
-*/
-
-bool cmp(pair<ll, ll> a, pair<ll, ll> b) {
-    if(a.second != b.second){
-        return a.second < b.second;
-    }else{
-        return a.first < b.first;
-    }
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
@@ -89,28 +43,26 @@ int main() {
             ll l, r; cin >> l >> r;
             vec.push_back({l, r});
         }
-        sort(all(vec), cmp);
-        ll now = -1;
-        bool flag = true;
-        rep(i, n){
-            if(now < vec[i].first){
-                now = vec[i].first;
-            }else if(vec[i].first <= now && now < vec[i].second){
-                now = now+1;
-            }else{
-                flag = false; break;
+        vec.push_back({INF, INF});
+        priority_queue<ll, vector<ll>, greater<ll>> que;
+        sort(all(vec));
+        ll now = 1;
+        bool flag = false;
+        for(auto [l, r]: vec){
+            while(now < l && que.size() > 0){
+                if(que.top() < now){
+                    flag = true;
+                    cout << "No" << endl;
+                    break;
+                }
+                que.pop();
+                now++;
             }
-            //cerr << "now = " << now << endl;
+            now = l;
+            que.push(r);
+            if(flag) break;
         }
-        if(flag){
-            cout << "Yes" << endl;
-        }else{
-            cout << "No" << endl;
-        }
-        
-        
+        if(flag) continue;
+        cout << "Yes" << endl;
     }
-    
-
-
 }

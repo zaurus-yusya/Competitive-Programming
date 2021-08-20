@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -32,37 +32,31 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n; cin >> n;
-        vector<P> vec;
-        rep(i, n){
-            ll l, r; cin >> l >> r;
-            vec.push_back({l, r});
-        }
-        vec.push_back({INF, INF});
-        priority_queue<ll, vector<ll>, greater<ll>> que;
-        sort(all(vec));
-        ll now = 1;
-        bool flag = false;
-        for(auto [l, r]: vec){
-            while(now < l && que.size() > 0){
-                if(que.top() < now){
-                    flag = true;
-                    cout << "No" << endl;
-                    break;
-                }
-                que.pop();
-                now++;
+    ll q; cin >> q;
+    rep(Q, q){
+        string t; cin >> t;
+        string rt = t;
+        reverse(all(rt));
+        map<char, ll> mp;
+        string junban = "";
+        rep(i, rt.size()){
+            if(mp.count(rt[i]) == 0){
+                junban += rt[i];
             }
-            now = l;
-            que.push(r);
-            if(flag) break;
+            mp[rt[i]]++;
+            
         }
-        if(flag) continue;
-        cout << "Yes" << endl;
+        for(auto i: mp){
+            cout << i.first << " " << i.second << endl;
+        }
+        cout << junban << endl;
+
+
+        rep(i, junban.size()){
+            cout << junban[junban.size() - 1 - i];
+        }br;
     }
+
 }

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -32,37 +32,25 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
+
+    ll cnt = 0;
+    vector<ll> ans;
+    ll now = 1;
+    while(ans.size() <= 1001){
+        if((now % 3 == 0) || (now % 10 == 3)){
+            
+        }else{
+            ans.push_back(now);
+            cnt++;
+        }
+        now++;
+    }
     rep(T, t){
         ll n; cin >> n;
-        vector<P> vec;
-        rep(i, n){
-            ll l, r; cin >> l >> r;
-            vec.push_back({l, r});
-        }
-        vec.push_back({INF, INF});
-        priority_queue<ll, vector<ll>, greater<ll>> que;
-        sort(all(vec));
-        ll now = 1;
-        bool flag = false;
-        for(auto [l, r]: vec){
-            while(now < l && que.size() > 0){
-                if(que.top() < now){
-                    flag = true;
-                    cout << "No" << endl;
-                    break;
-                }
-                que.pop();
-                now++;
-            }
-            now = l;
-            que.push(r);
-            if(flag) break;
-        }
-        if(flag) continue;
-        cout << "Yes" << endl;
+        cout << ans[n-1] << endl;
     }
+
 }

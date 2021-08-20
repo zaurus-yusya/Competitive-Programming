@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -32,37 +32,41 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
-    rep(T, t){
-        ll n; cin >> n;
-        vector<P> vec;
-        rep(i, n){
-            ll l, r; cin >> l >> r;
-            vec.push_back({l, r});
-        }
-        vec.push_back({INF, INF});
-        priority_queue<ll, vector<ll>, greater<ll>> que;
-        sort(all(vec));
-        ll now = 1;
-        bool flag = false;
-        for(auto [l, r]: vec){
-            while(now < l && que.size() > 0){
-                if(que.top() < now){
-                    flag = true;
-                    cout << "No" << endl;
-                    break;
-                }
-                que.pop();
-                now++;
-            }
-            now = l;
-            que.push(r);
-            if(flag) break;
-        }
-        if(flag) continue;
-        cout << "Yes" << endl;
+    vector<ll> two;
+    for(ll i = 0; i <= 62; i++){
+        two.push_back(POW(2, i));
     }
+    rep(T, t){
+        ll n; cin >> n; // <= 10^9
+
+        string s = to_string(n);
+        ll ans = INF;
+        rep(i, 63){
+            string t = to_string(two[i]);
+
+            ll t_now = 0;
+            ll t_keta = t.size();
+
+            rep(j, s.size()){
+                if(s[j] == t[t_now]){
+                    t_now++;
+                    if(t_now == t.size()) break;
+                }
+            }
+            ll X = -1;
+            if(t_now == t.size()){
+                X = s.size() - t.size();
+            }else{
+                //消して足す
+                X = (s.size() - t_now) + (t.size() - t_now);
+            }
+            ans = min(ans, X);
+
+        }
+        cout << ans << endl;
+    }
+
 }

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -32,37 +32,30 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
-    rep(T, t){
-        ll n; cin >> n;
-        vector<P> vec;
-        rep(i, n){
-            ll l, r; cin >> l >> r;
-            vec.push_back({l, r});
-        }
-        vec.push_back({INF, INF});
-        priority_queue<ll, vector<ll>, greater<ll>> que;
-        sort(all(vec));
-        ll now = 1;
-        bool flag = false;
-        for(auto [l, r]: vec){
-            while(now < l && que.size() > 0){
-                if(que.top() < now){
-                    flag = true;
-                    cout << "No" << endl;
-                    break;
-                }
-                que.pop();
-                now++;
-            }
-            now = l;
-            que.push(r);
-            if(flag) break;
-        }
-        if(flag) continue;
-        cout << "Yes" << endl;
+    vector<ll> left;
+    rep(i, 100000){
+        left.push_back((i+1) * (i+1));
     }
+    rep(T, t){
+        ll k; cin >> k;
+        ll x = lower_bound(left.begin(), left.end(), k) - left.begin();
+        //cout << "x = " << x << endl;
+        if(k == (x+1) * (x+1)){
+            cout << (x+1) << ' ' << 1 << '\n'; continue;
+        }else{
+            ll X = (x+1) * (x+1);
+            //cout << "X = " << X << endl;
+            if(X - k <= x){
+                cout << (x+1) << ' ' << 1 + (X-k) << '\n'; continue;
+            }else{
+                //上に行くマス ()X-k - x
+                //cout << "X-k " << X-k << endl;
+                cout << (x+1) - (X-k - x) << ' ' << (x+1) << '\n'; continue;
+            }
+        }
+    }
+
 }

@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -32,37 +32,37 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
     rep(T, t){
-        ll n; cin >> n;
-        vector<P> vec;
-        rep(i, n){
-            ll l, r; cin >> l >> r;
-            vec.push_back({l, r});
+        ll a, b, c; cin >> a >> b >> c;
+
+        if(a == b){
+            cout << -1 << endl; continue;
         }
-        vec.push_back({INF, INF});
-        priority_queue<ll, vector<ll>, greater<ll>> que;
-        sort(all(vec));
-        ll now = 1;
-        bool flag = false;
-        for(auto [l, r]: vec){
-            while(now < l && que.size() > 0){
-                if(que.top() < now){
-                    flag = true;
-                    cout << "No" << endl;
-                    break;
-                }
-                que.pop();
-                now++;
+        if(a > b){
+            swap(a, b);
+        }
+
+        ll half = b-a;
+        ll all = 2 * half;
+
+        if(all < c){
+            cout << -1 << endl; continue;
+        }
+        
+        if((1 <= a && a <= half) && half < b && b <= all){
+            if(1 <= c && c <= half){
+                cout << c + half << endl;
+            }else{
+                cout << c - half << endl;
             }
-            now = l;
-            que.push(r);
-            if(flag) break;
+        }else{
+            cout << -1 << endl;
         }
-        if(flag) continue;
-        cout << "Yes" << endl;
+
+        
     }
+
 }

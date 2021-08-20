@@ -32,34 +32,62 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-struct edge{
-    ll to;
-    ll cost;
+struct UnionFind
+{
+    vector<long long> d;
+    UnionFind(long long n = 0) : d(n, -1)
+    {
+    }
+
+    //root : -size, not root: root
+    long long root(long long x){
+        if(d[x] < 0){
+            return x; 
+        }
+        return d[x] = root(d[x]);
+    }
+
+    bool unite(long long x, long long y){
+        x = root(x);
+        y = root(y);
+        if(x == y){
+            return false;
+        }
+        if(d[x] > d[y]){
+            swap(x, y);
+        }
+        d[x] += d[y];
+        d[y] = x;
+        return true;
+    }
+
+    long long size(long long x){
+        return -d[root(x)];
+    }
+
+    bool issame(long long a, long long b){
+        return root(a) == root(b);
+    }
 };
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-
-    vector<vector<P>> g(n);
-    vector<ll> vec(n-1);
-
+    vector<pair<ll, pair<ll, ll>>> vec(n-1);
     rep(i, n-1){
         ll u, v, w; cin >> u >> v >> w; u--; v--;
-        g[u].push_back({v, w});
-        g[v].push_back({u, w});
-        vec[i] = w;
+        vec[i] = {w, {u, v}};
     }
 
-    sort(all(vec),greater<ll>());
-    //sort(all(v), greater<ll>());
-
+    sort(all(vec));
     ll ans = 0;
+
+    UnionFind uf(n);
     rep(i, n-1){
-        ans += vec[i] * (n-1-i);
+        ans += vec[i].first * uf.size(vec[i].second.first) * uf.size(vec[i].second.second);
+        uf.unite(vec[i].second.first, vec[i].second.second);
     }
 
     cout << ans << endl;
-
 
 }

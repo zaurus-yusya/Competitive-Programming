@@ -33,29 +33,6 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll h, w, c; cin >> h >> w >> c;
-    vector<vector<ll>> vec(h, vector<ll>(w)); //1000 * 1000   10^6
-    rep(i, h){
-        rep(j, w){
-            cin >> vec[i][j];
-        }
-    }
-
-    ll ans = INF;
-
-    rep(rev, 2){
-        vector<vector<ll>> dp(h, vector<ll>(w, INF));
-        rep(i, h){
-            rep(j, w){
-                if(i >= 1) dp[i][j] = min(dp[i][j], dp[i-1][j]);
-                if(j >= 1) dp[i][j] = min(dp[i][j], dp[i][j-1]);
-                ans = min(ans, vec[i][j] + c * (i+j) + dp[i][j]);
-                dp[i][j] = min(dp[i][j], vec[i][j] - c * (i+j));
-            }
-        }
-        reverse(vec.begin(), vec.end());
-    }
-
-    cout << ans << endl;
+    
 
 }

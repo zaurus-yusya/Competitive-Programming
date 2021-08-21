@@ -41,31 +41,21 @@ int main() {
         }
     }
 
-    vector<ll> mi;
+    ll ans = INF;
 
-    rep(j, w){
-        ll tmp = INF;
-        for(ll i = 0, k = j; i < h && k >= 0; i++, k--){
-            tmp = min(tmp, vec[i][k]);
+    rep(rev, 2){
+        vector<vector<ll>> dp(h, vector<ll>(w, INF));
+        rep(i, h){
+            rep(j, w){
+                if(i >= 1) dp[i][j] = min(dp[i][j], dp[i-1][j]);
+                if(j >= 1) dp[i][j] = min(dp[i][j], dp[i][j-1]);
+                ans = min(ans, vec[i][j] + c * (i+j) + dp[i][j]);
+                dp[i][j] = min(dp[i][j], vec[i][j] - c * (i+j));
+            }
         }
-        mi.push_back(tmp);
-    }
-    for(ll i = 1; i < h; i++){
-        ll tmp = INF;
-        for(ll k = i, j = w-1; k < h && j >= 0; k++, j--){
-            tmp = min(tmp, vec[k][j]);
-        }
-        mi.push_back(tmp);
+        reverse(vec.begin(), vec.end());
     }
 
-    //vecdbg(mi);
-    ll ans = 1e18;
-    for(ll i = 0; i < mi.size(); i++){
-        for(ll j = i+1; j < mi.size(); j++){
-            ll x = mi[i] + mi[j] + c * (j-i);
-            //cout << mi[i] << " " << mi[j] << " " << c << " " << j-i << " " << x << endl;
-            ans = min(ans, x);
-        }
-    }
     cout << ans << endl;
+
 }

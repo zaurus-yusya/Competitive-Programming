@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -19,6 +19,7 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -33,29 +34,11 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll h, w, c; cin >> h >> w >> c;
-    vector<vector<ll>> vec(h, vector<ll>(w)); //1000 * 1000   10^6
-    rep(i, h){
-        rep(j, w){
-            cin >> vec[i][j];
-        }
+    string s; cin >> s;
+    if(s == "Hello,World!"){
+        cout << "AC" << endl;
+    }else{
+        cout << "WA" << endl;
     }
-
-    ll ans = INF;
-
-    rep(rev, 2){
-        vector<vector<ll>> dp(h, vector<ll>(w, INF));
-        rep(i, h){
-            rep(j, w){
-                if(i >= 1) dp[i][j] = min(dp[i][j], dp[i-1][j]);
-                if(j >= 1) dp[i][j] = min(dp[i][j], dp[i][j-1]);
-                ans = min(ans, vec[i][j] + c * (i+j) + dp[i][j]);
-                dp[i][j] = min(dp[i][j], vec[i][j] - c * (i+j));
-            }
-        }
-        reverse(vec.begin(), vec.end());
-    }
-
-    cout << ans << endl;
 
 }

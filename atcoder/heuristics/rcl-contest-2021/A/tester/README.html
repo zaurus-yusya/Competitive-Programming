@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<title>魔法使いXの戦い テスター</title>
+	<style type="text/css">
+		body {
+			margin: 10px 5%;
+		}
+		h2 {
+			border-left: 8px solid gray;
+			padding-left: 10px;
+		}
+		code {
+			background-color: rgba(27, 31, 35, 0.05);
+			border-radius: 3px;
+			font-family: monospace;
+			padding: 0.2em 0.4em;
+		}
+		pre {
+			background-color: rgb(246, 248, 250);
+			padding: 16px;
+		}
+	</style>
+</head>
+<body>
+<h1>魔法使いXの戦い テスター</h1>
+<p>
+	これは <a href="https://atcoder.jp/contests/rcl-contest-2021">RECRUIT 日本橋ハーフマラソン 2021</a> の <a href="https://atcoder.jp/contests/rcl-contest-2021/tasks/rcl_contest_2021_a">A 問題 - 魔法使いXの戦い</a> のテストケースジェネレータとジャッジのためのプログラムです。これらを用いることで、ローカル環境でプログラムのテストを行うことができます。
+</p>
+<ul>
+	<li>これらのプログラム上で計算された得点は、当コンテストでの得点を保証するものではありません。</li>
+	<li>これらのプログラムを使用することによるあらゆる損害は保障しかねますので、予めご了承ください。</li>
+	<li>これらのプログラムに関する質問は受け付けていません。予めご了承ください。</li>
+	<li>これらのプログラムを、コンテストの解答に流用してもかまいません。</li>
+</ul>
+
+<h2>テストケース生成</h2>
+<p>好きな乱数シードを整数で与えることで、問題文の条件を満たすテストケースを生成できます。以下のコマンドでは <code>12345</code> という値を乱数シード値として、<code>input.txt</code> というテキストファイルにテストケースを保存しています。</p>
+<pre>
+python generator.py 12345 > input.txt
+</pre>
+<p>または</p>
+<pre>
+python3 generator.py 12345 > input.txt
+</pre>
+<p>シード値に <code>0</code> 〜 <code>9</code> を与えて生成したテストケースを、それぞれ <code>input_0.txt</code> 〜 <code>input_9.txt</code> として置いています。</p>
+
+<h2>得点計算</h2>
+<p>テストケースのテキストファイルと、自分のプログラムの出力結果のテキストファイルから、テストケースに対する得点を計算することができます。以下のコマンドでは、 <code>input.txt</code> というテキストファイルに保存されたテストケースに対する <code>output.txt</code> というテキストファイル内の出力から得られる得点を計算しています。</p>
+<pre>
+python judge.py input.txt output.txt
+</pre>
+<p>または</p>
+<pre>
+python3 judge.py input.txt output.txt
+</pre>
+</body>
+</html>

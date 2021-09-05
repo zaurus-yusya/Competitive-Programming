@@ -34,21 +34,11 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll l, q; cin >> l >> q;
-
-    vector<ll> vec;
-    vec.push_back(0);
-    vec.push_back(l);
-
-    rep(i, q){
-        ll c, x; cin >> c >> x;
-        if(c == 1){
-            vec.push_back(x);
-            sort(all(vec));
-        }else{
-            lower_bound(vec.begin(), vec.end(), x) - vec.begin();
-            
-        }
+    string s, t; cin >> s >> t;
+    if(s < t){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
     }
 
 }

@@ -34,29 +34,21 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll l, q; cin >> l >> q;
-
-    map<ll, ll> mp;
-    mp[0];
-    mp[l];
-
-    vector<pair<ll, ll>> query;
-    ll cnt = 0;
-    rep(i, q){
-        ll c, x; cin >> c >> x;
-        query.push_back({c, x});
-        if(c == 1){
-            mp[x]++;
-            cnt++;
+    string s; cin >> s;
+    ll res = 0;
+    rep(i, 14){
+        if(i % 2 == 0){
+            res += 3 * (s[i] - '0');
         }else{
-            //cout << "x = " << x << endl;
-            auto dis = mp.lower_bound(x);
-            cout << dis->first - (prev(dis)->first) << endl;
+            res += (s[i] - '0');
         }
     }
 
-    
-
+    if(res % 10 == s[14] - '0'){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
 
 
 }

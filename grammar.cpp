@@ -318,11 +318,12 @@ deq.push_back("a");
 // 順序つき配列(重複無し)
 
 set<int> st;
-st.insert(tmp);
+st.insert(1);
 //中身表示
 for (auto itr = st.begin(); itr != st.end(); ++itr) {
         cout << *itr;
 }
+//setの二分探索
 
 // multiset
 ms.erase(ms.find(5)); //１つだけ削除

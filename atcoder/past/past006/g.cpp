@@ -34,29 +34,66 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll l, q; cin >> l >> q;
-
-    map<ll, ll> mp;
-    mp[0];
-    mp[l];
-
-    vector<pair<ll, ll>> query;
-    ll cnt = 0;
-    rep(i, q){
-        ll c, x; cin >> c >> x;
-        query.push_back({c, x});
-        if(c == 1){
-            mp[x]++;
-            cnt++;
+    ll n; cin >> n;
+    ll x = n;
+    // 3進数変換
+    vector<ll> res;
+    while(true){
+        if(x <= 2){
+            res.push_back(x);
+            break;
         }else{
-            //cout << "x = " << x << endl;
-            auto dis = mp.lower_bound(x);
-            cout << dis->first - (prev(dis)->first) << endl;
+            res.push_back(x % 3);
+            x /= 3;
         }
     }
 
-    
+    vector<ll> ans;
+    bool flag = false;
+    rep(i, res.size()){
+        if(flag){
+            if(res[i] == 0){
+                flag = false;
+                ans.push_back(POW(3, i));
+            }else if(res[i] == 1){
+                ans.push_back(-1 * POW(3, i));
+            }else{
+                
+            }
+        }else{
+            if(res[i] == 0){
 
+            }else if(res[i] == 1){
+                ans.push_back(POW(3, i));
+            }else{
+                flag = true;
+                ans.push_back(-1 * POW(3, i));
+            }
+        }
+    }
 
+    if(flag){
+        ans.push_back(POW(3, res.size()));
+    }
 
+    cout << ans.size() << endl;
+    rep(i, ans.size()){
+        cout << ans[i] << " ";
+    }br;
+
+    //  20
+    // 100
+    // 010
+    //  6
+    // 2 ... 0
+
+    // 25
+    //  8 ... 1
+    //  2 ... 2
+
+    // 2 2 1
+    // 8
+    // 9 3 1
+    // 1 0 0
+    //   2 2
 }

@@ -32,31 +32,42 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll l, q; cin >> l >> q;
+ll seen[200010];
+bool flag = false;
 
-    map<ll, ll> mp;
-    mp[0];
-    mp[l];
+void dfs(vector<vector<ll>> &g, ll v){
+    seen[v] = 1;
 
-    vector<pair<ll, ll>> query;
-    ll cnt = 0;
-    rep(i, q){
-        ll c, x; cin >> c >> x;
-        query.push_back({c, x});
-        if(c == 1){
-            mp[x]++;
-            cnt++;
-        }else{
-            //cout << "x = " << x << endl;
-            auto dis = mp.lower_bound(x);
-            cout << dis->first - (prev(dis)->first) << endl;
+    for(auto next : g[v]){
+        if(seen[next] == 0){
+            dfs(g, next);
+        }else if(konkai[next] == 1){
+            cout << v << " " << next << endl;
+            flag = true;
         }
     }
 
-    
+}
 
+int main() {
+    std::cout << std::fixed << std::setprecision(15);
+    ll n, m; cin >> n >> m;
+    vector<vector<ll>> g(n);
+    rep(i, m){
+        ll u, v; cin >> u >> v; u--; v--;
+        g[u].push_back(v);
+    }
 
+    rep(i, n){
+        if(seen[i] == 0){
+            dfs(g, i);
+        }
+    }
+
+    if(flag){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
 
 }

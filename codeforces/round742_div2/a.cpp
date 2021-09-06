@@ -34,6 +34,21 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        string s; cin >> s;
+
+        rep(i, s.size()){
+            if(s[i] == 'U'){
+                cout << 'D';
+            }else if(s[i] == 'D'){
+                cout << 'U';
+            }else{
+                cout << s[i];
+            }
+        }br;
+
+    }
 
 }

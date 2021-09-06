@@ -34,6 +34,72 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll s, n; cin >> s >> n;
+        vector<ll> moto;
+
+        ll x = s;
+        while(x > 0){
+            moto.push_back(x % 10);
+            x /= 10;
+        }
+
+        reverse(all(moto));
+
+        while(true){
+
+            //大丈夫か
+            ll tmp = 0;
+            rep(i, moto.size()){
+                tmp += moto[i];
+            }
+            if(tmp >= n) break;
+
+            //大丈夫じゃない時繰り下げる
+            rep(i, moto.size()){
+                if(i == 0) continue;
+                if(moto[moto.size() - 1 - i] > 0){
+                    moto[moto.size() - 1 - i] -= 1;
+                    moto[moto.size() - 1 - i + 1] += 10;
+                    break;
+                }
+            }
+
+        }
+
+        //vecdbg(moto);
+
+        vector<ll> ans;
+        ll now = 0;
+        ll X = s;
+        rep(i, n){
+            if(i == n-1){
+                ans.push_back(X);
+            }else{
+                if(moto[now] > 0){
+                    ll Y = POW(10, moto.size() - now - 1);
+                    ans.push_back(Y);
+                    X -= POW(10, moto.size() - now - 1);
+                    moto[now]--;
+                }else{
+                    while(moto[now] == 0){
+                        now++;
+                    }
+                    //cout << i << " " << now << endl;
+                    ll Y = POW(10, moto.size() - now - 1);
+                    ans.push_back(Y);
+                    X -= POW(10, moto.size() - now - 1);
+                }
+            }
+
+        }
+
+        rep(i, ans.size()){
+            cout << ans[i] << " ";
+        }br;
+
+    }
+
 
 }

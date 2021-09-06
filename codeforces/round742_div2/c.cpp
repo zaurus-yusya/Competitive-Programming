@@ -34,6 +34,60 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll t; cin >> t;
+    map<ll, ll> mp;
+    for(ll i = 0; i <= 9; i++){
+        for(ll j = 0; j <= 9; j++){
+            mp[i+j]++;
+        }
+    }
+
+    rep(T, t){
+        ll n; cin >> n;
+        string s = to_string(n);
+
+        vector<ll> moto;
+        ll x = n;
+        while(x > 0){
+            moto.push_back(x % 10);
+            x /= 10;
+        }
+
+        if(n < 100){
+            ll ans = 0;
+            for(ll i = 1; i < n; i++){
+                ll x = i, y = n - i;
+                if((x % 10) + (y % 10) >= 10) continue;
+                if(((x/10) % 10) + ((y/10) % 10) >= 10) continue;
+                ans++;
+            }
+            cout << ans << endl;
+            continue;
+        }
+
+        ll bsize = s.size() - 2;
+
+        ll ans = 0;
+        for(ll bit = 0; bit < (1<<bsize); bit++){
+            vector<ll> num = moto;
+
+            for(ll j = 0; j < bsize; j++){
+                if((bit >> j) & 1){
+                    num[j] += 10; num[j+2] -= 1;
+                }
+            }
+
+            ll tmp = 1;
+            rep(i, num.size()){
+                tmp *= mp[num[i]];
+            }
+            ans += tmp;
+
+        }
+
+        cout << ans - 2 << endl;
+
+    }
     
 
 }

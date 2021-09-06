@@ -31,9 +31,68 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+ll calc2(ll n){
+    if(n % 4 == 0){
+        return n;
+    }
+    if(n % 4 == 1){
+        return 1;
+    }
+    if(n % 4 == 2){
+        return n+1;
+    }
+    return 0;
+}
+
+ll calc(ll l, ll r){
+    return calc2(r) ^ calc2(l-1);
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll a, b; cin >> a >> b;
+
+        ll now = 0;
+
+        if(a == 1){
+            now = 0;
+            if(now == b){
+                cout << 1 << endl;
+            }else if(b == 1){
+                cout << 1 + 2 << endl;
+            }else{
+                cout << 1 + 1 << endl;
+            }
+            continue;
+        }
+        if(a == 2){
+            // 00001
+            now = 1;
+            if(now == b){
+                cout << 2 << endl;
+            }else if((now ^ (a)) == b){
+                cout << 2 + 2 << endl;
+            }else{
+                cout << 2 + 1 << endl;
+            }
+            continue;
+        }
+
+        now = calc(1, a-1);
+        if(now == b){
+            cout << a << endl;
+        }else if((now ^ (a)) == b){
+            cout << a + 2 << endl;
+        }else{
+            cout << a + 1 << endl;
+        }
+        continue;
+
+
+
+
+    }
 
 }

@@ -339,4 +339,14 @@ upper_bound(vec.begin(), vec.end(), x) - vec.begin();
 //セグメント木　単位元
 // min: INF, max: -INF, 和: 0, 積: 1, xor: 0, gcd: 0, lcm: 1
 
+//Struct
+struct Edge2{
+    ll from, to, cost;
+
+    //sort関数
+    bool operator<(const Edge2& o) const {
+        return cost > o.cost;
+    }
+};
+
 }

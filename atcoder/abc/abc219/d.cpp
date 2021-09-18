@@ -32,17 +32,6 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-bool cmp(pair<ll,ll> a, pair<ll,ll> b){
-    if(a.first != b.first){
-        return a.first > b.first;
-    }
-
-    if(a.second != b.second){
-        return a.second > b.second;
-    }else{
-        return true;
-    }
-}
 
 ll dp[310][310];
 
@@ -50,22 +39,12 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
     ll x, y; cin >> x >> y;
-
-    vector<long long> a(n); int asum = 0;
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i]; asum += a[i];
-    }
+    vector<long long> a(n); int asum = 0; 
     vector<long long> b(n); int bsum = 0;
     for(long long i = 0; i < n; i ++){
-        cin >> b[i]; bsum += b[i];
+        cin >> a[i] >> b[i]; 
+        asum += a[i]; bsum += b[i];
     }
-
-    
-    if(asum < x || bsum < y){
-        cout << -1 << endl;
-        return 0;
-    }
-    
 
     rep(i, 310){
         rep(j, 310){
@@ -75,10 +54,11 @@ int main() {
 
     dp[0][0] = 0;
     rep(i, n){
-        for(ll j = 0; j <= 300; j++){
-            for(ll k = 0; k <= 300; k++){
-                ll l = min((ll)301, j + a[i]);
-                ll r = min((ll)301, k + b[i]);
+        for(ll j = 300; j >= 0; j--){
+            for(ll k = 300; k >= 0; k--){
+                ll l = min((ll)300, j + a[i]);
+                ll r = min((ll)300, k + b[i]);
+                
                 dp[l][r] = min(dp[l][r], dp[j][k] + 1);
             }
         }
@@ -86,14 +66,17 @@ int main() {
 
     ll ans = INF;
 
-    for(ll i = x; i <= 301; i++){
-        for(ll j = y; j <= 301; j++){
+    for(ll i = x; i <= 300; i++){
+        for(ll j = y; j <= 300; j++){
             ans = min(ans, dp[i][j]);
         }
     }
-    cout << ans << endl;
 
-    cout << dp[7][8] << endl;
+    if(ans == INF){
+        cout << -1 << endl; return 0;
+    }
+
+    cout << ans << endl;
 
 
 

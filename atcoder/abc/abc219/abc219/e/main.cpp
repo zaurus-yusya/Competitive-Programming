@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -19,6 +19,7 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,8 +32,128 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+vector<ll> dy = {-1,1,0,0};
+vector<ll> dx = {0,0,-1,1};
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    vector<vector<ll>> vec(6, vector<ll>(6));
+    rep(i, 4){
+        rep(j, 4){
+            cin >> vec[i+1][j+1];
+        }
+    }
+
+    map<ll, P> mp;
+    ll cnt = 0;
+    rep(i, 4){
+        rep(j, 4){
+            mp[cnt] = {i+1, j+1};
+            cnt++;
+        }
+    }
+
+    ll ans = 0;
     
+    for(ll bit = 0; bit < (1<<16); bit++){
+        
+        vector<vector<ll>> masu(6, vector<ll>(6));
+        //囲む予定のマス
+        rep(i, 16){
+            ll y = mp[i].first, x = mp[i].second;
+            if((bit >> i) & 1){
+                masu[y][x] = 1;
+            }else{
+                masu[y][x] = 0;
+            }
+        }
+
+        //家囲めてるか
+        bool f = true;
+        rep(i, 4){
+            rep(j, 4){
+                if(vec[i+1][j+1] == 1 && masu[i+1][j+1] == 0){
+                    f = false;
+                }
+            }
+        }
+        if(!f){
+            continue;
+        }
+        ///
+
+        //訪問管理
+        vector<vector<ll>> visited(6, vector<ll>(6, 0));
+
+        //空白マスが連結かの判定
+        queue< pair<ll,ll> > que;
+        visited[0][0] = 1;
+        que.push({0, 0});
+        while(!que.empty()){
+            pair<ll,ll> now = que.front();
+            ll now_y = now.first, now_x = now.second;
+            que.pop();
+            rep(k, 4){
+                ll next_y = now_y + dy[k]; ll next_x = now_x + dx[k];
+                //場外ならcontinue
+                if(next_y < 0 || next_y >= 6 || next_x < 0 || next_x >= 6) continue;
+                //既に訪問済みならcontinue
+                if(visited[next_y][next_x] == 1) continue;
+                //囲む予定のマスならcontinue
+                if(masu[next_y][next_x] == 1) continue;
+                
+                visited[next_y][next_x] = 1;
+                que.push({next_y, next_x});
+            }
+        }
+
+
+        ll cnt2 = 0;
+        rep(i, 6){
+            rep(j, 6){
+                //訪問済みならcontinue
+                if(visited[i][j] == 1) continue;
+                //囲わないマスならcontinue
+                if(masu[i][j] == 0) continue;
+
+                //囲う予定のマスなのでBFS開始
+                queue< pair<ll,ll> > que;
+                visited[i][j] = 1;
+                que.push({i, j});
+
+                while(!que.empty()){
+                    pair<ll,ll> now = que.front();
+                    ll now_y = now.first, now_x = now.second;
+                    que.pop();
+                    rep(k, 4){
+                        ll next_y = now_y + dy[k]; ll next_x = now_x + dx[k];
+                        //場外ならcontinue
+                        if(next_y < 0 || next_y >= 6 || next_x < 0 || next_x >= 6) continue;
+                        //既に訪問済みならcontinue
+                        if(visited[next_y][next_x] == 1) continue;
+                        //囲む予定のマスじゃないならcontinue
+                        if(masu[next_y][next_x] == 0) continue;
+                        
+                        visited[next_y][next_x] = 1;
+                        que.push({next_y, next_x});
+                    }
+                }
+                cnt2++;
+            }
+        }
+
+        if(cnt2 != 1) continue;
+
+        bool f2 = true;
+        rep(i, 6){
+            rep(j, 6){
+                if(visited[i][j] == 0) f2 = false;
+            }
+        }
+        if(f2) ans++;
+
+    }
+
+    cout << ans << endl;
 
 }

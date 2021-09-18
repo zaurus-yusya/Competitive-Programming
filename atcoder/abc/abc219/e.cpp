@@ -37,10 +37,10 @@ vector<ll> dx = {0,0,-1,1};
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    vector<vector<ll>> vec(4, vector<ll>(4));
+    vector<vector<ll>> vec(6, vector<ll>(6));
     rep(i, 4){
         rep(j, 4){
-            cin >> vec[i][j];
+            cin >> vec[i+1][j+1];
         }
     }
 
@@ -48,21 +48,16 @@ int main() {
     ll cnt = 0;
     rep(i, 4){
         rep(j, 4){
-            mp[cnt] = {i, j};
+            mp[cnt] = {i+1, j+1};
             cnt++;
         }
     }
-    /*
-    rep(i, 16){
-        cout << i << " " << mp[i].first << " " << mp[i].second << endl;
-    }
-    */
 
     ll ans = 0;
     
     for(ll bit = 0; bit < (1<<16); bit++){
         
-        vector<vector<ll>> masu(4, vector<ll>(4));
+        vector<vector<ll>> masu(6, vector<ll>(6));
         //囲む予定のマス
         rep(i, 16){
             ll y = mp[i].first, x = mp[i].second;
@@ -77,7 +72,7 @@ int main() {
         bool f = true;
         rep(i, 4){
             rep(j, 4){
-                if(vec[i][j] == 1 && masu[i][j] == 0){
+                if(vec[i+1][j+1] == 1 && masu[i+1][j+1] == 0){
                     f = false;
                 }
             }
@@ -88,11 +83,34 @@ int main() {
         ///
 
         //訪問管理
-        vector<vector<ll>> visited(4, vector<ll>(4, 0));
+        vector<vector<ll>> visited(6, vector<ll>(6, 0));
 
-        ll cnt2 = 0; //1回のbfsで全部回る
-        rep(i, 4){
-            rep(j, 4){
+        //空白マスが連結かの判定
+        queue< pair<ll,ll> > que;
+        visited[0][0] = 1;
+        que.push({0, 0});
+        while(!que.empty()){
+            pair<ll,ll> now = que.front();
+            ll now_y = now.first, now_x = now.second;
+            que.pop();
+            rep(k, 4){
+                ll next_y = now_y + dy[k]; ll next_x = now_x + dx[k];
+                //場外ならcontinue
+                if(next_y < 0 || next_y >= 6 || next_x < 0 || next_x >= 6) continue;
+                //既に訪問済みならcontinue
+                if(visited[next_y][next_x] == 1) continue;
+                //囲む予定のマスならcontinue
+                if(masu[next_y][next_x] == 1) continue;
+                
+                visited[next_y][next_x] = 1;
+                que.push({next_y, next_x});
+            }
+        }
+
+
+        ll cnt2 = 0;
+        rep(i, 6){
+            rep(j, 6){
                 //訪問済みならcontinue
                 if(visited[i][j] == 1) continue;
                 //囲わないマスならcontinue
@@ -110,7 +128,7 @@ int main() {
                     rep(k, 4){
                         ll next_y = now_y + dy[k]; ll next_x = now_x + dx[k];
                         //場外ならcontinue
-                        if(next_y < 0 || next_y >= 4 || next_x < 0 || next_x >= 4) continue;
+                        if(next_y < 0 || next_y >= 6 || next_x < 0 || next_x >= 6) continue;
                         //既に訪問済みならcontinue
                         if(visited[next_y][next_x] == 1) continue;
                         //囲む予定のマスじゃないならcontinue
@@ -123,32 +141,19 @@ int main() {
                 cnt2++;
             }
         }
-        
-        if(cnt2 == 1){
-            bool f2 = true;
-            rep(i, 4){
-                rep(j, 4){
-                    if(visited[i][j] == 0 && vec[i][j] == 1) f2 = false;
-                }
+
+        if(cnt2 != 1) continue;
+
+        bool f2 = true;
+        rep(i, 6){
+            rep(j, 6){
+                if(visited[i][j] == 0) f2 = false;
             }
-            if(f2) ans++;
-            //cout << ans<< endl;
-            /*
-            if(ans < 5){
-                rep(i, 4){
-                    rep(j, 4){
-                        cout << visited[i][j] << ' ';
-                    }br;
-                }
-                cout << "----" << '\n';
-            }
-            */
         }
+        if(f2) ans++;
 
     }
 
     cout << ans << endl;
-
-
 
 }

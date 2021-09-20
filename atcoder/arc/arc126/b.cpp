@@ -34,15 +34,54 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> a(n);
-    ll sum = 0;
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i]; sum += a[i];
+    ll n, m; cin >> n >> m;
+    vector<P> p(m);
+    rep(i, m){
+        ll a, b; cin >> a >> b;
+        p[i] = {b, a};
     }
 
-    cout << sqrt(2) + sqrt(2) + sqrt(2) << endl;
-    cout << sqrt(10) + 1 + 1 << endl;
+    sort(all(p));
+
+    map<ll, ll> mp;
+    ll cnt = 1;
+    rep(i, m){
+        if(i != 0 && p[i].first > p[i-1].first) cnt++;
+        mp[i] = cnt;
+    }
+
+
+    
+    cout << "---" << endl;
+    rep(i, m){
+        cout << p[i].first << " " << p[i].second << endl;
+    }
+    cout << "---" << endl;
+    
+
+    vector<ll> vec(m);
+    rep(i, m){
+        vec[i] = p[i].second;
+    }
+
+    vector<long long> dp(n, INF);
+    
+    for(long long i = 0; i < m; i ++){
+        long long tmp = lower_bound(dp.begin(), dp.end(), vec[i]) - dp.begin();
+        dp[tmp] = vec[i];
+    }
+    
+    long long ans = 0;
+    for(long long i = 0; i < n; i++){
+        if(dp[i] < INF){
+            ans++;
+        }else{
+            break;
+        }
+    }
+    
+    //vecdbg(vec);
+    cout << ans << endl;
 
 
 }

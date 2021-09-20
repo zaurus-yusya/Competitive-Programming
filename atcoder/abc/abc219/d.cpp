@@ -33,7 +33,7 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
 
-ll dp[310][310];
+ll dp[310][310][310];
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
@@ -48,18 +48,21 @@ int main() {
 
     rep(i, 310){
         rep(j, 310){
-            dp[i][j] = INF;
+            rep(k, 310){
+                dp[i][j][k] = INF;
+            }
         }
     }
 
-    dp[0][0] = 0;
+    dp[0][0][0] = 0;
     rep(i, n){
-        for(ll j = 300; j >= 0; j--){
-            for(ll k = 300; k >= 0; k--){
+        for(ll j = 0; j <= 300; j++){
+            for(ll k = 0; k <= 300; k++){
                 ll l = min((ll)300, j + a[i]);
                 ll r = min((ll)300, k + b[i]);
                 
-                dp[l][r] = min(dp[l][r], dp[j][k] + 1);
+                dp[i+1][l][r] = min(dp[i+1][l][r], dp[i][j][k] + 1);
+                dp[i+1][j][k] = min(dp[i+1][j][k], dp[i][j][k]);
             }
         }
     }
@@ -68,7 +71,7 @@ int main() {
 
     for(ll i = x; i <= 300; i++){
         for(ll j = y; j <= 300; j++){
-            ans = min(ans, dp[i][j]);
+            ans = min(ans, dp[n][i][j]);
         }
     }
 

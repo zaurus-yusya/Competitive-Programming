@@ -32,8 +32,100 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+template <typename T>
+vector<vector<T>> mat_mul(vector<vector<T>> a, vector<vector<T>> b){
+    ll I = a.size(), J = b[0].size(), K = b.size();
+    vector<vector<T>> res(I, vector<T>(J));
+
+    rep(i, I){
+        rep(j, J){
+            T tmp = 0;
+            rep(k, K){
+                tmp += a[i][k] * b[k][j];
+            }
+            res[i][j] = tmp;
+        }
+    }
+
+    return res;
+}
+
+//二次元平面での回転行列
+template <typename T>
+pair<T, T> mat_rot(T rad, T y, T x){ //回転角(rad), y座標, x座標
+    vector<vector<T>> rot = {
+        {cos(rad), -sin(rad), (T)0},
+        {sin(rad), cos(rad), (T)0},
+        {(T)0, (T)0, (T)1}
+    };
+    vector<vector<T>> posi = {
+        {x},
+        {y},
+        {(T)1}
+    };
+    vector<vector<T>> res = mat_mul(rot, posi);
+    return {res[1][0], res[0][0]}; //pair({y座標, x座標})
+}
+
+template <typename T>
+vector<vector<T>> mat_pow(vector<vector<T>> a, ll n){
+    vector<vector<T>> res(a.size(), vector<T>(a[0].size()));
+    rep(i, a.size()) res[i][i] = 1;
+
+    while(n > 0){
+        if(n & 1 == 1){
+            res = mat_mul(a, res);
+        }
+        a = mat_mul(a, a);
+        n >>= 1;
+    }
+
+    return res;
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n; cin >> n;
+    ld x1, y1, x2, y2; cin >> x1 >> y1 >> x2 >> y2;
+    vector<pair<ld, ld>> vec(n);
+    rep(i, n){
+        cin >> vec[i].first >> vec[i].second;
+    }
+
+    ld midx = (x1 + x2) / (ld)2;
+    ld midy = (y1 + y2) / (ld)2;
+
+    ld X2 = x2 - midx, Y2 = y2 - midy;
     
+    ld kaku = atan2(Y2, X2);
+
+    vector<vector<ld>> rot = {
+        {cos(-kaku), -sin(-kaku), (ld)0},
+        {sin(-kaku), cos(-kaku), (ld)0},
+        {(ld)0, (ld)0, (ld)1}
+    };
+
+    rep(i, n){
+        //mid引く
+        ld tmpx = vec[i].first - midx;
+        ld tmpy = vec[i].second - midy;
+        /*
+        //回転させる
+        vector<vector<ld>> zahyo = {
+            {tmpx},
+            {tmpy},
+            {(ld)1}
+        };
+        vector<vector<ld>> res = mat_mul(rot, zahyo);
+        //mid足す
+        ld resx = res[0][0];
+        ld resy = res[1][0];
+        */
+
+        pair<ld, ld> p = mat_rot(-kaku, tmpy, tmpx);
+        cout << p.second << " " << p.first << endl;
+        //出力する
+        //cout << resx << " " << resy << endl;
+    }
 
 }

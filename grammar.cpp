@@ -2,6 +2,7 @@
 
 #include <bits/stdc++.h>
 typedef long long ll;
+typedef long double ld;
 using namespace std;
 
 int main() {
@@ -348,5 +349,8 @@ struct Edge2{
         return cost > o.cost;
     }
 };
+
+//座標→rad
+ld kaku = atan2(y, x); //引数の順番注意
 
 }

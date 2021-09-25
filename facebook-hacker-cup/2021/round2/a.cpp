@@ -34,6 +34,106 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n, m; cin >> n >> m;
+        vector<long long> s(m);
+
+        
+
+        for(long long i = 0; i < m; i ++){
+            cin >> s[i];
+        }
+        vector<vector<ll>> p(n, vector<ll>(m));
+        rep(i, n){
+            rep(j, m){
+                cin >> p[i][j];
+            }
+        }
+
+        map<ll, ll> saisyo;
+        rep(i, m){
+            saisyo[s[i]]++;
+        }
+
+        ll ans = 0;
+
+        map<ll, ll> now;
+
+        rep(i, n){
+            map<ll, ll> usesaisyo;
+            map<ll, ll> usenow;
+            
+            queue<ll> henkan;
+            rep(j, m){
+                if(now.count(p[i][j]) > 0){
+                    //nowにいた
+                    now[p[i][j]]--;
+                    if(now[p[i][j]] == 0) now.erase(p[i][j]);
+                    usenow[p[i][j]]++;
+                }else if(saisyo.count(p[i][j]) > 0){
+                    //saisyoにいた
+                    saisyo[p[i][j]]--;
+                    if(saisyo[p[i][j]] == 0) saisyo.erase(p[i][j]);
+                    usesaisyo[p[i][j]]++;
+                }else{
+                    //変換予定に挿入
+                    henkan.push(p[i][j]);
+                }
+            }
+
+            while(!henkan.empty()){
+                ll x = henkan.front();
+                //cout << "x = " << x << endl;
+                henkan.pop();
+
+                bool f = false;
+                //saisyoで変換可能なら変換
+                for(auto i: saisyo){
+                    //cout << "x saisyo " << x << endl;
+                    usenow[x]++;
+                    saisyo[i.first]--;
+                    if(saisyo[i.first] == 0) saisyo.erase(i.first);
+                    f = true;
+                    break;
+                }
+                
+                if(f) continue;
+                //nowで変換可能なら変換
+                for(auto i: now){
+                    //cout << "x now " << x << endl;
+                    ans++;
+                    usenow[x]++;
+                    now[i.first]--;
+                    if(now[i.first] == 0) now.erase(i.first);
+                    break;
+                }
+            }
+
+            //変数更新
+            saisyo = usesaisyo;
+            now = usenow;
+
+            /*
+            cout << i << endl;
+            cout << "saisyo" << endl;
+            for(auto i : saisyo){
+                cout << i.first << " " << i.second << endl;
+            }
+            cout << "now" << endl;
+            for(auto i : now){
+                cout << i.first << " " << i.second << endl;
+            }
+            cout << "now ans = " << ans << endl;
+            cout << "---" << endl;
+            */
+        }
+
+        cout << "Case #" << T+1 << ": " << ans << endl;
+
+        
+
+
+    }
 
 }

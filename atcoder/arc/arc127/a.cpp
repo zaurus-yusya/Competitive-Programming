@@ -32,8 +32,108 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+//i番目まで見て、未満かどうか、1が続いてるかどうか、最後の数値がlの総数、f(n)がmの個数
+ll dp[20][2][2][10][20];
+
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n; cin >> n;
+
+    ll keta = get_digit(n);
+    string s = to_string(n);
+
+    ll ans = 0;
+    for(ll x = 1; x <= keta; x++){
+        if(x != keta){
+            //絶対未満
+            ll tmp = 1; bool f = true;
+            for(ll j = x; j >= x; j--){
+                ans += j * tmp;
+                if(f){
+                    tmp *= 9;
+                }else{
+                    tmp *= 10;
+                }
+            }
+        }else{
+            dp[0][0][1][1][0] = 1;
+            for(ll i = 0; i < keta; i++){
+                ll num = s[i] - '0'; //stringの数値を文字列型
+                for(ll smaller = 0; smaller < 2; smaller++){ //smaller: 未満フラグ
+                    for(ll k = 0; k < 2; k++){ //1が続いてるかどうか
+                        for(ll j = 0; j <= (smaller ? 9 : num); j++){
+                            for(ll l = 0; l <= 9; l++){
+                                for(ll m = 0; m <= keta; m++){
+                                    if(k == 1 && l == 1 && j == 1){
+                                        dp[i+1][smaller || (j < num)][k && (j == 1)][j][m+1] += dp[i][smaller][k][l][m];
+                                    }else{
+                                        dp[i+1][smaller || (j < num)][k && (j == 1)][j][m] += dp[i][smaller][k][l][m];
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            // //未満考慮
+            // dp[1][0][1][1] = 1;
+            // //dp[1][1][1][1] = 1;
+            // for(ll i = 1; i < keta; i++){
+            //     ll num = s[i] - '0'; //stringの数値を文字列型
+            //     for(ll smaller = 0; smaller < 2; smaller++){ //smaller: 未満フラグ
+            //         for(ll j = 0; j <= (smaller ? 9 : num); j++){ //後の数字
+            //             for(ll k = 0; k <= 9; k++){ //前の数字がk
+            //                 for(ll l = 0; l <= keta; l++){ //f(n)の値
+            //                     if(i == 1 && j == 0) continue;
+            //                     if(j == 1 && k == 1){
+            //                         dp[i+1][smaller || (j < num)][j][l+1] += dp[i][smaller || (j < num)][k][l];
+            //                     }else{
+            //                         dp[i+1][smaller || (j < num)][j][l] += dp[i][smaller || (j < num)][k][l];
+            //                     }
+            //                     //dp[i+1][smaller || (j < num)][k][l] += dp[i][smaller][k][l];
+            //                 }
+            //             }
+            //         }
+            //     }
+            // }
+        }
+    }
+
+    for(ll j = 0; j < 2; j++){
+        for(ll k = 0; k < 2; k++){
+            for(ll l = 0; l < 10; l++){
+                for(ll m = 0; m <= keta; m++){
+                    ans += dp[keta][j][k][l][m] * m;
+                    cout << j << " " << k << " " << l << " " << m << " " << dp[keta][j][k][l][m] << endl;
+                }
+                
+                
+            }
+        }
+    }
+
+    //i番目まで見て、未満かどうか、1が続いてるかどうか、最後の数値がlの総数、f(n)がmの個数
+    cout << dp[1][0][1][1][1] << endl;
+    cout << dp[2][0][0][2][1] << endl;
+
+    cout << ans << endl;
+
+
+    //hinagata
+    //move to global
+    //第3引数を適宜問題に応じて追加
+    // ll dp[100010][2];
+    // dp[0][0] = 1;
     
+    // for(ll i = 0; i < keta; i++){
+    //     ll num = s[i] - '0'; //stringの数値を文字列型
+    //     for(ll smaller = 0; smaller < 2; smaller++){ //smaller: 未満フラグ
+    //         for(ll j = 0; j <= (smaller ? 9 : num); j++){
+    //             dp[i+1][smaller || (j < num)] += dp[i][smaller];
+    //         }
+    //     }
+    // }
+
 
 }

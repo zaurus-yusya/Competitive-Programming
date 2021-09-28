@@ -84,13 +84,11 @@ int main() {
 
             while(!henkan.empty()){
                 ll x = henkan.front();
-                //cout << "x = " << x << endl;
                 henkan.pop();
 
                 bool f = false;
                 //saisyoで変換可能なら変換
                 for(auto i: saisyo){
-                    //cout << "x saisyo " << x << endl;
                     usenow[x]++;
                     saisyo[i.first]--;
                     if(saisyo[i.first] == 0) saisyo.erase(i.first);
@@ -101,7 +99,6 @@ int main() {
                 if(f) continue;
                 //nowで変換可能なら変換
                 for(auto i: now){
-                    //cout << "x now " << x << endl;
                     ans++;
                     usenow[x]++;
                     now[i.first]--;
@@ -114,24 +111,9 @@ int main() {
             saisyo = usesaisyo;
             now = usenow;
 
-            /*
-            cout << i << endl;
-            cout << "saisyo" << endl;
-            for(auto i : saisyo){
-                cout << i.first << " " << i.second << endl;
-            }
-            cout << "now" << endl;
-            for(auto i : now){
-                cout << i.first << " " << i.second << endl;
-            }
-            cout << "now ans = " << ans << endl;
-            cout << "---" << endl;
-            */
         }
 
         cout << "Case #" << T+1 << ": " << ans << endl;
-
-        
 
 
     }

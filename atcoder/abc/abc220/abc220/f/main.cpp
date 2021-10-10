@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -19,6 +19,7 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,8 +32,70 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+vector<bool> seen;
+vector<ll> bubunki;
+ll depth = 0;
+vector<ll> ans;
+
+void dfs(vector<vector<ll>> &g, ll node, ll p){
+    seen[node] = 1;
+    bubunki[node] += 1;
+
+    ans[0] += depth;
+
+
+    for(auto next: g[node]){
+
+        if(!seen[next]){
+            depth += 1;
+            dfs(g, next, node);
+        }
+
+    }
+
+    bubunki[p] += bubunki[node];
+    depth -= 1;
+
+}
+
+
+void dfs2(vector<vector<ll>> &g, ll node, ll p){
+    seen[node] = 1;
+    if(node != 0) ans[node] = ans[p] + (ans.size() - bubunki[node]) - (bubunki[node]);
+
+    for(auto next: g[node]){
+
+        if(!seen[next]){
+            dfs2(g, next, node);
+        }
+
+    }
+
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll n; cin >> n;
+    vector<vector<ll>> g(n);
+    rep(i, n-1){
+        ll u, v; cin >> u >> v; u--; v--;
+        g[u].push_back(v); g[v].push_back(u);
+    }
+
+    seen.assign(n, 0);
+    bubunki.assign(n, 0);
+    ans.assign(n, 0);
+
+    dfs(g, 0, -1);
+
+    //vecdbg(bubunki);
+
+    seen.assign(n, 0);
+
+    dfs2(g, 0, -1);
+
+    rep(i, n){
+        cout << ans[i] << endl;
+    }
 
 }

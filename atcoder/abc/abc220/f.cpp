@@ -32,116 +32,51 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-//通ったか通ってないかを判定する配列(mainでfalseに初期化)
 vector<bool> seen;
-vector<ll> nodenum;
-vector<ll> nodesum;
+vector<ll> bubunki;
+ll depth = 0;
+vector<ll> ans;
 
-void dfs(const Graph &G, ll v)
-{
-    seen[v] = true;
-    ll cnt = 1;
-    ll sum = 0;
+void dfs(vector<vector<ll>> &g, ll node, ll p){
+    seen[node] = 1;
+    bubunki[node] += 1;
 
-    for(ll next_node : G[v]){
-        if(seen[next_node]){
-            continue;
-        }else{
-            ///////
-            //今見てるnodeに対する処理
-            ///////
+    ans[0] += depth;
 
-            dfs(G, next_node);
-            cnt++;
+
+    for(auto next: g[node]){
+
+        if(!seen[next]){
+            depth += 1;
+            dfs(g, next, node);
         }
+
     }
 
-    nodenum[v] = cnt;
+    if(node != 0) bubunki[p] += bubunki[node];
+    depth -= 1;
 
 }
 
 
-// need graph and root node 
-struct LCA
-{
-    vector<vector<ll>> parent; // parent[k][u] : distance from u to parent is 2^k
-    vector<ll> depth; // depth from root
-    vector<ll> sum;
-    vector<ll> nodenum;
-    LCA(const vector<vector<ll>> &g, ll root){
-        init(g, root);
-    }
+void dfs2(vector<vector<ll>> &g, ll node, ll p){
+    seen[node] = 1;
+    if(node != 0) ans[node] = ans[p] + (ans.size() - bubunki[node]) - (bubunki[node]);
 
-    void init(const vector<vector<ll>> &g, ll root){
-        ll V = g.size(); // node num
-        ll K = 1;
-        while((1 << K) < V) K++;
-        parent.assign(K, vector<ll> (V, -1));
-        depth.assign(V, -1);
-        sum.assign(V, 0);
-        nodenum.assign(V, 0);
+    for(auto next: g[node]){
 
-        dfs(g, root, -1, 0);
-        
-        for(ll k = 0; k+1 < K; k++){
-            for(ll v = 0; v < V; v++){
-                if(parent[k][v] < 0){
-                    parent[k+1][v] = -1;
-                }else{
-                    parent[k+1][v] = parent[k][parent[k][v]];
-                }
-            }
-        }
-    }
-
-    ll dfs(const vector<vector<ll>> &g, ll v, ll p, ll d){ // p:parent node, d:depth value
-        parent[0][v] = p;
-        depth[v] = d;
-        ll cnt = depth[v];
-        ll node = 0;
-        for(ll i = 0; i < g[v].size(); i++){
-            if(g[v][i] != p){
-                cnt += dfs(g, g[v][i], v, d+1);
-                node++;
-            } 
-        }
-        sum[v] = cnt;
-        nodenum[v] = node;
-        return cnt;
-    }
-
-    ll lca(ll u, ll v){
-        if(depth[u] < depth[v]) swap(u, v); // u is more deep
-        ll K = parent.size();
-        // u and v are same depth from lca
-        for(ll k = 0; k < K; k++){
-            if((depth[u] - depth[v]) >> k & 1){
-                u = parent[k][u];
-            }
+        if(!seen[next]){
+            dfs2(g, next, node);
         }
 
-        if(u == v) return u;
-        for(ll k = K-1; k >= 0; k--){
-            if (parent[k][u] != parent[k][v]) {
-                u = parent[k][u];
-                v = parent[k][v];
-            }
-        }
-        return parent[0][u];
     }
 
-    ll get_distance(ll u, ll v){ // distance from u to v
-        return depth[u] + depth[v] - 2 * depth[lca(u, v)];
-    }
-
-    bool is_on_path(ll u, ll v, ll x){ // is x is on path from u to v?
-        return get_distance(u, x) + get_distance(v, x) == get_distance(u, v);
-    }
-};
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
+
     vector<vector<ll>> g(n);
     rep(i, n-1){
         ll u, v; cin >> u >> v; u--; v--;
@@ -149,25 +84,17 @@ int main() {
     }
 
     seen.assign(n, 0);
-    nodenum.assign(n, 0);
-    nodesum.assign(n, 0);
-    dfs(g, 0);
+    bubunki.assign(n, 0);
+    ans.assign(n, 0);
 
-    vecdbg(nodenum);
+    dfs(g, 0, -1);
 
-    LCA l(g, 0);
+    seen.assign(n, 0);
 
-    rep(i, n){
-        cout << l.sum[i] << endl;
-    }
+    dfs2(g, 0, -1);
 
     rep(i, n){
-        cout << l.nodenum[i] << endl;
+        cout << ans[i] << endl;
     }
-
-
-
-
-
 
 }

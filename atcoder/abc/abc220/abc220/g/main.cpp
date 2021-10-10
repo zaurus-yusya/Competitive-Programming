@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -19,6 +19,7 @@ template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] <<
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'

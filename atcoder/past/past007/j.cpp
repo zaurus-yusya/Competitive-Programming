@@ -32,22 +32,49 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-ll seen[200010];
+vector<ll> seen;
 bool flag = false;
 
-void dfs(vector<vector<ll>> &g, ll v){
+void dfs(vector<vector<ll>> &g, ll v, ll start){
     seen[v] = 1;
 
     for(auto next : g[v]){
         if(seen[next] == 0){
-            dfs(g, next);
-        }else if(konkai[next] == 1){
-            cout << v << " " << next << endl;
+            dfs(g, next, start);
+        }else if(seen[next] == 1 && next == start){
             flag = true;
         }
     }
 
 }
+
+vector<ll> topo_sort(vector<vector<ll>> &g){
+    vector<ll> res;
+    ll n = g.size();
+    vector<ll> ind(n);
+    rep(i, n){
+        for(auto next: g[i]){
+            ind[next]++;
+        }
+    }
+    queue<ll> que;
+    rep(i, n){
+        if(ind[i] == 0) que.push(i);
+    }
+    while(!que.empty()){
+        ll now = que.front();
+        res.push_back(now);
+        que.pop();
+        for(auto next: g[now]){
+            ind[next]--;
+            if(ind[next] == 0){
+                que.push(next);
+            }
+        }
+    }
+    return res;
+}
+
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
@@ -57,10 +84,13 @@ int main() {
         ll u, v; cin >> u >> v; u--; v--;
         g[u].push_back(v);
     }
+    /*
+    seen.assign(n, 0);
 
     rep(i, n){
         if(seen[i] == 0){
-            dfs(g, i);
+            //cout << "start = " << i << endl;
+            dfs(g, i, i);
         }
     }
 
@@ -68,6 +98,14 @@ int main() {
         cout << "Yes" << endl;
     }else{
         cout << "No" << endl;
+    }
+    */
+
+    vector<ll> res = topo_sort(g);
+    if(res.size() == n){
+        cout << "No" << endl;
+    }else{
+        cout << "Yes" << endl;
     }
 
 }

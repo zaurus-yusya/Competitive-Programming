@@ -32,59 +32,6 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-struct PrimeNumber
-{
-    //O(sqrt(n))
-    //sosu hantei
-    bool is_prime(long long n){
-        for(long long i = 2; i * i <= n; i++){
-            if(n % i == 0) return false;
-        }
-        return n != 1;
-    }
-
-    //O(sqrt(n))  isn't sorted
-    //yakusu rekkyo
-    vector<long long> divisor(long long n){
-        vector<long long> res;
-        for(long long i = 1; i * i <= n; i++){
-            if(n % i == 0){
-                res.push_back(i);
-                if(i != n / i) res.push_back(n / i);
-            }
-        }
-        return res;
-    }
-
-    //O(sqrt(n))
-    //soinsu bunkai
-    map<long long, long long> prime_factor(long long n){
-        map<long long, long long> res;
-        for(long long i = 2; i * i <= n; i++){
-            while(n % i == 0){
-                n /= i;
-                res[i]++;
-            }
-        }
-        if(n != 1) res[n] = 1;
-        return res;
-    }
-
-    //O(n log log n)
-    //n madeno sosu rekkyo
-    vector<long long> eratosthenes(long long n){
-        vector<long long> prime;
-        vector<bool> is_prime(n + 1, true);
-        long long p = 0;
-        is_prime[0] = false; is_prime[1] = false;
-        for(long long i = 2; i <= n; i++){
-            if(is_prime[i]) prime.push_back(i);
-            for(long long j = 2 * i; j <= n; j += i) is_prime[j] = false;
-        }
-        return prime;
-    }
-};
-
 //a
 //b
 //c
@@ -104,9 +51,15 @@ bool calc(ll a, ll b, ll c, ll x, ll y){
 //c
 bool calc2(ll a, ll b, ll c, ll x, ll y){
     ll cnt = 0;
-    cnt += ceilll(a+b, x);
     cnt += ceilll(c, x);
-    if(cnt <= y){
+
+    ll tmp = y - cnt;
+    cnt = 0;
+    if(tmp <= 0) return false;
+    cnt += ceilll(a, tmp);
+    cnt += ceilll(b, tmp);
+    
+    if(cnt <= x){
         return true;
     }else{
         return false;
@@ -125,7 +78,7 @@ int main() {
     }
 
     do{
-        if(calc2(vec[0], vec[1], vec[2], x, y) || calc2(vec[0], vec[1], vec[2], y, x)){
+        if(calc2(vec[num[0]], vec[num[1]], vec[num[2]], x, y) || calc2(vec[num[0]], vec[num[1]], vec[num[2]], y, x)){
             cout << "Yes" << endl; return 0;
         }
     }while(next_permutation(num.begin(), num.end()));

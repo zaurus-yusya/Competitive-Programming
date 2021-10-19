@@ -104,9 +104,15 @@ bool calc(ll a, ll b, ll c, ll x, ll y){
 //c
 bool calc2(ll a, ll b, ll c, ll x, ll y){
     ll cnt = 0;
-    cnt += ceilll(a+b, x);
     cnt += ceilll(c, x);
-    if(cnt <= y){
+
+    ll tmp = y - cnt;
+    cnt = 0;
+    if(tmp <= 0) return false;
+    cnt += ceilll(a, tmp);
+    cnt += ceilll(b, tmp);
+    
+    if(cnt <= x){
         return true;
     }else{
         return false;
@@ -125,7 +131,7 @@ int main() {
     }
 
     do{
-        if(calc2(vec[0], vec[1], vec[2], x, y) || calc2(vec[0], vec[1], vec[2], y, x)){
+        if(calc2(vec[num[0]], vec[num[1]], vec[num[2]], x, y) || calc2(vec[num[0]], vec[num[1]], vec[num[2]], y, x)){
             cout << "Yes" << endl; return 0;
         }
     }while(next_permutation(num.begin(), num.end()));

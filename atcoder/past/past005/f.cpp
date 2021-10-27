@@ -32,31 +32,51 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-void rotate(vector<vector<char>> &vec){
-    vector<vector<char>> tmp;
-    tmp = vec;
-    rep(j, tmp.size()){
-        rep(i, tmp.size()){
-            vec[i][j] = tmp[j][tmp.size() - 1 - i];
-        }
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll h, w; cin >> h >> w;
-    ll x = max(h, w);
-    vector<vector<char>> s(h, vector<char>(w, '.'));
-    vector<vector<char>> t(x, vector<char>(x, '.'));
-    rep(i, h)rep(j, w) cin >> s[i][j];
-    rep(i, h)rep(j, w) cin >> t[i][j];
+    ll n, m; cin >> n >> m;
+    vector<vector<ll>> vec(m, vector<ll>(3));
+    rep(i, m){
+        rep(j, 3){
+            cin >> vec[i][j]; vec[i][j]--;
+        }
+    }
 
-    vecvecdbg(s);
-    rotate(s);
-    vecvecdbg(s);
-    rotate(s);
-    vecvecdbg(s);
-    rotate(s);
+    ll ans = 0;
+    for(ll bit = 0; bit < (1<<n); bit++){
+        map<ll, ll> mp;
+        for(ll i = 0; i < n; i++){
+            if((bit >> i) & 1){
+                mp[i]++;
+            }
+        }
+
+        bool f = true;
+        map<ll, ll> res;
+        rep(i, m){
+            ll cnt = 0;
+            rep(j, 3){
+                if(mp.count(vec[i][j]) > 0) cnt++;
+            }
+
+            if(cnt == 3) f = false;
+
+            if(cnt == 2){
+                rep(j, 3){
+                    if(mp.count(vec[i][j]) == 0){
+                        res[vec[i][j]]++;
+                    }
+                }
+            }
+
+        }
+
+        if(f){
+            ans = max(ans, (ll)res.size());
+        }
+
+    }
+    cout << ans << endl;
 
 
 }

@@ -32,73 +32,13 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-void rotate(vector<vector<char>> &vec){
-    vector<vector<char>> tmp;
-    tmp = vec;
-    rep(j, tmp.size()){
-        rep(i, tmp.size()){
-            vec[i][j] = tmp[j][tmp.size() - 1 - i];
-        }
-    }
-}
-
-bool calc(vector<vector<char>> &s, vector<vector<char>> &t, ll x){
-    ll cnt = 0;
-    rep(i, x){
-        rep(j, x){
-            if(t[i][j] == '#') cnt += 1;
-        }
-    }
-    /*
-    vecvecdbg(t);
-    cerr << "cnt = " << cnt << endl;
-    */
-
-    for(ll sh = -x+1; sh <= 2*x-1; sh++){
-        for(ll sw = -x+1; sw <= 2*x-1; sw++){
-            
-            ll res = 0;
-            rep(i, x){
-                rep(j, x){
-
-                    if(i + sh < 0 || i + sh >= x || j + sw < 0 || j + sw >= x) continue;
-                    if(s[i][j] == '.' && t[i + sh][j + sw] == '#') res += 1;
-
-                }
-            }
-            if(res == cnt) return true;
-
-        }
-    }
-
-    return false;
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll h, w; cin >> h >> w;
-    ll x = max(h, w);
-    vector<vector<char>> s(x, vector<char>(x, '#'));
-    vector<vector<char>> t(x, vector<char>(x, '.'));
-    rep(i, h)rep(j, w) cin >> s[i][j];
-    rep(i, h)rep(j, w) cin >> t[i][j];
-
-
-    rep(i, 4){
-        if(calc(s, t, x)){
-            cout << "Yes" << endl; return 0;
-        }
-        rotate(t);
+    string s; cin >> s;
+    if(s[s.size()-1] == 'r'){
+        cout << "er" << endl;
+    }else{
+        cout << "ist" << endl;
     }
-    cout << "No" << endl;
-    /*
-    vecvecdbg(t);
-    rotate(t);
-    vecvecdbg(t);
-    rotate(t);
-    vecvecdbg(t);
-    rotate(t);
-    */
-
 
 }

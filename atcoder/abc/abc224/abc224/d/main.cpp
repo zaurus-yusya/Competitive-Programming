@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << '\n';
 using namespace std;
-const long long INF = 8e18;
+const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
@@ -32,73 +32,60 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-void rotate(vector<vector<char>> &vec){
-    vector<vector<char>> tmp;
-    tmp = vec;
-    rep(j, tmp.size()){
-        rep(i, tmp.size()){
-            vec[i][j] = tmp[j][tmp.size() - 1 - i];
-        }
-    }
-}
-
-bool calc(vector<vector<char>> &s, vector<vector<char>> &t, ll x){
-    ll cnt = 0;
-    rep(i, x){
-        rep(j, x){
-            if(t[i][j] == '#') cnt += 1;
-        }
-    }
-    /*
-    vecvecdbg(t);
-    cerr << "cnt = " << cnt << endl;
-    */
-
-    for(ll sh = -x+1; sh <= 2*x-1; sh++){
-        for(ll sw = -x+1; sw <= 2*x-1; sw++){
-            
-            ll res = 0;
-            rep(i, x){
-                rep(j, x){
-
-                    if(i + sh < 0 || i + sh >= x || j + sw < 0 || j + sw >= x) continue;
-                    if(s[i][j] == '.' && t[i + sh][j + sw] == '#') res += 1;
-
-                }
-            }
-            if(res == cnt) return true;
-
-        }
-    }
-
-    return false;
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll h, w; cin >> h >> w;
-    ll x = max(h, w);
-    vector<vector<char>> s(x, vector<char>(x, '#'));
-    vector<vector<char>> t(x, vector<char>(x, '.'));
-    rep(i, h)rep(j, w) cin >> s[i][j];
-    rep(i, h)rep(j, w) cin >> t[i][j];
-
-
-    rep(i, 4){
-        if(calc(s, t, x)){
-            cout << "Yes" << endl; return 0;
-        }
-        rotate(t);
+    ll m; cin >> m;
+    vector<vector<ll>> g(9);
+    rep(i, m){
+        ll u, v; cin >> u >> v; u--; v--;
+        g[u].push_back(v); g[v].push_back(u);
     }
-    cout << "No" << endl;
-    /*
-    vecvecdbg(t);
-    rotate(t);
-    vecvecdbg(t);
-    rotate(t);
-    vecvecdbg(t);
-    rotate(t);
-    */
+
+    string s = "000000000";
+    rep(i, 8){
+        ll x; cin >> x; x--;
+        s[x] = (i+1) + '0';
+    }
+
+    string t = "012345678";
+    map<string, ll> mp;
+    do{
+        mp[t] = INF;
+    }while(next_permutation(t.begin(), t.end()));
+
+    queue<string> que;
+    mp[s] = 0;
+    que.push(s);
+    //cout << "s = " << s << endl;
+    while(!que.empty()){
+        string now = que.front();
+        que.pop();
+
+        //find 0
+        ll tmp = 0;
+        rep(i, now.size()){
+            if(now[i] == '0'){
+                tmp = i; break;
+            }
+        }
+
+        for(auto x : g[tmp]){
+            string swa = now;
+            swap(swa[x], swa[tmp]);
+            //cout << now << " " << swa << endl;
+            if(mp[swa] == INF){
+                mp[swa] = mp[now] + 1;
+                que.push(swa);
+            }
+        }
+
+    }
+
+    if(mp["123456780"] == INF){
+        cout << -1 << endl;
+    }else{
+        cout << mp["123456780"] << endl;
+    }
 
 
 }

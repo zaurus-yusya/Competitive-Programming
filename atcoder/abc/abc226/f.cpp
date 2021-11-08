@@ -142,40 +142,35 @@ MPow<998244353> mpow;
 ll N, K;
 mint ans = 0;
 
-vector<ll> kaijo(51);
+vector<mint> kaijo(51);
 
 void calc(vector<ll> &vec, ll cnt, ll ma){
-    //cout << "cnt = " << cnt << " ma = " << ma << endl;
     if(cnt == 0){
-        ll x = 1;
-        mint tmp = 0;
-        ll now = N;
+        
         map<ll, ll> mp;
-        bool f = true;
+
+        mint tmp = 1;
+        ll now = N;
+        ll score = 1;
         rep(i, vec.size()){
-            if(vec[i] != 1) f = false;
+            score = lcm(score, vec[i]);
+
+            if(vec[i] != 1) tmp *= com.ncr(now, vec[i]) * kaijo[vec[i] - 1];
+            now -= vec[i];
+
+            mp[vec[i]]++;
         }
 
-        if(f){
-            ans += 1;
-        }else{
-            ll x = 1;
-            rep(i, vec.size()){
-                x = lcm(x, vec[i]);
-                //cout << vec[i] << ' ';
-                tmp += com.ncr(N, vec[i]) * kaijo[vec[i]-1];
-                now -= vec[i];
-                mp[vec[i]]++;
-            }//br;
-            for(auto i : mp){
+        for(auto i: mp){
+            if(i.first != 1){
                 tmp /= kaijo[i.second];
             }
-            //cout << "tmp = " << tmp << endl;
-            ans += mpow.modpow(x, K) * tmp;
         }
+
+        ans += mpow.modpow(score, K) * tmp;
     }
 
-    for(ll i = ma; i >= 1; i--){
+    for(ll i = min(ma, cnt); i >= 1; i--){
         if(cnt - i >= 0){
             vec.push_back(i);
             calc(vec, cnt - i, i);
@@ -195,14 +190,10 @@ int main() {
     rep(i, 50){
         if(i != 0) kaijo[i] = kaijo[i-1] * i;
     }
+
     vector<ll> vec;
     calc(vec, N, N);
 
     cout << ans << endl;
-
-    
-
-
-
 
 }

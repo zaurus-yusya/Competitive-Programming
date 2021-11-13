@@ -31,7 +31,6 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);

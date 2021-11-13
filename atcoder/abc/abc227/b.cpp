@@ -31,10 +31,27 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll n; cin >> n;
+    vector<long long> s(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> s[i];
+    }
+    map<ll, ll> mp;
+    for(ll i = 1; i <= 1000; i++){
+        for(ll j = 1; j <= 1000; j++){
+            mp[4*i*j + 3*i + 3*j]++;
+        }
+    }
+    ll ans = 0;
+    rep(i, n){
+        if(mp[s[i]] == 0){
+            ans++;
+        }
+    }
+    cout << ans << endl;
+
 
 }

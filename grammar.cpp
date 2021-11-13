@@ -105,7 +105,7 @@ for (int x : vec) {
     cout << x << endl;
 }
 //範囲for文は型省略できる(elemはbの型になる)
-for (auto elem : vec) {
+for (auto& elem : vec) {
   cout << elem << endl;
 }
 
@@ -300,7 +300,12 @@ que.pop(); //queの先頭を削除
 //priority_que
 priority_queue<ll> que; //降順
 priority_queue<ll, vector<ll>, greater<ll>> que; //昇順
-que.top()
+
+//priority que 任意の関数で優先度付け(trueの方が後で出てくる)
+auto c = [](ll l, ll r) { return l > r;}; //trueの方が後なので昇順になる
+priority_queue<ll, vector<ll>, decltype(c)> pque(c);
+
+que.top()//先頭取得
 
 //priority_que pair使う時
 //pair の1つ目の要素に従って降順に処理したい

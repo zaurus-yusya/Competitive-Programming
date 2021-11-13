@@ -31,10 +31,60 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
+
+struct TaskInfo{
+    ll id;
+    ll sequence;
+};
+/*
+bool taskinfo_sort(TaskInfo a, TaskInfo b){
+    return a.sequence > b.sequence;
+}
+*/
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    auto taskinfo_sort = [](TaskInfo a, TaskInfo b) { return a.sequence < b.sequence; };
+    priority_queue<TaskInfo, vector<TaskInfo>, decltype(taskinfo_sort)> pque(taskinfo_sort);
+
+    ll n, m; cin >> n >> m;
+    vector<vector<ll>> g(n);
+    vector<ll> ind(n);
+    vector<ll> seq(n);
+    rep(i, m){
+        ll u, v; cin >> u >> v; u--; v--; g[v].push_back(u);
+        ind[u]++;
+    }
+    queue<ll> que;
+    rep(i, n){
+        if(ind[i] == 0) que.push(i);
+    }
+    while(!que.empty()){
+        ll num = que.front();
+        que.pop();
+        for(auto next: g[num]){
+            seq[next] += seq[num] + 1;
+            ind[next]--;
+            if(ind[next] == 0) que.push(next);
+        }
+    }
+
+    rep(i, n){
+        cout << seq[i] << " ";
+    }br;
+
     
+    rep(i, n){
+        pque.push({i, seq[i]});
+    }
+    
+
+    
+    while(!pque.empty()){
+        cout << "id " << pque.top().id << " sequence = " << pque.top().sequence << endl;
+        pque.pop();
+    }
+    
+
 
 }

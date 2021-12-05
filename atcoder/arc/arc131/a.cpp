@@ -6,19 +6,20 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -30,28 +31,17 @@ using P = pair<ll, ll>;
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> a(n);
-    vector<ll> sum(n+1);
-    vector<ll> ma(n);
-    ll m = -1;
-    rep(i, n){
-        cin >> a[i];
-        sum[i+1] = sum[i] + a[i];
-        m = max(m, a[i]);
-        ma[i] = m;
-    }
+    ll a, b; cin >> a >> b;
+    b = b * 10;
+    ll x = b / 2;
+    string s = to_string(a);
+    string t = to_string(x);
+    cout << s << 0 << t << endl;
 
-    ll now = 0;
-    rep(i, n){
-        ll x = ma[i] * (i+1);
-        now += sum[i] - sum[0];
-        cout << x + now + sum[i+1] - sum[0] << '\n';
-        
-    }
-    
+
 
 }

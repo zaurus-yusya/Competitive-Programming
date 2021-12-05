@@ -33,25 +33,6 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> a(n);
-    vector<ll> sum(n+1);
-    vector<ll> ma(n);
-    ll m = -1;
-    rep(i, n){
-        cin >> a[i];
-        sum[i+1] = sum[i] + a[i];
-        m = max(m, a[i]);
-        ma[i] = m;
-    }
-
-    ll now = 0;
-    rep(i, n){
-        ll x = ma[i] * (i+1);
-        now += sum[i] - sum[0];
-        cout << x + now + sum[i+1] - sum[0] << '\n';
-        
-    }
     
 
 }

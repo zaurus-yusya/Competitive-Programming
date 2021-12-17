@@ -33,8 +33,8 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
 ll ans = INF;
-vector<long long> a;
 
+/*
 void calc(ll res, ll nowind, ll nowx){
     //cout << nowx << " " << nowind << " " << res <<endl;
     if(res > ans){
@@ -94,21 +94,58 @@ void calc(ll res, ll nowind, ll nowx){
     }
 
 }
+*/
+
+map<ll, ll> memo;
+ll calc2(vector<ll> &a, ll ind, ll x, ll mai){
+    
+    if(ind == a.size() - 1){
+        return x / a[ind];
+    }
+    if(x == 0) return 0;
+
+    ll tmp = x % a[ind+1];
+    ll ans = calc2(a, ind+1, x - tmp, mai + tmp/a[ind]);
+    ans = min(ans, calc2(a, ind+1, x + a[ind+1] - tmp, mai + (a[ind+1] - tmp) / a[ind]));
+    return memo[x] = ans;
+    
+    if(memo.count(x) > 0) return memo[x];
+    cout << "ind = " << ind << " x = " << x << " " << " mai = " << mai << endl;
+    if(x == 0){
+        ans = min(ans, mai); return mai;
+    }
+    if(ind == a.size() - 1){
+        mai += x / a[ind];
+        ans = min(ans, mai); return mai;
+    }
+    if(x % a[ind+1] == 0){
+        //割り切れる場合次に進める
+        calc2(a, ind+1, x, mai);
+    }else{
+        //割り切れない場合2パターン
+        ll tmp = x % a[ind+1];
+        calc2(a, ind+1, x - tmp , mai + tmp/a[ind]);
+        calc2(a, ind+1, x + a[ind+1] - tmp, mai + (a[ind+1] - tmp) / a[ind]);
+    }
+    return memo[x] = mai;
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, x; cin >> n >> x;
-    a.assign(n, 0);
+    vector<ll> a(n);
     for(long long i = 0; i < n; i ++){
         cin >> a[i];
     }
 
-    ll dis = lower_bound(a.begin(), a.end(), x) - a.begin();
-    ll nowind = min(n-1, dis);
+    
 
-    calc(0, nowind, x);
+    // ll dis = lower_bound(a.begin(), a.end(), x) - a.begin();
+    // ll nowind = min(n-1, dis);
 
-    cout << ans << endl;
+    // calc(0, nowind, x);
+
+    cout << calc2(a, 0, x, 0) << endl;
 
 
 }

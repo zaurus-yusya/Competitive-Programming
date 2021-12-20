@@ -31,35 +31,52 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
-
-map<ll, ll> memo;
-ll calc(vector<ll> &a, ll ind, ll x){
-    if(memo[x] > 0) return memo[x];
-
-    if(ind == a.size() - 1){
-        return x / a[ind];
-    }
-    if(x == 0){
-        return 0;
-    }
-
-    ll tmp = x % a[ind+1];
-    ll xx = tmp/a[ind] + calc(a, ind+1, x - tmp);
-    ll yy = (a[ind+1] - tmp) / a[ind] + calc(a, ind+1, x + a[ind+1] - tmp);
-    
-    return memo[x] = min(xx, yy);
-
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, x; cin >> n >> x;
-    vector<ll> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
-    }
+    ll t; cin >> t;
+    rep(T, t){
+        ll m, n; cin >> m >> n;
+        vector<vector<ll>> vec(m, vector<ll>(n));
+        //たて　プレゼント
+        //よこ　ともだち
+        rep(i, m){
+            rep(j, n){
+                cin >> vec[i][j];
+            }
+        }
 
-    cout << calc(a, 0, x) << endl;
+        ll ok = 0; ll ng = 1e9+10;
+        while((ng - ok) > 1){
+            ll mid = (ng+ok)/2;
+            //cout << "mid = " << mid << endl;
+            bool f = false;
+            map<ll, ll> mp;
+            rep(i, m){
+                ll cnt = 0;
+                rep(j, n){
+                    
+                    if(vec[i][j] >= mid){
+                        cnt++;
+                        mp[j]++;
+                    }
+                    
+                }
+                if(cnt >= 2){
+                    f = true;
+                }
+            }
+            if(mp.size() != n){
+                f = false;
+            }
+
+            if(f){
+                ok = mid;
+            }else{
+                ng = mid;
+            }
+        }
+        cout << ok << endl;
+    }
 
 }

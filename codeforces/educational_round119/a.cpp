@@ -31,35 +31,23 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
-
-map<ll, ll> memo;
-ll calc(vector<ll> &a, ll ind, ll x){
-    if(memo[x] > 0) return memo[x];
-
-    if(ind == a.size() - 1){
-        return x / a[ind];
-    }
-    if(x == 0){
-        return 0;
-    }
-
-    ll tmp = x % a[ind+1];
-    ll xx = tmp/a[ind] + calc(a, ind+1, x - tmp);
-    ll yy = (a[ind+1] - tmp) / a[ind] + calc(a, ind+1, x + a[ind+1] - tmp);
-    
-    return memo[x] = min(xx, yy);
-
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, x; cin >> n >> x;
-    vector<ll> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
+    ll t; cin >> t;
+    while(t--){
+        string s; cin >> s;
+        ll cnt = 0;
+        rep(i, s.size() - 1){
+            if(s[i] == 'N') cnt++;
+        }
+        if(cnt == 0 && s[s.size()-1] == 'N'){
+            cout << "NO" << endl; continue;
+        }
+        if(cnt == 1 && s[s.size()-1] == 'E'){
+            cout << "NO" << endl; continue;
+        }
+        cout << "YES" << endl;
     }
-
-    cout << calc(a, 0, x) << endl;
 
 }

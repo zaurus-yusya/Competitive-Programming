@@ -6,20 +6,19 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << '\n';
+#define br cout << "\n";
 using namespace std;
-const long long INF = 8e18;
+const long long INF = 1e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
-const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,35 +30,9 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
-
-map<ll, ll> memo;
-ll calc(vector<ll> &a, ll ind, ll x){
-    if(memo[x] > 0) return memo[x];
-
-    if(ind == a.size() - 1){
-        return x / a[ind];
-    }
-    if(x == 0){
-        return 0;
-    }
-
-    ll tmp = x % a[ind+1];
-    ll xx = tmp/a[ind] + calc(a, ind+1, x - tmp);
-    ll yy = (a[ind+1] - tmp) / a[ind] + calc(a, ind+1, x + a[ind+1] - tmp);
-    
-    return memo[x] = min(xx, yy);
-
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, x; cin >> n >> x;
-    vector<ll> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
-    }
-
-    cout << calc(a, 0, x) << endl;
+    
 
 }

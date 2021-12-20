@@ -33,33 +33,53 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
 
-map<ll, ll> memo;
-ll calc(vector<ll> &a, ll ind, ll x){
-    if(memo[x] > 0) return memo[x];
-
-    if(ind == a.size() - 1){
-        return x / a[ind];
-    }
-    if(x == 0){
-        return 0;
-    }
-
-    ll tmp = x % a[ind+1];
-    ll xx = tmp/a[ind] + calc(a, ind+1, x - tmp);
-    ll yy = (a[ind+1] - tmp) / a[ind] + calc(a, ind+1, x + a[ind+1] - tmp);
-    
-    return memo[x] = min(xx, yy);
-
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, x; cin >> n >> x;
-    vector<ll> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
+    string s, t; cin >> s >> t;
+    
+    ll x = t[0] - s[0];
+    map<ll, ll> mp;
+    string ans = "Yes";
+
+    rep(i, s.size()){
+        ll x = s[i] - 'a';
+        ll y = t[i] - 'a';
+        ll tmp = y - x;
+        tmp = (y - x + 26) % 26;
+        mp[tmp]++;
+        continue;
+
+        /*
+        ll y = t[i] - s[i];
+        if(y >= 0){
+            mp[y]++;
+        }else{
+            mp[-y]++;
+        }
+        */
+        /*
+        char y = s[i] + x;
+        //cout << y << endl;
+        if(y > 'z'){
+            y -= 26;
+        }
+        if(y != t[i]){
+            ans = "No";
+        }
+        */
     }
 
-    cout << calc(a, 0, x) << endl;
+    if(mp.size() == 1){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
+    return 0;
+    cout << ans << endl;
+
+    cout  << (-1+26) % 26 << endl;
+
+    
+
 
 }

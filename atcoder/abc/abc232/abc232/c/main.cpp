@@ -33,33 +33,50 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
 
-map<ll, ll> memo;
-ll calc(vector<ll> &a, ll ind, ll x){
-    if(memo[x] > 0) return memo[x];
-
-    if(ind == a.size() - 1){
-        return x / a[ind];
-    }
-    if(x == 0){
-        return 0;
-    }
-
-    ll tmp = x % a[ind+1];
-    ll xx = tmp/a[ind] + calc(a, ind+1, x - tmp);
-    ll yy = (a[ind+1] - tmp) / a[ind] + calc(a, ind+1, x + a[ind+1] - tmp);
-    
-    return memo[x] = min(xx, yy);
-
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, x; cin >> n >> x;
-    vector<ll> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
+    ll n, m; cin >> n >> m;
+    vector<vector<ll>> g(n);
+    vector<vector<ll>> g2(n);
+
+    map<P, ll> mp;
+
+    rep(i, m){
+        ll a, b; cin >> a >> b; a--; b--;
+        g[a].push_back(b); g[b].push_back(a);
+        mp[{a, b}]++; mp[{b, a}]++;
     }
 
-    cout << calc(a, 0, x) << endl;
+    map<P, ll> mp2;
+    rep(i, m){
+        ll c, d; cin >> c >> d; c--; d--;
+        g2[c].push_back(d); g2[d].push_back(c);
+        mp2[{c, d}]++; mp2[{d, c}]++;
+    }
+
+    vector<ll> p(n);
+    rep(i, n){
+        p[i] = i;
+    }
+
+    if(m == 0){
+        cout << "Yes" << endl; return 0;
+    }
+
+    do{
+        bool f = true;
+        for(auto&i : mp){
+            ll l = i.first.first, r = i.first.second;
+            if(mp2.count({p[l], p[r]}) == 0 && mp2.count({p[r], p[l]}) == 0){
+                f = false;
+            }
+        }
+        if(f){
+            cout << "Yes" << endl; return 0;
+        }
+
+    }while(next_permutation(p.begin(), p.end()));
+
+    cout << "No" << endl;
 
 }

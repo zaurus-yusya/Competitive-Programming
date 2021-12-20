@@ -32,83 +32,34 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
-ll ans = INF;
-vector<long long> a;
 
-void calc(ll res, ll nowind, ll nowx){
-    //cout << nowx << " " << nowind << " " << res <<endl;
-    if(res > ans){
-        return;
+map<ll, ll> memo;
+ll calc(vector<ll> &a, ll ind, ll x){
+    if(memo[x] > 0) return memo[x];
+
+    if(ind == a.size() - 1){
+        return x / a[ind];
     }
-    if(nowx == 0){
-        ans = min(ans, res);
-    }else{
-        //nowindの金を何枚使うか
-        ll dis = lower_bound(a.begin(), a.end(), nowx) - a.begin();
-        nowind = min(nowind, dis);
-
-        // if( (nowx % a[nowind]) == 0){
-        //     ans = min(ans, res + nowx/a[nowind]);
-        //     return;
-        // }
-        // if(nowind != 0 && (nowx % a[nowind-1]) == 0){
-        //     ans = min(ans, res + nowx/a[nowind-1]);
-        // }
-        //cerr << "dis = " << dis << endl;
-
-        ll mai = nowx / a[nowind];
-        if(nowind == 0){
-            calc(res+mai, nowind-1, nowx - a[nowind] * mai);
-        }else{
-
-            if(abs(nowx - a[nowind] * (mai+1)) > (nowx - a[nowind] * mai)){
-                if(nowx >= (nowx - a[nowind] * mai) && res + mai < ans){
-                    calc(res+mai, nowind-1, nowx - a[nowind] * mai);
-                }
-                if(nowx >= abs(nowx - a[nowind] * (mai+1)) && res + mai + 1 < ans){
-                    calc(res+mai+1, nowind-1, abs(nowx - a[nowind] * (mai+1)));
-                }
-            }else{
-                if(nowx >= abs(nowx - a[nowind] * (mai+1)) && res + mai + 1 < ans){
-                    calc(res+mai+1, nowind-1, abs(nowx - a[nowind] * (mai+1)));
-                }
-                if(nowx >= (nowx - a[nowind] * mai) && res + mai < ans){
-                    calc(res+mai, nowind-1, nowx - a[nowind] * mai);
-                }
-            }
-            
-            // if(res + mai < ans){
-            //     if(nowx >= (nowx - a[nowind] * mai)){
-            //         calc(res+mai, nowind-1, nowx - a[nowind] * mai);
-            //     }
-            // }
-            // if(res + mai + 1 < ans){
-            //     if(nowx >= abs(nowx - a[nowind] * (mai+1))){
-            //         calc(res+mai+1, nowind-1, abs(nowx - a[nowind] * (mai+1)));
-            //     }
-            // }
-            
-        }
-        //calc(a, res+mai, nowind-1, nowx - a[nowind] * mai);
-        //calc(a, res+mai+1, nowind-1, abs(nowx - a[nowind] * (mai+1)));
+    if(x == 0){
+        return 0;
     }
+
+    ll tmp = x % a[ind+1];
+    ll xx = tmp/a[ind] + calc(a, ind+1, x - tmp);
+    ll yy = (a[ind+1] - tmp) / a[ind] + calc(a, ind+1, x + a[ind+1] - tmp);
+    
+    return memo[x] = min(xx, yy);
 
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, x; cin >> n >> x;
-    a.assign(n, 0);
+    vector<ll> a(n);
     for(long long i = 0; i < n; i ++){
         cin >> a[i];
     }
 
-    ll dis = lower_bound(a.begin(), a.end(), x) - a.begin();
-    ll nowind = min(n-1, dis);
-
-    calc(0, nowind, x);
-
-    cout << ans << endl;
-
+    cout << calc(a, 0, x) << endl;
 
 }

@@ -60,10 +60,15 @@ int main() {
 
     ll cnt = 0;
     ll ans = 0;
+    vector<ll> res;
+    
     for(auto& i : mp){
-        ans += i.second;
-        cnt++;
-        if(cnt == k) break;
+        res.push_back(i.second);
+    }
+    sort(all(res));
+    rep(i, k){
+        ans += res[i];
+
     }
     cout << ans << endl;
 }

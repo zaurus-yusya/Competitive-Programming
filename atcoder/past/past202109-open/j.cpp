@@ -79,17 +79,6 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, q; cin >> n >> q;
 
-    // t = 1 : output
-    // t = 2 : reverse
-
-    // 1 2 3 4 5 6
-    // 2 -> 5 : 2 * n - x + 1
-
-    // n = 3
-    // 3 : k 1以上だった数
-    // 2 : k 2以上だった数
-    // 1 : k 3以上だった数
-
     fenwick<ll> fw(n + 1);
     rep(i, q){
         ll t, k; cin >> t >> k;
@@ -98,7 +87,7 @@ int main() {
             
             if(k > n){
                 k = 2 * n - k + 1;
-                ll tmp = fw.sum2(1, n+1);
+                ll tmp = fw.sum2(0, k);
 
                 if(tmp % 2 == 1){
                     cout << k << endl;
@@ -107,7 +96,7 @@ int main() {
                 }
 
             }else{
-                ll tmp = fw.sum2(1, n+1);
+                ll tmp = fw.sum2(0, k);
                 if(tmp % 2 == 0){
                     cout << k << endl;
                 }else{
@@ -119,7 +108,7 @@ int main() {
         }
         if(t == 2){
             // reverse
-            fw.add(k, 1);
+            fw.add(n-k, 1);
 
         }
     }

@@ -33,8 +33,8 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
 
-vector<int> next_y = {1, 0};
-vector<int> next_x = {0, 1};
+vector<ll> dy = {1, 0};
+vector<ll> dx = {0, 1};
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
@@ -47,59 +47,39 @@ int main() {
     }
 
     vector<vector<ll>> dist(h, vector<ll>(w, -1));
-    //queはpairで作る
-    queue< pair<ll,ll> > que;
-
-    dist[0][0] = 1;
-    que.push(make_pair(0,0));
-
+    queue<pair<ll, ll>> que;
+    
+    dist[0][0] = 0;
+    que.push({0, 0});
+    
     while(!que.empty()){
-        pair<ll,ll> now_pos = que.front();
-        ll now_pos_y = now_pos.first;
-        ll now_pos_x = now_pos.second;
+        pair<ll, ll> now = que.front();
+        ll nowy = now.first, nowx = now.second;
         que.pop();
-
-        //上下左右いけるか
-        rep(i,2){
-            //次に行くマス
-            ll next_pos_y = now_pos_y + next_y.at(i);
-            ll next_pos_x = now_pos_x + next_x.at(i);
-            
-            //場外なら何もしない
-            if(next_pos_x < 0 || next_pos_x >= w || next_pos_y < 0 || next_pos_y >= h){
-                continue;
-            }
-
-            //壁なら何もしない
-            if(vec[next_pos_y][next_pos_x] == '#'){
-                continue;
-            }
-            
-            //既に訪問済みなら何もしない
-            if(dist[next_pos_y][next_pos_x] != -1){
-                continue;
-            }
-
-            //now_posから訪問できるノードをqueに追加
-            dist[next_pos_y][next_pos_x] = dist[now_pos_y][now_pos_x] + 1;
-            que.push(make_pair(next_pos_y,next_pos_x));
-
+    
+        rep(i, dy.size()){
+            ll nexty = nowy + dy[i], nextx = nowx + dx[i];
+    
+            //場外ならcontinue
+            if(nexty < 0 || nexty >= h || nextx < 0 || nextx >= w) continue;
+            //壁ならcontinue
+            if(vec[nexty][nextx] == '#') continue;
+            //訪問済みならcontinue
+            if(dist[nexty][nextx] != -1) continue;
+    
+            dist[nexty][nextx] = dist[nowy][nowx] + 1;
+            que.push({nexty, nextx});
         }
     }
+
 
 
     ll ans = 0;
     rep(i, h){
         rep(j, w){
-            ans = max(ans, dist[i][j]);
-            //cout << dist[i][j] << " ";
-        }//br;
+            ans = max(ans, dist[i][j] + 1);
+        }
     }
     cout << ans<< endl;
-    
-
-
-
-
 
 }

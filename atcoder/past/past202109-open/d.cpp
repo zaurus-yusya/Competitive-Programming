@@ -90,7 +90,7 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll x, y; cin >> x >> y;
     PrimeNumber p;
-
+    
     ll X = p.divisor(x).size();
     ll Y = p.divisor(y).size();
 

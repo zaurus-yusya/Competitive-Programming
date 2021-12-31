@@ -50,41 +50,27 @@ int main() {
         ll mid = (l + r) / 2;
         //cout << "mid = " << mid << endl;
 
-        ll miman = 0;
-        ll cnt = 0;
-        // b + cx = mid
-        // x = (mid - b) / c
-        // 2 4 6
-        // 7 - 2 / 2 =.. 3
-        // 8 - 2 / 2 = 3
+        //TODO mid以下がk個以上あるか
+
+        ll res = 0;
         rep(i, n){
-            ll tmp = min(a[i], (mid - b[i] + (c[i] - 1)) / c[i]);
-            miman += tmp;
-            if((mid - b[i]) % c[i] == 0 && tmp < a[i]){
-                cnt++;
+            ll x = (mid - b[i] + c[i] - 1) / c[i];
+            if(((mid-b[i]) % c[i]) == 0){
+                x++;
             }
+            x = min(x, a[i]);
+            if(mid < b[i]) x = 0;
+
+            res += x;
         }
 
-        //cout << "cnt = " << cnt << endl;
-        //cout << miman + 1 << " " << miman + 1 + cnt - 1 << endl;
-        if(miman + 1 <= k && k <= miman + 1 + cnt - 1){
-            cout << mid << endl; return 0;
+        if(res >= k){
+            r = mid;
         }else{
-            if(k < miman + 1){
-                r = mid;
-            }else{
-                l = mid;
-            }
-
+            l = mid;
         }
-        // miman+1 <= x <= miman+1+cnt-1
         
-
     }
-
-    // 1000000000 2000000000 3000000000 4000000000
-    // 1000000000 2000000000 3000000000 4000000000 5000000000 6000000000
-
-
+    cout << r << endl;
 
 }

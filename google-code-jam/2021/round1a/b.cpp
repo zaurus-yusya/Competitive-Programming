@@ -6,19 +6,21 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
+template<class T> void gcj_print(ll i, T x) { cout << "Case #" << (i+1) << ": " << x << endl;}
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,67 +33,121 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+struct PrimeNumber
+{
+    //O(sqrt(n))
+    //sosu hantei
+    bool is_prime(long long n){
+        for(long long i = 2; i * i <= n; i++){
+            if(n % i == 0) return false;
+        }
+        return n != 1;
+    }
+
+    //O(sqrt(n))  isn't sorted
+    //yakusu rekkyo
+    vector<long long> divisor(long long n){
+        vector<long long> res;
+        for(long long i = 1; i * i <= n; i++){
+            if(n % i == 0){
+                res.push_back(i);
+                if(i != n / i) res.push_back(n / i);
+            }
+        }
+        return res;
+    }
+
+    //O(sqrt(n))
+    //soinsu bunkai
+    map<long long, long long> prime_factor(long long n){
+        map<long long, long long> res;
+        for(long long i = 2; i * i <= n; i++){
+            while(n % i == 0){
+                n /= i;
+                res[i]++;
+            }
+        }
+        if(n != 1) res[n] = 1;
+        return res;
+    }
+
+    //O(n log log n)
+    //n madeno sosu rekkyo
+    vector<long long> eratosthenes(long long n){
+        vector<long long> prime;
+        vector<bool> is_prime(n + 1, true);
+        long long p = 0;
+        is_prime[0] = false; is_prime[1] = false;
+        for(long long i = 2; i <= n; i++){
+            if(is_prime[i]) prime.push_back(i);
+            for(long long j = 2 * i; j <= n; j += i) is_prime[j] = false;
+        }
+        return prime;
+    }
+};
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
+    //499 * 100 = 49900
+    PrimeNumber p;
     rep(T, t){
         ll m; cin >> m;
-        vector<ll> vec;
+        map<ll, ll> mp;
+        vector<ll> p(m);
+        vector<ll> q(m);
         ll sum = 0;
         rep(i, m){
             ll a, b; cin >> a >> b;
-            rep(j, b){
-                vec.push_back(a);
-            }
-            sum += b;
+            mp[a] = b;
+            p[i] = a;
+            q[i] = b;
+            sum += a * b;
         }
-
-        //bit
         ll ans = 0;
-        for (ll i = 0; i < (1<<sum); i++) {
-            map<ll, ll> mp;
-            //cout << "{ ";
-            for(ll j = 0; j < sum; j++){
-                if((i >> j) & 1){
-                    //cout << j << " ";
-                    mp[j] = 1;
+        for(ll i = sum; i >= sum-3500 && i >= 1; i--){
+
+            ll X = sum;
+            ll num = i;
+            for(ll j = 0; j < m; j++){
+                ll a = p[j], b = q[j];
+
+                while(true){
+                    if(num % a != 0) break;
+                    X -= a;
+                    num /= a;
+                    b -= 1;
+                    if(b == 0) break;
                 }
 
             }
-            //cout << "} " << endl;
 
-            vector<ll> wa;
-            vector<ll> seki;
+            if(X == i && num == 1){
+                ans = i;
+                break;
+            }
 
-            for(ll j = 0; j < vec.size(); j++){
-                if(mp[j] > 0){
-                    wa.push_back(vec[j]);
-                }else{
-                    seki.push_back(vec[j]);
+            /*
+            map<ll, ll> x = p.prime_factor(i);
+            for(auto& j : x){
+                if(mp[j.first] < j.second){
+                    f = false;
                 }
             }
+            if(!f) continue;
 
-            ll answa = 0;
-            ll ansseki = 1;
-            rep(j, wa.size()){
-                answa += wa[j];
-            } 
-            rep(j, seki.size()){
-                ansseki *= seki[j];
-            } 
-            //cout << answa << " " << ansseki << endl;
-            if(answa == ansseki){
-                
-                chmax(ans, ansseki);
+            ll tmp = 0;
+            for(auto& j : mp){
+                tmp += j.first * (j.second - x[j.first]);
             }
-
-            
-
-
+            if(tmp == i){
+                ans = i;
+                break;
+            }
+            */
         }
-
-        cout << "Case #" << (T+1) << ": " << ans << endl;
+        gcj_print(T, ans);
+        //cout << ans << endl;
 
     }
-
 }

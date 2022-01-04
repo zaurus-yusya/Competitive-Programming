@@ -6,19 +6,20 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -33,89 +34,122 @@ using P = pair<ll, ll>;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
+    ll test; cin >> test;
+    rep(T, test){
         ll n; cin >> n;
-        vector<ll> x(n);
+        vector<string> a(n);
         for(long long i = 0; i < n; i ++){
-            cin >> x[i];
+            cin >> a[i];
         }
-
-        vecdbg(x);
 
         ll ans = 0;
-        for(ll i = 1; i < n; i ++){
+        string now = a[0];
+        for(ll i = 1; i < n; i++){
+            //cout << now << endl;
 
-            if(x[i] > x[i-1]){
+            if(now.size() < a[i].size()){
+                now = a[i];
                 continue;
-            }else if(x[i] == x[i-1]){
-                x[i] = x[i]*10;
-                ans += 1;
-                continue;
-            }
-
-            ll maeketa = to_string(x[i-1]);
-            ll atoketa = to_string(x[i]);
-
-            if(maeketa < atoketa){
-                continue;
-            }else if(maeketa == atoketa){
-                // add 0
-                x[i] = x[i]*10;
-                ans += 1;
-            }else{
-                // maeketa > atoketa
-                // string bef = to_string(x[i-1]);
-                // string aft = to_string(x[i]);
-                string bef = x[i-1].str();
-                string aft = x[i].str();
-                ll flag = 0; // 0同じ　1大 2小
-                for(ll j = 0; j < atoketa; j++){
-
-                    if(bef[j] == aft[j]){
-                        continue;
-                    }else if((bef[j] - '0') < (aft[j] - '0')){
-                        flag = 1; break;
-                    }else{
-                        flag = 2; break;
+            }else if(now.size() == a[i].size()){
+                //桁数同じ
+                bool f = true;
+                for(ll j = 0; j < now.size(); j++){
+                    if(now[j] < a[i][j]){
+                        f = false; break;
+                    }
+                    if(now[j] > a[i][j]){
+                        f = true; break;
                     }
                 }
+                if(f){
+                    a[i] = a[i] + '0';
+                    ans++;
+                }
+                now = a[i];
+                continue;
+            }else{
+                //桁数a[i]の方が短い
 
-                if(flag == 0){
-                    //cerr << "flag = 0 " << endl;
-                    bool nine = true;
-                    for(ll j = atoketa; j < maeketa; j++){
-                        //cerr << bef[j] << endl;
-                        if(bef[j] != '9'){
-                            nine = false; break;
+                //接頭辞で比較して、a[i]の方が大きい場合、桁数分0を追加
+                bool f = true;
+                ll cnt = 0;
+                for(ll j = 0; j < a[i].size(); j++){
+                    if(now[j] < a[i][j]){
+                        f = false; break;
+                    }
+                    if(now[j] > a[i][j]){
+                        f = true; break;
+                    }
+                    cnt++;
+                }
+
+                if(!f){
+                    ll x = now.size() - a[i].size();
+                    for(ll j = 0; j < x; j++){
+                        a[i] += '0';
+                        ans++;
+                    }
+                    now = a[i];
+                    continue;
+                }
+
+                
+                if(cnt == a[i].size()){
+                    //同じ場合
+                    f = true;
+                    string s;
+                    for(ll j = 0; j < now.size() - a[i].size(); j++){
+                        if(now[j + a[i].size()] != '9') f = false;
+                        s += now[j + a[i].size()];
+                    }
+
+                    //残りの桁部分が全て9なら0をnow+1桁になるまで追加
+                    if(f){
+                        ll x = now.size() - a[i].size();
+                        for(ll j = 0; j < x + 1; j++){
+                            a[i] += '0';
+                            ans++;
+                        }
+                        now = a[i];
+                        continue;
+                    }
+                    //残りの桁部分が全て9ではないなら、残りの桁数分の数に+1した数をa[i]に付与
+                    string t = s;
+                    reverse(all(t));
+                    ll add = 1;
+                    for(ll j = 0; j < t.size(); j++){
+                        ll num = t[j] - '0';
+                        num += add;
+                        if(num == 10){
+                            t[j] = 0 + '0';
+                            add = 1;
+                        }else{
+                            t[j] = num + '0';
+                            add = 0;
                         }
                     }
-                    //後ろ全部9だったらダメ
-                    //全部9じゃなかったら+1
-                    if(nine){
-                        x[i] = x[i] * POW(10, (maeketa - atoketa + 1));
-                        ans += (maeketa - atoketa + 1);
-                    }else{
-                        x[i] = x[i-1] + 1;
-                        ans += (maeketa - atoketa);
-                        //cerr << "in" << endl;
+                    reverse(all(t));
+                    for(ll j = 0; j < t.size(); j++){
+                        a[i] += t[j];
+                        ans++;
                     }
-                }else if(flag == 1){
-                    x[i] = x[i] * POW(10, (maeketa - atoketa));
-                    ans += (maeketa - atoketa);
-                }else{
-                    x[i] = x[i] * POW(10, (maeketa - atoketa + 1));
-                    ans += (maeketa - atoketa + 1);
+                    now = a[i];
+                    continue;
                 }
-                
+
+                ll x = now.size() - a[i].size();
+                for(ll j = 0; j < x + 1; j++){
+                    a[i] += '0';
+                    ans++;
+                }
+                now = a[i];
+                continue;
             }
+
 
         }
 
-        vecdbg(x);
-
         cout << "Case #" << (T+1) << ": " << ans << endl;
-
     }
 
 }

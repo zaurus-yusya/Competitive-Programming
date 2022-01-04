@@ -6,19 +6,20 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,80 +32,8 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-bool cmp(pair<ll,string> a, pair<ll,string> b){
-    if(a.first != b.first){
-        return a.first > b.first;
-    }
-    return true;
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n, q; cin >> n >> q;
-        string s, t;
-        ll x, y;
-
-        if(n == 1){
-            cin >> s >> x;
-            if(x < (q-x)){
-                string tmp = "s";
-                rep(i, q){
-                    if(s[i] == 'F'){
-                        tmp += 'T';
-                    }else{
-                        tmp += 'F';
-                    }
-                    s = tmp;
-                    x = q-x;
-                }
-            }
-
-            cout << "Case #" << (T+1) << ": " << s << " " << x << "/1" << endl;
-            continue;
-        }
-
-        cin >> s >> x;
-        cin >> t >> y;
-        vector<pair<ll, string>> vec;
-        vec.push_back({x, s});
-        vec.push_back({y, t});
-
-        rep(i, q){
-            string tmp = "";
-            rep(i, q){
-                if(s[i] == 'F'){
-                    tmp += 'T';
-                }else{
-                    tmp += 'F';
-                }
-            }
-            vec.push_back({q-x, tmp});
-        }
-        rep(i, q){
-            string tmp = "";
-            rep(i, q){
-                if(t[i] == 'F'){
-                    tmp += 'T';
-                }else{
-                    tmp += 'F';
-                }
-            }
-            vec.push_back({q-y, tmp});
-        }
-
-        sort(vec.begin(), vec.end(), cmp);
-
-        cout << "Case #" << (T+1) << ": " << vec[3].second << " " << vec[3].first << "/1" << endl;
-
-        /*
-        vector<string> s(n);
-        vector<ll> score(n);
-        rep(i, n){
-            cin >> s[i] >> score[i];
-        }
-        */
-    }    
+    
 
 }

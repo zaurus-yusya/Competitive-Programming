@@ -31,18 +31,14 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll x, y; cin >> x >> y;
-    ll ans = 0;
-    while(x < y){
-        x += 10;
-        ans++;
-    }
-    
-    cout << ans << endl;
+    ll a, b, c, d; cin >> a >> b >> c >> d;
+
+    ll ans = max(a*c, a*d);
+    ll ans2 = max(b*c, b*d);
+    cout << max(ans, ans2) << endl;
 
 
 }

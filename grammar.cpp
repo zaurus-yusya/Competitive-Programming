@@ -6,6 +6,7 @@ typedef long double ld;
 using namespace std;
 
 int main() {
+  
 
 
 

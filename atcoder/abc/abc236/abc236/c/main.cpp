@@ -1,5 +1,6 @@
 #include <bits/stdc++.h>
-
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -30,45 +31,36 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-using S = long long;
-ll op(ll a, ll b) {
-    return min(a, b);
-}
-
-ll e() {
-    return INF;
-}
-
-//宣言
-//segtree<S, op, e> seg(n); //e()で初期化
-//segtree<S, op, e> seg(vec); //vecの値で初期化
-//seg.set(i, x); //i番目の値をxに更新
-//seg.get(i); //i番目の要素を取得
-//seg.prod(l, r); //[l, r)の区間のopを計算
-//seg.all_prod(); //[0, n)の区間のopを計算
-//seg.max_right<f>(l); //未履修
-//seg.min_left<f>(r); //未履修
-//単位元 e()
-//min: INF, max: -INF, 和: 0, 積: 1, xor: 0, gcd: 0, lcm: 1
-
-
-ll ft(ll t){
-    return (POW(t, 2)) + 2 * t + 3;
-}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
+    ll n, m; cin >> n >> m;
+    vector<string> s(n);
+    vector<string> t(m);
+    rep(i, n){
+        cin >> s[i];
+    }
+    rep(i, m){
+        cin >> t[i];
+    }
+    ll snow = 0;
+    ll tnow = 0;
+    
+    vector<string> ans;
+    rep(i, n){
+        //cout << s[snow] << " " << t[tnow] << endl;
+        if(s[snow] == t[tnow]){
+            ans.push_back("Yes");
+            tnow++;
+        }else{
+            ans.push_back("No");
+        }
+        snow++;
+    }
 
-    // ll x = ft(t);
-    // x = x + t;
-    // //cout << x << endl;
-    // x = ft(x);
-    // //cout << x << endl;
-    // ll y = ft(t);
-    // y = ft(y);
-    // //cout << y << endl;
-    // cout << ft(x + y) << endl;
+    rep(i, ans.size()){
+        cout << ans[i] << '\n';
+    }
 
-    cout << ft(ft(ft(t) + t) + ft(ft(t))) << endl;
 }

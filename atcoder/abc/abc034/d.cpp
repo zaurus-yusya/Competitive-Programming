@@ -1,6 +1,6 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
+// #include <atcoder/all>
+// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -31,148 +31,40 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-ll n, w;
-
-using S = long long;
-ll op(ll a, ll b) {
-    return max(a, b);
-}
-
-ll e() {
-    return -INF;
-}
-
-//宣言
-//segtree<S, op, e> seg(n); //e()で初期化
-//segtree<S, op, e> seg(vec); //vecの値で初期化
-//seg.set(i, x); i番目の値をxに更新
-//seg.get(i); i番目の要素を取得
-//seg.prod(l, r); [l, r)の区間のopを計算
-//seg.all_prod(); [0, n)の区間のopを計算
-//seg.max_right<f>(l); 未履修
-//seg.min_left<f>(r); 未履修
-//単位元 e()
-//min: INF, max: -INF, 和: 0, 積: 1, xor: 0, gcd: 0, lcm: 1
-
-bool cmp(pair<ll, ll> a, pair<ll, ll> b){
-    if(a.second != b.second){
-        return a.second < b.second;
-    }else{
-        return a.first < b.first;
-    }
-}
-
-vector<P> bit_calc(vector<ll> &val, vector<ll> &wei){
-    vector<P> res;
-    for(ll bit = 0; bit < (1<<val.size()); bit++){
-        ll value = 0, weight = 0;
-        for(ll j = 0; j < val.size(); j++){
-            if((bit >> j) & 1){
-                value += val[j], weight += wei[j];
-            }
-        }
-        res.push_back({value, weight});
-    }
-    sort(all(res), cmp);
-    return res;
-}
-
-void calc1(vector<ll> &val, vector<ll> &wei){
-    vector<ll> valmae;
-    vector<ll> weimae;
-    vector<ll> valato;
-    vector<ll> weiato;
-    for(ll i = 0; i < n/2; i++){
-        valmae.push_back(val[i]); weimae.push_back(wei[i]);
-    }
-    for(ll i = n/2; i < n; i++){
-        valato.push_back(val[i]); weiato.push_back(wei[i]);
-    }
-
-    vector<P> mae = bit_calc(valmae, weimae);
-    vector<P> ato = bit_calc(valato, weiato);
-    vector<ll> valmae2(mae.size()); vector<ll> weimae2(mae.size());
-    vector<ll> valato2(ato.size()); vector<ll> weiato2(ato.size());
-    rep(i, mae.size()){
-        valmae2[i] = mae[i].first; weimae2[i] = mae[i].second;
-    }
-    rep(i, ato.size()){
-        valato2[i] = ato[i].first; weiato2[i] = ato[i].second;
-    }
-
-    ll ans = 0;
-    segtree<S, op, e> seg(valato2);
-
-    rep(i, mae.size()){
-        if(weimae2[i] > w) continue;
-        ll dis = upper_bound(weiato2.begin(), weiato2.end(), w - weimae2[i]) - weiato2.begin();
-        ll tmp = seg.prod(0, dis);
-        ans = max(ans, valmae2[i] + tmp);
-    }
-    cout << ans << endl;
-
-}
-
-void calc2(vector<ll> &val, vector<ll> &wei){
-    vector<vector<ll>> dp(n+1, vector<ll>(min(w, 1000*200LL) + 10));
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j <= min(w, 1000*200LL); j++){
-            //選ぶ
-            if(j - wei[i] >= 0){
-                dp[i+1][j] = max(dp[i][j - wei[i]] + val[i], dp[i][j]);
-            }
-            //選ばない
-            dp[i+1][j] = max(dp[i+1][j], dp[i][j]);
-        }
-    }
-
-    cout << dp[n][min(w, 1000*200LL)] << endl; 
-}
-
-void calc3(vector<ll> &val, vector<ll> &wei){
-    vector<vector<ll>> dp(n+1, vector<ll>(1000*200LL + 10, INF));
-    dp[0][0] = 0;
-    for(ll i = 0; i < n; i++){
-        for(ll j = 0; j <= 1000*200LL; j++){
-            //選ぶ
-            if(j - val[i] >= 0){
-                dp[i+1][j] = min(dp[i][j - val[i]] + wei[i], dp[i+1][j]);
-            }
-            //選ばない
-            dp[i+1][j] = min(dp[i+1][j], dp[i][j]);
-        }
-    }
-
-    ll ans = 0;
-    rep(i, 1000*200LL + 1){
-        if(dp[n][i] <= w){
-            ans = i;
-        }
-    }
-    cout << ans << endl;
-}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    cin >> n >> w;
-    vector<ll> val(n);
-    vector<ll> wei(n);
-    ll mav = 0, maw = 0;
+    ll n, k; cin >> n >> k;
+    vector<ld> w(n);
+    vector<ld> p(n);
     rep(i, n){
-        cin >> val[i] >> wei[i];
-        mav = max(mav, val[i]);
-        maw = max(maw, wei[i]);
+        cin >> w[i] >> p[i];
+    }
+    vector<ld> s(n);
+    rep(i, n){
+        s[i] = w[i] * p[i] * 0.01;
     }
 
-    if(n <= 30){
-        cerr << "data1" << endl;
-        calc1(val, wei);
-    }else if(maw <= 1000){
-        cerr << "data2" << endl;
-        calc2(val, wei);
-    }else{
-        cerr << "data3" << endl;
-        calc3(val, wei);
+    ld ok = 0.01, ng = 1.00;
+
+    while(ng - ok > 0.0000000001){
+        ld mid = (ng + ok) / 2;
+        vector<ld> x(n);
+        rep(i, n){
+            x[i] = s[i] - mid * w[i];
+        }
+        sort(all(x), greater<ld>());
+        ld res = 0;
+        rep(i, k){
+            res += x[i];
+        }
+
+        if(res >= 0){
+            ok = mid;
+        }else{
+            ng = mid;
+        }
     }
+    cout << ok * 100 << endl;
 
 }

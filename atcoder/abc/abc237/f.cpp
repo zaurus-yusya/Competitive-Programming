@@ -140,34 +140,60 @@ typedef ModInt<998244353> mint;
 MComb<998244353> com(510000);
 MPow<998244353> mpow;
 
-vector<mint> kaijo(5001);
+mint dp[1010][1030][4][11];
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    string s; cin >> s;
-    map<char, ll> mp;
+    ll n, m; cin >> n >> m;
 
-    rep(i, s.size()){
-        mp[s[i]]++;
-    }
-    ll n = s.size();
+    //hinagata
+    //https://atcoder.jp/contests/past201912-open/submissions/18980789
+    //vector<ll> dp(1050, INF);
+    //dp[0] = 0;
+    //vector<vector<mint>> dp(1010, vector<mint>(1030));
+    dp[0][0][0][11] = 1;
+    for(ll i = 0; i < n; i++){
 
-    vector<vector<mint>> dp(27 , vector<mint>(5010));
-    dp[0][0] = 1;
+        for(ll j = 0; j < (1<<m); j++){ //前の集合
+            for(ll k = 0; k < 4; k++){ //LISの値
+                for(ll l = 0; l <= 10; l++){ //LISの最大値
+                    for(ll x = 0; x < m; x++){ //末尾に入れる値 0~m-1までとする
+                        //入れることでLISが増えるか
+                        ll syugo = j; //今の集合
+                        ll cnt = 0;
+                        ll tmp = 0;
+                        for(ll y = 0; y < m; y++){
+                            if(cnt == k) break;
+                            if((syugo >> y) & 1){
+                                cnt++;
+                                tmp = y; 
+                            }
+                        }
 
-    for(ll i = 0; i < 26; i++){
-        ll num = mp[i + 'a'];
-        for(ll j = 0; j <= n; j++){ //元の文字列の文字数
-            for(ll k = 0; k <= num; k++){ //これから入れる文字数
-                if(j + k > n) break;
-                dp[i+1][j + k] += dp[i][j] * com.ncr(j+k, k);
+                        if(tmp < x && l < x){
+                            //増える
+                            dp[i+1][j | (1<<x)][k+1][x] += dp[i][j][k][l];
+                        }else{
+                            //増えない
+                            dp[i+1][j | (1<<x)][k][l] += dp[i][j][k][l];
+                        }
+
+                    }
+                }
+
             }
+
         }
+
     }
 
     mint ans = 0;
-    for(ll j = 1; j <= n; j++){
-        ans += dp[26][j];
+    for(ll j = 1; j < (1<<m); j++){
+        for(ll l = 1; l <= 10; l++){
+            ans += dp[n][j][3][l];
+        }
     }
     cout << ans << endl;
+    
 
 }

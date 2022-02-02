@@ -9,7 +9,6 @@ typedef long double ld;
 #define br cout << '\n';
 using namespace std;
 const long long INF = 8e18;
-const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}

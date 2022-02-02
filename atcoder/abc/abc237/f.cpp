@@ -9,7 +9,6 @@ typedef long double ld;
 #define br cout << '\n';
 using namespace std;
 const long long INF = 8e18;
-const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
@@ -31,7 +30,6 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
 
 //https://atcoder.jp/contests/abc172/submissions/14765570
 //20200724
@@ -136,64 +134,14 @@ template<long long mod> struct MPow {
     }
 };
 
-typedef ModInt<998244353> mint;
-MComb<998244353> com(510000);
-MPow<998244353> mpow;
+#define MOD 998244353
 
-mint dp[1010][1030][4][11];
+typedef ModInt<MOD> mint;
+MComb<MOD> com(510000);
+MPow<MOD> mpow;
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-
-    //hinagata
-    //https://atcoder.jp/contests/past201912-open/submissions/18980789
-    //vector<ll> dp(1050, INF);
-    //dp[0] = 0;
-    //vector<vector<mint>> dp(1010, vector<mint>(1030));
-    dp[0][0][0][11] = 1;
-    for(ll i = 0; i < n; i++){
-
-        for(ll j = 0; j < (1<<m); j++){ //前の集合
-            for(ll k = 0; k < 4; k++){ //LISの値
-                for(ll l = 0; l <= 10; l++){ //LISの最大値
-                    for(ll x = 0; x < m; x++){ //末尾に入れる値 0~m-1までとする
-                        //入れることでLISが増えるか
-                        ll syugo = j; //今の集合
-                        ll cnt = 0;
-                        ll tmp = 0;
-                        for(ll y = 0; y < m; y++){
-                            if(cnt == k) break;
-                            if((syugo >> y) & 1){
-                                cnt++;
-                                tmp = y; 
-                            }
-                        }
-
-                        if(tmp < x && l < x){
-                            //増える
-                            dp[i+1][j | (1<<x)][k+1][x] += dp[i][j][k][l];
-                        }else{
-                            //増えない
-                            dp[i+1][j | (1<<x)][k][l] += dp[i][j][k][l];
-                        }
-
-                    }
-                }
-
-            }
-
-        }
-
-    }
-
-    mint ans = 0;
-    for(ll j = 1; j < (1<<m); j++){
-        for(ll l = 1; l <= 10; l++){
-            ans += dp[n][j][3][l];
-        }
-    }
-    cout << ans << endl;
     
 
 }

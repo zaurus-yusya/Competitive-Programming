@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-// #include <atcoder/all>
-// using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -30,37 +28,61 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
+
+struct UnionFind
+{
+    vector<long long> d;
+    UnionFind(long long n = 0) : d(n, -1)
+    {
+    }
+
+    //root : -size, not root: root
+    long long root(long long x){
+        if(d[x] < 0){
+            return x; 
+        }
+        return d[x] = root(d[x]);
+    }
+
+    bool unite(long long x, long long y){
+        x = root(x);
+        y = root(y);
+        if(x == y){
+            return false;
+        }
+        if(d[x] > d[y]){
+            swap(x, y);
+        }
+        d[x] += d[y];
+        d[y] = x;
+        return true;
+    }
+
+    long long size(long long x){
+        return -d[root(x)];
+    }
+
+    bool issame(long long a, long long b){
+        return root(a) == root(b);
+    }
+};
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n, a, b; cin >> n >> a >> b;
-        vector<long long> u(n);
-        for(long long i = 0; i < n; i ++){
-            cin >> u[i];
-        }
-
+    ll n, q; cin >> n >> q;
+    UnionFind uf(n+1);
+    rep(i, q){
+        ll l, r; cin >> l >> r; l--; r--;
+        uf.unite(l, r+1);
     }
 
-    /*
-
-    1 + 2 = 3
-    -2 + 5 = 3
-
-    2, 5
-
-    1を作りたい
-    3を1個か5が1個必要
-
-    3を1個作りたい
-    5を1個か8を1個必要
-
-    5を1個作りたい
-    7を1個か8を1個必要
-
+    if(uf.issame(0, n)){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
     
 
-    5 <- 10
-    */
+
 }

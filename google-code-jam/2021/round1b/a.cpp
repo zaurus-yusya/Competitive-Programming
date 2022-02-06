@@ -6,19 +6,19 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
-const long long MOD = 1e9+7;
+const long long INF = 8e18;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,146 +31,85 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+ll x = 360 * 12e10;
+ll y = 12e10;
+
+bool f = false;
+ll H = 0, M = 0, S = 0, NS = 0;
+
+void calc(ll hour, ll minute, ll sec){
+
+    //ナノsecの余り
+
+
+    //hourについて
+    //6時間経過でで180 * 12e10
+    //1時間経過で30 * 12e10
+    //1分経過で30 * 12e10 / 60
+    //1秒経過で30 * 12e10 / 60 / 60
+
+    //何秒経過したか
+    ll timesec = hour / (30 * 12e10 / 60 / 60);
+
+    //時間
+    ll realhour = timesec / 3600;
+    //分
+    ll realmin = timesec / 60 % 60;
+    //秒
+    ll realsec = timesec % 60;
+    //ナノ秒
+
+
+    //分
+    //1秒で12*10^9数値
+    //秒
+    //1秒で720*10^9数値
+
+    ll mm = (realmin * 60 + realsec) * 12*1e9;
+    ll ss = realsec * 720 * 1e9; 
+
+    if(mm == minute && ss == sec){
+        f = true;
+        H = realhour;
+        M = realmin;
+        S = realsec;
+    }
+
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
     rep(T, t){
-        ll A, B, C; cin >> A >> B >> C;
-        //a -= a; b -= a; c -= a;
-        ll a = A, b = B, c = C;
-        ll h = 0, m = 0, s = 0, n = 0;
-        
-        ll H = 0, M = 0, S = 0, N = 0;
+        ll a, b, c; cin >> a >> b >> c;
+        //1時間 60分 60秒
+        //1時間 = 3600秒
+        //1分 = 60秒
+        //時間 1nanosec 1メモリ
+        //分 1nanosec 12メモリ
+        //秒 1nanosec 720メモリ 1秒で720*10^9数値
+        //ナノ秒 1ナノ秒で720数値
+        //1メモリ　1 / 12e10 度
+        //時を固定したら時のメモリで何時何分何秒かわかる
 
-        ll now = 0;
-        while(a >= 0){
-            vector<ll> vec = {a, b, c};
-            // cout << "para " << a << " " << b << " " << c << endl;
-            do{ 
-                /*
-                for(ll i = 0; i < 3; i++){
-                    cout << vec[i] << " ";
-                }
-                cout << endl;
-                */
-                //時間
-                ll z = POW(10, 9);
-                h = vec[0] / (z * 3600);
-                ll hm = (vec[0] % (z * 3600) ) / (60 * POW(10, 9));
-                ll hs = ( (vec[0] % (z * 3600) ) % (60 * POW(10, 9)) ) / POW(10, 9);
-                ll hns = ( (vec[0] % (z * 3600) ) % (60 * POW(10, 9)) ) % POW(10, 9);
-                //分
-                ll y = 12 * POW(10, 9);
-                m = vec[1] / (y * 60);
-                ll ms = ( vec[1] % (y * 60) ) / (12 * POW(10, 9));
-                ll mns = ( vec[1] % (y * 60) ) % (12 * POW(10, 9));
-                //秒
-                ll x = 720 * POW(10, 9);
-                s = vec[2] / x;
-                //ナノ秒
-                ll ns = vec[2] % x;
-
-                if(hm == m && hs == s && ms == s && hns == mns && mns == ns){
-                    H = h; M = m; S = s; N = n;
-                    // cout << "in " << endl;
-                    // cout << h << " " << m << " " << s << endl;
+        for(ll i = 0; i <= 360; i++){
+            ll aa = (a + y * i) % x;
+            ll bb = (b + y * i) % x;
+            ll cc = (c + y * i) % x;
+            f = false;
+            vector<ll> vec = {aa, bb, cc};
+            sort(all(vec));
+            do{
+                calc(vec[0], vec[1], vec[2]);
+                if(f){
+                    cout << "Case #" << (T+1) << ": " << H << " " << M << " " << S << " " << NS << endl;
+                    break;
                 }
 
             }while(next_permutation(vec.begin(), vec.end()));
 
-            a -= 720 * POW(10, 9);
-            b -= 720 * POW(10, 9);
-            c -= 720 * POW(10, 9);
+            if(f) break;
         }
-
-        a = A, b = B, c = C;
-        while(c <= 720 * POW(10, 9) * 3600 * 12){
-            vector<ll> vec = {a, b, c};
-            // cout << "para " << a << " " << b << " " << c << endl;
-            do{ 
-                /*
-                for(ll i = 0; i < 3; i++){
-                    cout << vec[i] << " ";
-                }
-                cout << endl;
-                */
-                //時間
-                ll z = POW(10, 9);
-                h = vec[0] / (z * 3600);
-                ll hm = (vec[0] % (z * 3600) ) / (60 * POW(10, 9));
-                ll hs = ( (vec[0] % (z * 3600) ) % (60 * POW(10, 9)) ) / POW(10, 9);
-                ll hns = ( (vec[0] % (z * 3600) ) % (60 * POW(10, 9)) ) % POW(10, 9);
-                //分
-                ll y = 12 * POW(10, 9);
-                m = vec[1] / (y * 60);
-                ll ms = ( vec[1] % (y * 60) ) / (12 * POW(10, 9));
-                ll mns = ( vec[1] % (y * 60) ) % (12 * POW(10, 9));
-                //秒
-                ll x = 720 * POW(10, 9);
-                s = vec[2] / x;
-                //ナノ秒
-                ll ns = vec[2] % x;
-
-                if(hm == m && hs == s && ms == s && hns == mns && mns == ns){
-                    H = h; M = m; S = s; N = n;
-                    // cout << "in " << endl;
-                    // cout << h << " " << m << " " << s << endl;
-                }
-
-            }while(next_permutation(vec.begin(), vec.end()));
-
-            a += 720 * POW(10, 9);
-            b += 720 * POW(10, 9);
-            c += 720 * POW(10, 9);
-        }
-        
-        /*
-        map<ll, ll> mp;
-
-        // 1秒6度
-        //秒を指定
-        ll x = 720 * POW(10, 9);
-        rep(i, 3){
-            if(vec[i] % x == 0){
-                //秒にする
-                mp[i]++;
-                s = vec[i] / x;
-            }
-        }
-
-        //分を指定
-        ll y = 12 * POW(10, 9);
-        rep(i, 3){
-            if(mp[i] > 0) continue;
-            if(vec[i] % y == 0){
-                //分にする
-                mp[i]++;
-                m = vec[i] / y / 60;
-            }
-        }
-
-        //時間を指定
-        ll z = POW(10, 9);
-        rep(i, 3){
-            if(mp[i] > 0) continue;
-            if(vec[i] % z == 0){
-                //時間にする
-                mp[i]++;
-                h = vec[i] / z / 3600;
-            }
-        }
-        */
-
-        /*
-        cout << "--" << endl;
-        cout << a / x <<  " " << b / x << " " << c / x << endl;
-        cout << a % x <<  " " << b % x << " " << c % x << endl;
-        cout << "--" << endl;
-        cout << a / y <<  " " << b / y << " " << c / y << endl;
-        cout << a % y <<  " " << b % y << " " << c % y << endl;
-        */
-
-        cout << "Case #" << T+1 << ": " << H << " " << M << " " << S << " " << N << endl;
 
     }
 

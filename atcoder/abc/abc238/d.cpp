@@ -30,37 +30,47 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
     rep(T, t){
-        ll n, a, b; cin >> n >> a >> b;
-        vector<long long> u(n);
-        for(long long i = 0; i < n; i ++){
-            cin >> u[i];
+        ll a, s; cin >> a >> s;
+        bool f = true;
+        ll mae = 0;
+        for(ll i = 0; i < 62; i++){
+            ll x = a & 1;
+            ll y = s & 1;
+
+
+            if(x == 1){//aが1
+                if(mae == 1 && y == 0){
+                    f = false;
+                }
+                if(mae == 0 && y == 1){
+                    f = false;
+                }
+                mae = 1;
+            }else{
+                if(y == 1){
+                    mae = 0;
+                }
+                if(y == 0 && mae == 1){
+                    mae = 1;
+                }
+            }
+
+            a = a >> 1;
+            s = s >> 1;
+        }
+
+        if(f && mae == 0){
+            cout << "Yes" << endl;
+        }else{
+            cout << "No" << endl;
         }
 
     }
 
-    /*
-
-    1 + 2 = 3
-    -2 + 5 = 3
-
-    2, 5
-
-    1を作りたい
-    3を1個か5が1個必要
-
-    3を1個作りたい
-    5を1個か8を1個必要
-
-    5を1個作りたい
-    7を1個か8を1個必要
-
-    
-
-    5 <- 10
-    */
 }

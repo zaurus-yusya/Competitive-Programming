@@ -33,68 +33,31 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll d; cin >> d;
-    vector<long long> c(26);
-    for(long long i = 0; i < 26; i ++){
-        cin >> c[i];
-    }
-    vector<vector<ll>> s(d, vector<ll>(26));
-    rep(i, d){
-        rep(j, 26){
-            cin >> s[i][j];
-        }
-    }
-    vector<long long> t(d);
-    for(long long i = 0; i < d; i ++){
-        cin >> t[i]; t[i]--;
-    }
-    ll m; cin >> m;
-    vector<ll> dd(m);
-    vector<ll> qq(m);
-    rep(i, m){
-        cin >> dd[i] >> qq[i]; dd[i]--; qq[i]--;
-    }
-
-
-    vector<ll> score(d+1);
-    vector<vector<ll>> last(d+1, vector<ll>(26));
-    rep(i, d){
-        rep(j, 26){
-            last[i+1][j] = last[i][j];
+    ll t; cin >> t;
+    rep(T, t){
+        ll n, x, y; cin >> n >> x >> y;
+        vector<long long> a(n);
+        ll sum = 0;
+        for(long long i = 0; i < n; i ++){
+            cin >> a[i];
+            sum += a[i];
         }
 
-        score[i+1] = score[i] + s[i][t[i]];
-        last[i+1][t[i]] = i+1;
-        
-        ll down = 0;
-        rep(j, 26){
-            down += c[j] * ((i+1) - last[i+1][j]);
-        }
-
-        score[i+1] = score[i+1] - down;
-
-    }
-    
-    rep(i, m){
-        t[dd[i]] = qq[i];
-        for(ll j = dd[i]; j < d; j++){
-            rep(k, 26){
-                last[j+1][k] = last[j][k];
-            }
-
-            score[j+1] = score[j] + s[j][t[j]];
-            last[j+1][t[j]] = j+1;
+        ll bob = sum + x + 3;
+        bob -= y;
+        if(bob % 2 == 0){
+            cout << "Bob" << endl; 
+        }else{
             
-            ll down = 0;
-            rep(k, 26){
-                down += c[k] * ((j+1) - last[j+1][k]);
-            }
-
-            score[j+1] = score[j+1] - down;
-
+            cout << "Alice" << endl;
         }
-        cout << score[d] << endl;
-    }
 
+        // ll bob = sum + 3;
+        // ll tmp = sum - y;
+        // if(tmp )
+
+        // d = x
+        // d = x+3
+    }
 
 }

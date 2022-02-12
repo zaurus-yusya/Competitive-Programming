@@ -33,68 +33,70 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll d; cin >> d;
-    vector<long long> c(26);
-    for(long long i = 0; i < 26; i ++){
-        cin >> c[i];
-    }
-    vector<vector<ll>> s(d, vector<ll>(26));
-    rep(i, d){
-        rep(j, 26){
-            cin >> s[i][j];
+    ll t; cin >> t;
+    rep(T, t){
+        ll n, k; cin >> n >> k; // n * k = 250000
+
+        if(n == 1 && k != 1){
+            cout << "NO" << endl;
+            continue;
         }
-    }
-    vector<long long> t(d);
-    for(long long i = 0; i < d; i ++){
-        cin >> t[i]; t[i]--;
-    }
-    ll m; cin >> m;
-    vector<ll> dd(m);
-    vector<ll> qq(m);
-    rep(i, m){
-        cin >> dd[i] >> qq[i]; dd[i]--; qq[i]--;
-    }
-
-
-    vector<ll> score(d+1);
-    vector<vector<ll>> last(d+1, vector<ll>(26));
-    rep(i, d){
-        rep(j, 26){
-            last[i+1][j] = last[i][j];
+        if(k == 1){
+            //YES
+            cout << "YES" << endl;
+            ll cnt = 1;
+            for(ll i = 0; i < n; i++){
+                for(ll j = 0; j < k; j++){
+                    if(j == 0){
+                        cout << cnt;
+                    }else{
+                        cout << ' ' << cnt;
+                    }
+                    cnt++;
+                }
+                br;
+            }
+            continue;
         }
 
-        score[i+1] = score[i] + s[i][t[i]];
-        last[i+1][t[i]] = i+1;
         
-        ll down = 0;
-        rep(j, 26){
-            down += c[j] * ((i+1) - last[i+1][j]);
+
+        ll odd = 0, even = 0;
+        if((n * k % 2) == 1){
+            odd = ceilll(n*k, 2);
+            even = (n * k) / 2;
+        }else{
+            odd = (n*k) / 2;
+            even = (n*k) / 2;
         }
 
-        score[i+1] = score[i+1] - down;
+        //cerr << "odd = " << odd << " even = " << even << endl;
 
-    }
-    
-    rep(i, m){
-        t[dd[i]] = qq[i];
-        for(ll j = dd[i]; j < d; j++){
-            rep(k, 26){
-                last[j+1][k] = last[j][k];
+        if(odd % k == 0 && even % k == 0){
+            cout << "YES" << endl;
+            vector<ll> vec;
+            for(ll i = 1; i <= n*k; i+=2){
+                vec.push_back(i);
+            }
+            for(ll i = 2; i <= n*k; i+=2){
+                vec.push_back(i);
+            }
+            ll cnt = 0;
+            for(ll i = 0; i < n; i++){
+                for(ll j = 0; j < k; j++){
+                    if(j == 0){
+                        cout << vec[cnt];
+                    }else{
+                        cout << ' ' << vec[cnt];
+                    }
+                    cnt++;
+                }
+                br;
             }
 
-            score[j+1] = score[j] + s[j][t[j]];
-            last[j+1][t[j]] = j+1;
-            
-            ll down = 0;
-            rep(k, 26){
-                down += c[k] * ((j+1) - last[j+1][k]);
-            }
-
-            score[j+1] = score[j+1] - down;
-
+        }else{
+            cout << "NO" << endl;
         }
-        cout << score[d] << endl;
     }
-
 
 }

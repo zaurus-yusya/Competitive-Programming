@@ -28,21 +28,9 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, q; cin >> n >> q;
-    dsu d(n);
-
-    rep(i, q){
-        ll t, u, v; cin >> t >> u >> v;
-        if(t == 1){
-            if(d.same(u, v)){
-                cout << 1 << endl;
-            }else{
-                cout << 0 << endl;
-            }
-        }
-        if(t == 0){
-            d.merge(u, v);
-        }
+    ll k; cin >> k;
+    rep(i, k){
+        cout << "ACL";
     }
-
+    cout << endl;
 }

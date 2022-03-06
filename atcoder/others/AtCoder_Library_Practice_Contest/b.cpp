@@ -28,12 +28,23 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll a, b, c, d; cin >> a >> b >> c >> d;
-    if(b < c || d < a){
-        cout << "No" << endl;
-    }else{
-        cout << "Yes" << endl;
+    ll n, q; cin >> n >> q;
+    fenwick_tree<ll> fw(n);
+    rep(i, n){
+        ll x; cin >> x;
+        fw.add(i, x);
     }
+
+    rep(i, q){
+        ll x, y, z; cin >> x >> y >> z;
+        if(x == 0){
+            fw.add(y, z);
+        }
+        if(x == 1){
+            cout << fw.sum(y, z) << endl;
+        }
+    }
+
 
 
 }

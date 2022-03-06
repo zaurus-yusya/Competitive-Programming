@@ -26,23 +26,32 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // c++17	g++ -std=c++17 a.cpp
 // global vector -> 0 initialization
 
+ll op(ll a, ll b) {
+    return max(a, b);
+}
+
+ll e() {
+    return 0;
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, q; cin >> n >> q;
-    dsu d(n);
-
-    rep(i, q){
-        ll t, u, v; cin >> t >> u >> v;
-        if(t == 1){
-            if(d.same(u, v)){
-                cout << 1 << endl;
-            }else{
-                cout << 0 << endl;
-            }
-        }
-        if(t == 0){
-            d.merge(u, v);
-        }
+    ll n, k; cin >> n >> k;
+    vector<long long> vec(n);
+    for(long long i = 0; i < n; i ++){
+        cin >> vec[i];
     }
+
+    segtree<ll, op, e> seg(300010);
+
+    rep(i, n){
+        ll down = max((ll)0, vec[i] - k);
+        ll up = min((ll)300000, vec[i] + k);
+        seg.set(vec[i], seg.prod(down, up+1) + 1);
+    }
+
+    cout << seg.all_prod() << endl;
+
+
 
 }

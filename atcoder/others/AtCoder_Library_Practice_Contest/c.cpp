@@ -1,4 +1,5 @@
 #include <bits/stdc++.h>
+#include <atcoder/all>
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -6,6 +7,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << "\n";
 using namespace std;
+using namespace atcoder;
 const long long INF = 1e10;
 const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
@@ -24,57 +26,12 @@ template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(
 // c++17	g++ -std=c++17 a.cpp
 // global vector -> 0 initialization
 
-struct UnionFind
-{
-    vector<long long> d;
-    UnionFind(long long n = 0) : d(n, -1)
-    {
-    }
-
-    //root : -size, not root: root
-    long long root(long long x){
-        if(d[x] < 0){
-            return x; 
-        }
-        return d[x] = root(d[x]);
-    }
-
-    bool unite(long long x, long long y){
-        x = root(x);
-        y = root(y);
-        if(x == y){
-            return false;
-        }
-        if(d[x] > d[y]){
-            swap(x, y);
-        }
-        d[x] += d[y];
-        d[y] = x;
-        return true;
-    }
-
-    long long size(long long x){
-        return -d[root(x)];
-    }
-
-    bool issame(long long a, long long b){
-        return root(a) == root(b);
-    }
-};
-
 int main() {
-    ll n, m; cin >> n >> m;
-    UnionFind uf(n);
-    rep(i, m){
-        ll a, b; cin >> a >> b; a--; b--;
-        uf.unite(a, b);
+    std::cout << std::fixed << std::setprecision(15);
+    ll t; cin >> t;
+    rep(i, t){
+        ll n, m, a, b; cin >> n >> m >> a >> b;
+        cout << floor_sum(n, m, a, b) << endl;
     }
-
-    map<ll, ll> mp;
-    rep(i, n){
-        mp[uf.root(i)]++;
-    }
-
-    cout << mp.size() - 1 << endl;
 
 }

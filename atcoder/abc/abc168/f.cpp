@@ -30,41 +30,18 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
+
+map<ll, ll> mp;
+
+void calc(ll now){
+
+    
+
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n, m; cin >> n >> m;
-        vector<ll> x(n);
-        vector<ll> y(n);
-        rep(i, n){
-            cin >> x[i] >> y[i];
-        }
+    ll n; cin >> n;
 
-        vector<ll> b(n+1);
-        vector<ll> a(n+1);
-
-        rep(i, n){
-            b[i+1] = b[i] + x[i] * y[i];
-            a[i+1] = a[i] + b[i] * y[i] + (1+y[i])*y[i]/2 * x[i]; 
-        }
-
-        ll ans = -INF;
-        rep(i, n){
-            if(x[i] < 0 && b[i] > 0){
-                ll kou = b[i] / (-1*x[i]);
-                if(kou < y[i]){
-                    ll res = a[i] + b[i] * kou + (1 + kou) * kou / 2 * x[i];
-                    ans = max(ans, res);
-                }
-            }
-            ans = max(ans, a[i] + x[i]);
-            ans = max(ans, a[i+1]);
-        }
-        cout << ans << endl;
-
-    }
 
 }

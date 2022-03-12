@@ -39,6 +39,39 @@ int main() {
         ll n, m; cin >> n >> m;
         vector<ll> x(n);
         vector<ll> y(n);
+        rep(i, n){
+            cin >> x[i] >> y[i];
+        }
+
+        vector<ll> b(n+1);
+        vector<ll> a(n+1);
+
+        rep(i, n){
+            b[i+1] = b[i] + x[i] * y[i];
+            a[i+1] = a[i] + b[i] * y[i] + (1+y[i])*y[i]/2 * x[i]; 
+        }
+
+        //vecdbg(b);
+        //vecdbg(a);
+
+        ll ans = -INF;
+        rep(i, n){
+            if(x[i] < 0 && b[i] > 0){
+                ll kou = b[i] / (-1*x[i]);
+                //cout << b[i] << " " << kou << " " << y[i] << " " << x[i] << endl;
+                if(kou < y[i]){
+                    ll res = a[i] + b[i] * kou + (1 + kou) * kou / 2 * x[i];
+                    ans = max(ans, res);
+                }
+            }
+            ans = max(ans, a[i] + x[i]);
+            ans = max(ans, a[i+1]);
+        }
+        cout << ans << endl;
+
+
+
+        /*
 
         vector<ll> kou(n+1);
         rep(i, n){
@@ -143,6 +176,7 @@ int main() {
 
         ans = max(ans, a[a.size() - 1]);
         cout << ans << endl;
+        */
 
 
 

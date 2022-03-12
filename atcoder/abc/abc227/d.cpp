@@ -9,7 +9,6 @@ typedef long double ld;
 #define br cout << '\n';
 using namespace std;
 const long long INF = 8e18;
-const long long MOD = 1e9+7;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
@@ -36,100 +35,26 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, k; cin >> n >> k;
     vector<long long> a(n);
-    priority_queue<ll> pq;
     for(long long i = 0; i < n; i ++){
         cin >> a[i];
-        pq.push(a[i]);
     }
 
-    ll ans = 0;
+    ll ok = 0, ng = INF;
+    while(ng - ok > 1){
+        ll mid = (ok + ng) / 2;
 
-    ll now = 0;
-    map<ll, ll> mp;
-    while(!pq.empty()){
-        //取るやつ
-        ll tmp = a[now];
-        mp[a[now]]++;
-        cout << "tmp = " << tmp << endl;
-        bool f = true;
-
-        ll mi = tmp;
-        for(ll i = 0; i < k-1; i++){
-            while(true){
-                if(pq.empty()){
-                    f = false;
-                    break;
-                }
-                ll x = pq.top();
-                if(mp[x] > 0){
-                    mp[x] -= 1;
-                    cout << "popedd = " << x << endl; 
-                    pq.pop();
-                }else{
-                    cout << "poped = " << x << endl; 
-                    pq.pop();
-                    x -= tmp;
-                    
-                    if(x > 0){
-                        cout << "pushed = " << x << endl;
-                        pq.push(x);
-                    }
-                    break;
-                }
-            }
-
-            if(!f){
-                break;
-            }
+        ll sum = 0;
+        rep(i, n){
+            sum += min(mid, a[i]);
         }
 
-        if(f){
-            ans += tmp;
-            cout << "ans ++ " << tmp << endl;
+        if(sum / k >= mid){
+            ok = mid;
         }else{
-            break;
-        }
-        now++;
-        
-
-
-        // ll x = pq.top();
-        // pq.pop();
-        // cout << x << endl;
-    }
-    cout << ans << endl;
-
-
-    /*
-    sort(all(a));
-    ll now = 0;
-
-
-    ll ans = 0;
-    while(true){
-        //cout << "now = " << now << endl;
-        ll mi = INF;
-        for(ll i = now; i < now + k; i++){
-            mi = min(mi, a[i]);
-        }
-        //cout << "mi = " << mi << endl;
-        
-        ans += mi;
-        ll atara = now;
-        for(ll i = now; i < now + k; i++){
-            a[i] -= mi;
-            if(a[i] == 0) atara++;
-        }
-        now = atara; 
-        //cout << "atara = " << atara << endl;
-        if(now > (n-k)){
-            break;
+            ng = mid;
         }
     }
-    cout << ans << endl;
-    */
-
-
+    cout << ok << endl;
 
 
 }

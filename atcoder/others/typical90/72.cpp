@@ -1,0 +1,99 @@
+#include <bits/stdc++.h>
+// #include <atcoder/all>
+// using namespace atcoder;
+typedef long long ll;
+typedef long double ld;
+#define rep(i,n) for(ll i=0;i<(n);i++)
+#define repr(i,n) for(ll i=(n-1);i>=0;i--)
+#define all(x) x.begin(),x.end()
+#define br cout << '\n';
+using namespace std;
+const long long INF = 8e18;
+using Graph = vector<vector<ll>>;
+template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
+template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
+ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
+ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
+ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
+using P = pair<ll, ll>;
+const double PI = acos(-1);
+
+// 0 false, 1 true 
+// string number to int : -48 or - '0'
+// a to A : -32
+// ceil(a)  1.2->2.0
+// c++17	g++ -std=c++17 a.cpp
+// global vector -> 0 initialization
+// DONT FORGET TO INTIALIZE
+// The type of GRID is CHAR. DONT USE STRING
+// If the result in local and judge is different, USE CODETEST!!
+// (a * b)over flow?   if(a > INF / b){ /* overflow */}
+
+ll ans = 0;
+ll sy, sx;
+ll h, w;
+map<P, ll> mp;
+vector<ll> dy = {1, -1, 0, 0};
+vector<ll> dx = {0, 0, 1, -1};
+
+void calc(ll ny, ll nx, ll cnt, vector<vector<char>> &vec){
+
+    if(ny == sy && nx == sx){
+        if(cnt > 2){
+            ans = max(ans, cnt);
+        }
+        if(cnt > 0){
+            return;
+        }
+    }
+
+    
+
+    rep(i, 4){
+        ll nexty = ny + dy[i];
+        ll nextx = nx + dx[i];
+        //場外ならcontinue
+        if(nexty < 0 || nexty >= h || nextx < 0 || nextx >= w) continue;
+        //壁ならcontinue
+        if(vec[nexty][nextx] == '#') continue;
+
+        if(mp[{nexty, nextx}] > 0){
+            continue;
+        }else{
+            mp[{nexty, nextx}]++;
+            calc(nexty, nextx, cnt+1, vec);
+            mp[{nexty, nextx}]--;
+        }
+    }
+}
+
+int main() {
+    std::cout << std::fixed << std::setprecision(15);
+    cin >> h >> w;
+    vector<vector<char>> vec(h, vector<char>(w));
+    rep(i, h){
+        rep(j, w){
+            cin >> vec[i][j];
+        }
+    }
+
+    mp.clear();
+    
+    rep(i, h){
+        rep(j, w){
+            sy = i; sx = j;
+            mp.clear();
+            calc(sy, sx, 0, vec);
+        }
+    }
+
+    if(!ans){
+        cout << -1 << endl; return 0;
+    }
+    cout << ans << endl;
+
+
+
+}

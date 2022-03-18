@@ -33,44 +33,50 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n; cin >> n;
-        if(n > 6){
-            cout << "Case #" << T+1 << ": " << 0 << '\n';
-            continue;
-        }
-        
-        vector<string> vec(n);
-        rep(i, n){
-            cin >> vec[i];
-        }
-
-        ll ans = 0;
-        vector<ll> num;
-        rep(i, n){
-            num.push_back(i);
-        }
-
-        do{
-            for(ll i = 0; i < num.size(); i++){
-                cout << num[i] << " ";
-            }
-            cout << endl;
-            map<string, ll> mp;
-            for(ll i = 1; i < n; i += 2){
-                string s, t;
-
-                for(ll j = 0; j < n; j++){
-                    if(num[j] == i-1){
-                        s = vec[j];
-                    }
-                    if(num[j] == i){
-                        t = vec[i];
-                    }
-                }
-            }
-        }while(next_permutation(num.begin(), num.end()));
+    ll t, w; cin >> t >> w;
+    if(w == 2){
+        return 0;
     }
+    rep(T, t){
+        vector<ll> ans(6);
+        for(ll i = 5; i >= 1; i--){
+            cout << i * 63 << endl;
+            flush(std::cout);
+            ll x; cin >> x;
+            ll tmp = 0;
+            for(ll j = 5; j > i; j--){
+                tmp += ans[j] * POW(2, i * 63 / (j+1));
+                //cerr << "ans" << j << "= " << ans[j] << " j = " << i * 63 / (j+1) << " " << POW(2, i * 63 / (j+1)) << endl;
+            }
+            x -= tmp;
+            ans[i] = x / POW(2, i*63/(i+1));
+            //cerr << i * 63 << " " << i * 63 / (i+1) << endl;
+        }
+        cout << 1 << endl;
+        flush(std::cout);
+        ll x; cin >> x;
+        ans[0] = (x - ans[5] - ans[4] - ans[3] - ans[2] - ans[1]) / 2;
+
+        rep(i, 6){
+            cout << ans[i] << " ";
+        }br;
+        flush(std::cout);
+        ll y; cin >> y;
+        // 6
+        // 64r1 + 8r2 + 4r3 + 2r4 + 2r5 + 2r6
+        // 5
+        // 32r1 + 4r2 + 2r3 + 2r4 + 2r5 + r6
+        // 4
+        // 16r1 + 4r2 * 2r3 + 2r4 + r5 + r6
+        // 3
+        // 8r1 + 2r2 + 2r3 + r4 + r5 + r6
+        // 2
+        // 4r1 + 2r2 + r3 + r4 + r5 + r6
+        // 1
+        // 2r1 + r2 + r3 + r4 + r5 + r6
+
+
+    }
+    // 1, 2, 3, 4, 5, 6
 
 }

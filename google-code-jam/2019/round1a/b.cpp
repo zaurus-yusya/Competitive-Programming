@@ -20,6 +20,51 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll t, n, m; cin >> t >> n >> m;
+    vector<ll> q = {8, 3, 5, 7, 11, 13, 17};
+
+    rep(T, t){
+        vector<ll> res(7);
+
+        rep(i, 7){
+            rep(j, 18){
+                cerr << q[i] << " ";
+                cout << q[i] << " ";
+            }br;
+            cerr << endl;
+            flush(std::cout);
+
+            ll tmp = 0;
+            rep(j, 18){
+                ll x; cin >> x;
+                tmp += x; 
+                cerr << x << " ";
+            }
+            cerr << endl;
+            res[i] = tmp % q[i];
+        }
+
+        ll ans = 1;
+        for(ll i = 1; i <= m; i++){
+            bool f = true;
+            for(ll j = 0; j < 7; j++){
+                if( (i % q[j]) != res[j]){
+                    f = false; break;
+                }
+            }
+            if(f){
+                ans = i; break;
+            }
+        }
+
+        cout << ans << endl;
+        cerr << ans << endl;
+        flush(std::cout);
+        ll x; cin >> x;
+        if(x == -1){
+            return 0;
+        }
+
+    }
 
 }

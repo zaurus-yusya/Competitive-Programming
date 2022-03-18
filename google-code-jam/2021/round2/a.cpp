@@ -31,46 +31,35 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+void solve(ll n){
+    //cerr << n << endl;
+
+    for(ll i = 1; i < n; i++){
+        //cerr << "i = " << i << endl;
+        //cerr << "M " << i << " " << n << '\n';
+        cout << "M " << i << " " << n << '\n';
+        flush(std::cout);
+        ll x; cin >> x;
+        //cerr << "x = " << x << endl;
+        if(x != i){
+            //cerr << "S " << i << " " << x << '\n';
+            cout << "S " << i << " " << x << '\n';
+            flush(std::cout);
+            ll x; cin >> x;
+            //cerr << "x = " << x << endl;
+        }
+    }
+
+    cout << "D" << '\n';
+    flush(std::cout);
+    ll x; cin >> x;
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
+    ll t, n; cin >> t >> n;
     rep(T, t){
-        ll n; cin >> n;
-        if(n > 6){
-            cout << "Case #" << T+1 << ": " << 0 << '\n';
-            continue;
-        }
-        
-        vector<string> vec(n);
-        rep(i, n){
-            cin >> vec[i];
-        }
-
-        ll ans = 0;
-        vector<ll> num;
-        rep(i, n){
-            num.push_back(i);
-        }
-
-        do{
-            for(ll i = 0; i < num.size(); i++){
-                cout << num[i] << " ";
-            }
-            cout << endl;
-            map<string, ll> mp;
-            for(ll i = 1; i < n; i += 2){
-                string s, t;
-
-                for(ll j = 0; j < n; j++){
-                    if(num[j] == i-1){
-                        s = vec[j];
-                    }
-                    if(num[j] == i){
-                        t = vec[i];
-                    }
-                }
-            }
-        }while(next_permutation(num.begin(), num.end()));
+        solve(n);
     }
 
 }

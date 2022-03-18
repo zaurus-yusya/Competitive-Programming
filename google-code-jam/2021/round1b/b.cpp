@@ -41,26 +41,58 @@ int main() {
             cin >> u[i];
         }
 
+        ll res = n-1;
+        ll now = res;
+        while(true && now < 1000){
+            vector<ll> tmp(now + 1);
+            tmp[now] = 1;
+
+            //cout << "res now = " << res << " " << now << endl;
+
+            bool flag = true;
+            for(ll i = now; i >= 0; i--){
+                if(i >= n){
+                    //全部分解
+                    if(i - a >= 0){
+                        tmp[i - a] += tmp[i];
+                    }
+                    if(i - b >= 0){
+                        tmp[i - b] += tmp[i];
+                    }
+                }else{
+                    if(tmp[i] < u[i]){
+                        flag = false; break;
+                    }
+                    //分解できるだけ分解
+                    if(i - a >= 0){
+                        tmp[i - a] += tmp[i] - u[i];
+                    }
+                    if(i - b >= 0){
+                        tmp[i - b] += tmp[i] - u[i];
+                    }
+                }
+
+            }
+
+            //チェック
+            for(ll i = 0; i < n; i++){
+                if(tmp[i] < u[i]) flag = false;
+            }
+
+            //vecdbg(tmp);
+
+            res += 1;
+            now = res;
+
+            if(flag) break;
+        }
+
+        if(now == 1000){
+            cout << "Case #" << T+1 << ": " << "IMPOSSIBLE" << '\n';
+        }else{
+            cout << "Case #" << T+1 << ": " << res << '\n';
+        }
+        
     }
 
-    /*
-
-    1 + 2 = 3
-    -2 + 5 = 3
-
-    2, 5
-
-    1を作りたい
-    3を1個か5が1個必要
-
-    3を1個作りたい
-    5を1個か8を1個必要
-
-    5を1個作りたい
-    7を1個か8を1個必要
-
-    
-
-    5 <- 10
-    */
 }

@@ -31,46 +31,38 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+map<ll, ll> mp;
+vector<ll> memo(1000010);
+void calc(ll now, ll total){
+    ll cnt = 2;
+    mp[now]++;
+    //cout << "now = " << now << " total = " << total << endl;
+    while(true){
+        //cout << "nowcnt = " << now * cnt << endl;
+        if(now * cnt <= 1000000){
+            calc(now * cnt, total + now * cnt);
+        }else{
+            //cout << "bre" << endl;
+            break;
+        }
+        cnt++;
+    }
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
+
+    
+    
+    for(ll i = 3; i <= 1000000; i++){
+        //cout << "i = " << i << endl;
+        calc(i, i);
+    }
+    cout << "done" << endl;
     rep(T, t){
         ll n; cin >> n;
-        if(n > 6){
-            cout << "Case #" << T+1 << ": " << 0 << '\n';
-            continue;
-        }
-        
-        vector<string> vec(n);
-        rep(i, n){
-            cin >> vec[i];
-        }
-
-        ll ans = 0;
-        vector<ll> num;
-        rep(i, n){
-            num.push_back(i);
-        }
-
-        do{
-            for(ll i = 0; i < num.size(); i++){
-                cout << num[i] << " ";
-            }
-            cout << endl;
-            map<string, ll> mp;
-            for(ll i = 1; i < n; i += 2){
-                string s, t;
-
-                for(ll j = 0; j < n; j++){
-                    if(num[j] == i-1){
-                        s = vec[j];
-                    }
-                    if(num[j] == i){
-                        t = vec[i];
-                    }
-                }
-            }
-        }while(next_permutation(num.begin(), num.end()));
+        cout << mp[n] << endl;
     }
 
 }

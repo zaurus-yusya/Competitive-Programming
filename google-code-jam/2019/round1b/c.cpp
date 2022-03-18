@@ -35,42 +35,33 @@ int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
     rep(T, t){
-        ll n; cin >> n;
-        if(n > 6){
-            cout << "Case #" << T+1 << ": " << 0 << '\n';
-            continue;
+        ll n, k; cin >> n >> k;
+        if(n > 100){
+            return 0;
         }
-        
-        vector<string> vec(n);
-        rep(i, n){
-            cin >> vec[i];
-        }
+        vector<ll> c(n);
+        vector<ll> d(n);
+        rep(i, n) cin >> c[i];
+        rep(i, n) cin >> d[i];
 
         ll ans = 0;
-        vector<ll> num;
-        rep(i, n){
-            num.push_back(i);
+        for(ll l = 0; l < n; l++){
+            for(ll r = l; r < n; r++){
+                ll cma = 0, dma = 0;
+
+                for(ll k = l; k <= r; k++){
+                    cma = max(cma, c[k]);
+                    dma = max(dma, d[k]);
+                }
+
+                if(abs(cma - dma) <= k){
+                    ans++;
+                }
+
+            }
         }
 
-        do{
-            for(ll i = 0; i < num.size(); i++){
-                cout << num[i] << " ";
-            }
-            cout << endl;
-            map<string, ll> mp;
-            for(ll i = 1; i < n; i += 2){
-                string s, t;
-
-                for(ll j = 0; j < n; j++){
-                    if(num[j] == i-1){
-                        s = vec[j];
-                    }
-                    if(num[j] == i){
-                        t = vec[i];
-                    }
-                }
-            }
-        }while(next_permutation(num.begin(), num.end()));
+        cout << "Case #" << T+1 << ": " << ans << endl;
     }
 
 }

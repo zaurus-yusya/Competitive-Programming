@@ -6,19 +6,19 @@ typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
 #define repr(i,n) for(ll i=(n-1);i>=0;i--)
 #define all(x) x.begin(),x.end()
-#define br cout << "\n";
+#define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
-const long long MOD = 1e9+7;
+const long long INF = 8e18;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
 ll ceilll(ll a, ll b) {return (a + b-1) / b;} // if(a%b != 0) (a/b) + 1
 ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;} // a != 0
-template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << " ";} br;}
-template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << " ";} br;}}
+template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
+template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
 using P = pair<ll, ll>;
+const double PI = acos(-1);
 
 // 0 false, 1 true 
 // string number to int : -48 or - '0'
@@ -31,103 +31,76 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-pair<ll, ll> numberhenkan(string s, string e){
-    ll x = 0, y = 0;
-    for(ll i = 0; i < s.size(); i++){
-        if(s[s.size() - 1 - i] == '1'){
-            x += POW(2, i);
-        }
-    }
-    for(ll i = 0; i < e.size(); i++){
-        if(e[e.size() - 1 - i] == '1'){
-            y += POW(2, i);
-        }
-    }
-
-    return {x, y};
-}
-
-vector<ll> memo( ((1 << 10) + 10), -1);
-
-ll ans = INF;
-ll C = 0;
-void calc(ll x, ll y, ll cnt){
-    if(x == y){
-        //cout << x << " " << y << " " << cnt << endl;
-        //cout << memo[y] << endl; 
-        chmin(ans, cnt);
-        return;
-    }
-
-    if(x >= ((1 << 10) + 10) ){
-        return;
-    }
-
-    memo[x] = cnt;
-
-
-    if(x*2 < ((1<<10) + 10)){
-        if(memo[x*2] == -1){
-            calc(x * 2, y, cnt+1);
-        }else if(memo[x * 2] > cnt+1){
-            calc(x * 2, y, cnt+1);
-        }
-    }
-    
-
-    //NOT
-    ll num = 0;
-    if(x == 0){
-        num = 1;
+void solve(ll test_num){
+    string s, t; cin >> s >> t;
+    if(s.size() > 8){
+        cout << "Case #" << test_num << ": " << 0 << endl;
     }else{
-        ll tmp_x = x;
-        ll c = 0;
-        while(tmp_x > 0){
+        map<ll, ll> mp;
 
-            if( (tmp_x & 1) ){
+        ll start = 0;
+        for(ll i = 0; i < s.size(); i++){
+            if(s[s.size() - 1 - i] == '1'){
+                start += POW(2, i);
+            }
+        }
+        ll goal = 0;
+        for(ll i = 0; i < t.size(); i++){
+            if(t[t.size() - 1 - i] == '1'){
+                goal += POW(2, i);
+            }
+        }
 
-            }else{
-                num += POW(2, c);
+        mp[start] = 1;
+        queue<ll> que;
+        que.push(start);
+        while(!que.empty()){
+            ll now = que.front();
+            //cout << "now = " << now << endl;
+            que.pop();
+
+            ll twice = now * 2;
+            //cout << "twice = " << twice << endl;
+            if(twice < (1<<20)){
+                if(mp.count(twice) == 0){
+                    mp[twice] = mp[now] + 1;
+                    que.push(twice);
+                }
             }
 
-            tmp_x = (tmp_x >> 1);
-            c++;
+            //ビット反転
+            ll x = 0, tmp = now, cnt = 0;
+            if(tmp == 0){
+                x = 1;
+            }else{
+                while(tmp > 0){
+                    if(!(tmp & 1)){
+                        x += POW(2, cnt);
+                    }
+                    cnt++;
+                    tmp >>= 1;
+                }
+            }
+            //cout << "x = " << x << endl;
+            if(mp.count(x) == 0){
+                mp[x] = mp[now] + 1;
+                que.push(x);
+            }
+        }
+
+        if(mp[goal] == 0){
+            cout << "Case #" << test_num + 1 << ": " << "IMPOSSIBLE" << endl;
+        }else{
+            cout << "Case #" << test_num + 1 << ": " << mp[goal] - 1 << endl;
         }
     }
-
-
-    if(num < ((1<<10) + 10)){
-        if(memo[num] == -1){
-            calc(num, y, cnt+1);
-        }else if(memo[num] > cnt + 1){
-            calc(num, y, cnt+1);
-        }
-    }
-
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
     rep(T, t){
-        string s, e; cin >> s >> e;
-        memo.assign((1<<10)+10, -1);
-        ans = INF;
-        if(s == e){
-            cout << "Case #" << T+1 << ": " << 0 << endl; continue;
-        }
-        pair<ll, ll> v = numberhenkan(s, e);
-        ll x = v.first, y = v.second;
-
-        calc(x, y, 0);
-
-        if(ans == INF){
-            cout << "Case #" << T+1 << ": " << "IMPOSSIBLE" << endl; 
-        }else{
-            cout << "Case #" << T+1 << ": " << ans << endl; 
-        }
-        //cout << C << endl;
-
+        solve(T);
     }
 
 }

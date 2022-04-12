@@ -279,6 +279,12 @@ for(auto i: mp){
       cout << i.first << " " << i.second << endl;  //key, value
     }
 
+//mapの二分探索
+auto itr = mp.lower_bound(5); // 5以上の最大のkey
+cout << itr->first << endl; // keyにアクセス
+cout << itr->secong << endl;// valにアクセス
+
+
 //スタック LILO
 stack<ll> s;
 s.push(1);

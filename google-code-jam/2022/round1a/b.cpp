@@ -35,27 +35,23 @@ const double PI = acos(-1);
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
+
     rep(T, t){
         ll n; cin >> n;
+        cerr << "n = " << n << endl;
+        if(n == -1){
+            cerr << "WA" << endl; return 0;
+        }
 
-        vector<ll> a;
+        vector<ll> a(100);
+        //Aを決める
+        for(ll i = 0; i < 30; i++){
+            a[i] = POW(2, i);
+        }
+        for(ll i = 30; i < 100; i++){
+            a[i] = 300 + (i - 30);
+        }
 
-        //A決める
-        ll cnt = 1e9 / 100;
-        for(ll i = 0; i < 100; i++){
-            //cout << 1 + cnt * i << endl;
-            a.push_back(1e9 - cnt * i);
-            //a.push_back(1 + cnt * i);
-        }
-        sort(all(a));
-        /*
-        rep(i, 50){
-            a.push_back(i+1);
-        }
-        rep(i, 50){
-            a.push_back(1e9 - i);
-        }
-        */
         rep(i, n){
             if(i == n-1){
                 cout << a[i];
@@ -72,30 +68,54 @@ int main() {
         sort(all(b));
 
         vector<ll> s;
+        ll sum = 0;
         rep(i, n){
-            s.push_back(a[i]);
-            s.push_back(b[i]);
+            s.push_back(a[i]); sum += a[i];
+            s.push_back(b[i]); sum += b[i];
         }
-        sort(all(s));
+        sort(all(s), greater<ll>());
 
-        rep(i, n/2){
-            if(i == n/2 - 1){
-                cout << s[i] << " " << s[s.size() - 1 - i];
+        ll x = sum / 2;
+        cerr << "x = " << x << endl;
+
+        ll res1 = 0, res2 = 0;
+        vector<ll> ans;
+        rep(i, s.size()){
+            // if(s[i] <= POW(2, 29)){
+            //     break;
+            // }else{
+                if(res1 < res2){
+                    res1 += s[i];
+                    ans.push_back(s[i]);
+                }else{
+                    res2 += s[i];
+                }
+            // }
+        }
+
+        ll nokori = x - res1;
+        cerr << "nokori = " << nokori << endl;
+        ll cnt = 0;
+        while(nokori > 0){
+            if(nokori & 1){
+                ans.push_back(POW(2, cnt));
+            }
+            nokori >>= 1;
+            cnt++;
+        }
+
+        // rep(i, ans.size()){
+        //     cerr << "i = " << i << " " << ans[i] << endl;
+        // }
+
+        rep(i, ans.size()){
+            if(i == ans.size() - 1){
+                cout << ans[i];
             }else{
-                cout << s[i] << " " << s[s.size() - 1 - i] << " ";
+                cout << ans[i] << " ";
             }
         }br;
         flush(std::cout);
-
-        // rep(i, n/2){
-        //     if(i == n/2 - 1){
-        //         cout << a[i] << " " << b[n - 1 - i];
-        //     }else{
-        //         cout << a[i] << " " << b[n - 1 - i] << " ";
-        //     }
-        // }br;
-        // flush(std::cout);
-
 
     }
 

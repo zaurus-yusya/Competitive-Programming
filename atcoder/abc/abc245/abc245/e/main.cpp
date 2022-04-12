@@ -30,148 +30,65 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-// for(auto& i: mp) &&&&&&&&&&&&&
+
+
+struct Choco
+{
+    ll y, x, num;
+    Choco(ll y = 0, ll x = 0, ll num = 0) : y(y), x(x), num(num) {}
+    //g[a].emplace_back(x, y) : x = to, y = cost
+};
+
+bool cmp(Choco a, Choco b){
+    if(a.y != b.y){
+        return a.y > b.y;
+    }else if(a.x != b.x){
+        return a.x > b.x;
+    }else{
+        return a.num > b.num;
+    }
+    
+}
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
-    vector<long long> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
-    }
-    vector<long long> b(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> b[i];
-    }
+    vector<Choco> vec;
+    vector<ll> a(n); rep(i, n) cin >> a[i];
+    vector<ll> b(n); rep(i, n) cin >> b[i];
+    vector<ll> c(m); rep(i, m) cin >> c[i];
+    vector<ll> d(m); rep(i, m) cin >> d[i];
 
-    map<ll, map<ll, ll>> box;
-    vector<long long> c(m);
-    for(long long i = 0; i < m; i ++){
-        cin >> c[i];
-    }
-    vector<long long> d(m);
-    for(long long i = 0; i < m; i ++){
-        cin >> d[i];
-    }
-    vector<P> aft(m);
-    rep(i, m){
-        aft[i] = {c[i], d[i]};
-    }
-
-    rep(i, m){
-        box[c[i]][d[i]]++;
-    }
-
-    
-
-    bool f = true;
     rep(i, n){
-        //cerr << "--" << endl;
-        //cerr << a[i] << endl;
-        auto it = box.lower_bound(a[i]);
-        cerr << it->first << endl;
-        if(it == box.end()){
-            f = false; break;
-        }
+        vec.emplace_back(a[i], b[i], 0);
+    }
+    rep(i, m){
+        vec.emplace_back(c[i], d[i], 1);
+    }
+    sort(all(vec), cmp);
 
-        //auto it2 = box[it->first].lower_bound(b[i]);
-        bool tmp = false;
-        while(it != box.end()){
-            auto it2 = box[it->first].lower_bound(b[i]);
-            if(it2 == box[it->first].end()){
-
+    map<ll, ll> mp;
+    rep(i, vec.size()){
+        if(vec[i].num == 1){
+            mp[vec[i].x]++;
+        }else{
+            auto itr = mp.lower_bound(vec[i].x);
+            if(itr == mp.end()){
+                cout << "No" << endl; return 0;
+            }else if(mp.count(itr->first) == 0){
+                cout << "No" << endl; return 0;
             }else{
-                box[it->first][it2->first]--;
-                if( box[it->first][it2->first] == 0){
-                    box[it->first].erase(it2->first);
-
-                    if(box[it->first].size() == 0){
-                        cerr << "in" << endl;
-                        box.erase(it->first);
-                    }
+                mp[itr->first]--;
+                if(mp[itr->first] == 0){
+                    mp.erase(itr->first);
                 }
-                tmp = true; break;
             }
-            it++;
+
         }
-        if(!tmp){
-            f = false; break;
-        }
-        /*
-        if(it2 == box[it->first].end()){
-            f = false; break;
-        }
-        */
-
-       /*
-        box[it->first][it2->first]--;
-        if( box[it->first][it2->first] == 0){
-            box[it->first].erase(it2->first);
-
-            if(box[it->first].size() == 0){
-                cerr << "in" << endl;
-                box.erase(it->first);
-            }
-        }
-        */
-
-
     }
-
-    if(f){
-        cout << "Yes" << endl;
-    }else{
-        cout << "No" << endl;
-    }
-
-
-    // cout << box[5][0] << endl;
-    // cout << box[5][5] << endl;
-    /*
-    for(auto& i: box){
-        cout << i.first << endl;
-    }
-
-    auto it = box.lower_bound(100);
-
-    cout << it->first << endl;
-    if(it == box.end()){
-        cout << "ok" << endl;
-    }
-    */
-
-
+    cout << "Yes" << endl;
+    
 
 
 
 }
-
-/*
-
-    vector<P> bef(n);
-    rep(i, n){
-        bef[i] = {a[i], b[i]};
-    }
-
-        vector<P> aft(m);
-    rep(i, n){
-        aft[i] = {c[i], d[i]};
-    }
-
-    sort(all(bef));
-    sort(all(aft));
-
-        rep(i, n){
-        a[i] = bef[i].first;
-        b[i] = bef[i].second;
-    }
-
-
-    rep(i, m){
-        c[i] = aft[i].first;
-        d[i] = aft[i].second;
-        box[c[i]][d[i]]++;
-    }
-
-
-    */

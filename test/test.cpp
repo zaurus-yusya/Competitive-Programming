@@ -31,40 +31,100 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-int main() {
-    std::cout << std::fixed << std::setprecision(15);
-    ll n, q; cin >> n >> q;
-    vector<long long> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
-    }
+//dijkstra
+struct Edge
+{
+    ll to, cost;
+    Edge(ll to = 0, ll cost = 0) : to(to), cost(cost) {}
+    //g[a].emplace_back(x, y) : x = to, y = cost
+};
+vector<ll> dist; //distance
+vector<ll> pre; //route restoration
+void dijkstra(vector<vector<Edge>> &g, ll start){
+    dist.assign(g.size(), INF);
+    pre.assign(g.size(), -1);
+    priority_queue<P, vector<P>, greater<P>> que;
+    dist[start] = 0;
+    que.push({0, start});
 
-    for(ll i = 0; i < q; i++){
-
-        //vector<ll> a(n)で区間[left, right)の合計値がx以下になる区間の総和(しゃくとり)
-        //O(2 * n)
-        vector<ll> a(n);
-        ll x = 0;
-        ll res = 0; //答え
-
-        ll right = 0;
-        ll sum = 0; //合計値
-        for(ll left = 0; left < n; left++){
-            while(right < n && sum + a[right] <= x){
-                sum += a[right];
-                right++;
-            }
-
-            res += (right - left);
-
-            if(right == left){
-                right++;
+    while(!que.empty()){
+        auto[d, v] = que.top(); que.pop();
+        if(dist[v] != d) continue;
+        for(Edge& e : g[v]){
+            ll next = d + e.cost; // next cost
+            if(dist[e.to] <= next){
+                continue;
             }else{
-                sum -= a[left];
+                dist[e.to] = next;
+                que.push({next, e.to});
+                pre[e.to] = v;
             }
         }
-
-        cout << res << endl;
+    } 
+}
+void route_restoration(vector<ll> &pre, ll goal){
+    ll now = goal;
+    while(true){
+        cout << now << endl;
+        if(pre[now] == -1) break;
+        now = pre[now];
     }
+}
+
+
+int main() {
+    std::cout << std::fixed << std::setprecision(15);
+    ll h, w; cin >> h >> w;
+    ll sy, sx; cin >> sy >> sx; sy--; sx--;
+    ll gy, gx; cin >> gy >> gx; gy--; gx--;
+    vector<vector<char>> vec(h, vector<char>(w));
+    rep(i, h)rep(j, w) cin >> vec[i][j];
+
+    vector<ll> dy = {w, -w, 0, 0};
+    vector<ll> dx = {0, 0, 1, -1};
+    vector<vector<Edge>> g(h*w);
+    rep(i, h){
+        rep(j, w){
+            ll node = w * i + j;
+
+            rep(k, 4){
+                // j==0のときは左に行けない。j==w-1のときは右に行けない
+                if(j == 0 && k == 3) continue;
+                if(j == w-1 && k == 2) continue;
+
+                ll next = node + dy[k] + dx[k];
+
+                // 場外ならcontinue
+                if(next < 0 || next >= h*w) continue;
+
+                // nextをy座標,x座標に変換
+                ll nexty = next / w;
+                ll nextx = next % w;
+
+                //壁ならcontinue
+                if(vec[nexty][nextx] == '#') continue;
+
+                g[node].emplace_back(next, 1); // g[node].emplace_back(to, cost);
+            }
+        }
+    }
+
+    dijkstra(g, sy * w + sx);
+
+    /*
+    ll cnt = 0;
+    rep(i, h){
+        rep(j, w){
+            if(dist[cnt] == INF){
+                cout << 0 << " ";
+            }else{
+                cout << dist[cnt] << " ";
+            }
+            cnt++;
+        }br;
+    }
+    */
+    cout << dist[gy * w + gx] << endl;
+
 
 }

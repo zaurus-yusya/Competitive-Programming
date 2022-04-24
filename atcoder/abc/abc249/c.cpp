@@ -30,47 +30,44 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    string s; cin >> s;
-    ll q; cin >> q;
-    
-
-    vector<map<ll, ll>> vec(26);
+    ll n, k; cin >> n >> k;
+    vector<string> vec(n);
     rep(i, n){
-        char c = s[i];
-        ll num = c - 'a';
-        vec[num][i]++;
+        cin >> vec[i];
+    }
+    ll ans = 0;
+    for(ll bit = 0; bit < (1<<n); bit++){
+        vector<ll> tmp;
+        for(ll i = 0; i < n; i++){
+            if((bit>>i) & 1){
+                tmp.push_back(i);
+            }
+        }
+
+
+        map<char, ll> mp;
+        rep(i, tmp.size()){
+
+            for(ll j = 0; j < vec[tmp[i]].size(); j++){
+                mp[vec[tmp[i]][j]]++;
+            }
+
+        }
+        ll res = 0;
+        for(auto&i: mp){
+            if(i.second == k){
+                res++;
+            }
+        }
+
+        ans = max(ans, res);
+
     }
 
-    rep(Q, q){
-        ll x; cin >> x;
-        if(x == 1){
-            ll i; char c; cin >> i >> c; i--;
-            ll num = c - 'a';
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].count(i) > 0){
-                    vec[j].erase(i);
-                    break;
-                }
-            }
-            vec[num][i]++;
-        }else{
-            ll l, r; cin >> l >> r; l--; r--;
-            ll ans = 0;
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].size() == 0) continue;
-                auto itr = vec[j].lower_bound(l);
-                ll x = itr -> first;
-                if(itr == vec[j].end()) continue;
-                if(l <= x && x <= r){
-                    ans++;
-                }
-            }
-            cout << ans << endl;
-        }
-    }
+    cout << ans << endl;
 
 }

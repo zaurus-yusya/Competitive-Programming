@@ -31,46 +31,96 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+vector<ll> node;
+
+void dfs(vector<vector<ll>> &g, ll v, ll iro){
+    node[v] = iro;
+
+    for(auto& next: g[v]){
+        if(node[next] != 0) continue;
+        dfs(g, next, iro);
+    }
+
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-    string s; cin >> s;
-    ll q; cin >> q;
-    
-
-    vector<map<ll, ll>> vec(26);
-    rep(i, n){
-        char c = s[i];
-        ll num = c - 'a';
-        vec[num][i]++;
+    vector<vector<ll>> g(n);
+    rep(i, n-1){
+        ll a, b; cin >> a >> b; a--; b--;
+        g[a].push_back(b);
+        g[b].push_back(a);
     }
 
-    rep(Q, q){
-        ll x; cin >> x;
-        if(x == 1){
-            ll i; char c; cin >> i >> c; i--;
-            ll num = c - 'a';
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].count(i) > 0){
-                    vec[j].erase(i);
-                    break;
-                }
-            }
-            vec[num][i]++;
+    // 0からn-1までのパスを求める
+    queue<ll> que;
+    que.push(0);
+    vector<ll> dist(n, INF);
+    vector<ll> pre(n);
+    dist[0] = 0;
+
+    while(!que.empty()){
+        
+        ll now = que.front();
+        que.pop();
+
+        for(auto& next: g[now]){
+            if(dist[next] != INF) continue;
+            dist[next] = dist[now] + 1;
+            pre[next] = now;
+            que.push(next);
+        }
+
+    }
+
+    vector<ll> path;
+    ll now = n-1;
+    while(now != 0){
+        path.push_back(now);
+        now = pre[now];
+    }
+    path.push_back(now);
+
+    reverse(all(path));
+    // vecdbg(path);
+
+    node.assign(n, 0);
+
+    rep(i, path.size()){
+        if(i < ceilll(path.size() , 2)){
+            node[path[i]] = 1;
         }else{
-            ll l, r; cin >> l >> r; l--; r--;
-            ll ans = 0;
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].size() == 0) continue;
-                auto itr = vec[j].lower_bound(l);
-                ll x = itr -> first;
-                if(itr == vec[j].end()) continue;
-                if(l <= x && x <= r){
-                    ans++;
-                }
-            }
-            cout << ans << endl;
+            node[path[i]] = 2;
         }
     }
+
+    // vecdbg(node);
+
+    for(ll i = 0; i < n; i++){
+        if(node[i] != 0){
+            dfs(g, i, node[i]);
+        }
+    }
+    
+    // vecdbg(node);
+    ll ff = 0, ss = 0;
+    rep(i, n){
+        if(node[i] == 1){
+            ff += 1;
+        }else{
+            ss += 1;
+        }
+    }
+
+    if(ff > ss){
+        cout << "Fennec" << endl;
+    }else{
+        cout << "Snuke" << endl;
+    }
+
+
+
+    
 
 }

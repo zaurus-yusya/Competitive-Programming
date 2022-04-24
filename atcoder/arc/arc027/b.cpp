@@ -34,43 +34,7 @@ const double PI = acos(-1);
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n; cin >> n;
-    string s; cin >> s;
-    ll q; cin >> q;
+    string s1, s2; cin >> s1 >> s2;
     
-
-    vector<map<ll, ll>> vec(26);
-    rep(i, n){
-        char c = s[i];
-        ll num = c - 'a';
-        vec[num][i]++;
-    }
-
-    rep(Q, q){
-        ll x; cin >> x;
-        if(x == 1){
-            ll i; char c; cin >> i >> c; i--;
-            ll num = c - 'a';
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].count(i) > 0){
-                    vec[j].erase(i);
-                    break;
-                }
-            }
-            vec[num][i]++;
-        }else{
-            ll l, r; cin >> l >> r; l--; r--;
-            ll ans = 0;
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].size() == 0) continue;
-                auto itr = vec[j].lower_bound(l);
-                ll x = itr -> first;
-                if(itr == vec[j].end()) continue;
-                if(l <= x && x <= r){
-                    ans++;
-                }
-            }
-            cout << ans << endl;
-        }
-    }
 
 }

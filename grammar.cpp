@@ -284,6 +284,8 @@ auto itr = mp.lower_bound(5); // 5以上の最大のkey
 cout << itr->first << endl; // keyにアクセス
 cout << itr->secong << endl;// valにアクセス
 
+// mp.size() == 0 || irt == mp.end()だったら求める要素はmapに含まれていない
+
 
 //スタック LILO
 stack<ll> s;

@@ -30,47 +30,40 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
     string s; cin >> s;
-    ll q; cin >> q;
-    
-
-    vector<map<ll, ll>> vec(26);
-    rep(i, n){
+    map<char, ll> mp;
+    rep(i, s.size()){
         char c = s[i];
-        ll num = c - 'a';
-        vec[num][i]++;
-    }
-
-    rep(Q, q){
-        ll x; cin >> x;
-        if(x == 1){
-            ll i; char c; cin >> i >> c; i--;
-            ll num = c - 'a';
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].count(i) > 0){
-                    vec[j].erase(i);
-                    break;
-                }
-            }
-            vec[num][i]++;
+        if(mp.count(c) > 0){
+            cout << "No" << endl; return 0;
         }else{
-            ll l, r; cin >> l >> r; l--; r--;
-            ll ans = 0;
-            for(ll j = 0; j < 26; j++){
-                if(vec[j].size() == 0) continue;
-                auto itr = vec[j].lower_bound(l);
-                ll x = itr -> first;
-                if(itr == vec[j].end()) continue;
-                if(l <= x && x <= r){
-                    ans++;
-                }
-            }
-            cout << ans << endl;
+            mp[c]++;
         }
     }
+
+    bool f = false;
+    for(char c = 'A'; c <= 'Z'; c++){
+        if(mp.count(c) > 0){
+            f = true;
+        }
+    }
+
+    bool f2 = false;
+    for(char c = 'a'; c <= 'z'; c++){
+        if(mp.count(c) > 0){
+            f2 = true;
+        }
+    }
+
+    if(f && f2){
+        cout << "Yes" << endl;
+    }else{
+        cout << "No" << endl;
+    }
+
 
 }

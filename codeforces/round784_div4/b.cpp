@@ -33,7 +33,23 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        vector<long long> a(n);
+        map<ll, ll> mp;
+        for(long long i = 0; i < n; i ++){
+            cin >> a[i];
+            mp[a[i]]++;
+        }
+        ll ans = -1;
+        for(auto&i : mp){
+            if(i.second >= 3){
+                ans = i.first;
+            }
+        }
+        cout << ans << endl;
+
+    }
 
 }

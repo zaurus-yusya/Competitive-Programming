@@ -33,7 +33,33 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        vector<string> vec(n);
+        rep(i, n){
+            cin >> vec[i];
+        }
+
+        ll ans = 0;
+        map<string, ll> mp;
+        for(ll i = n-1; i >= 0; i--){
+            for(char c = 'a'; c <= 'k'; c++){
+                string x = "";
+                x += c; x += vec[i][1];
+                if(x != vec[i] && mp.count(x) > 0){
+                    ans += mp[x];
+                }
+
+                string y = "";
+                y += vec[i][0]; y += c;
+                if(y != vec[i] && mp.count(y) > 0){
+                    ans += mp[y];
+                }
+            }
+            mp[vec[i]]++;
+        }
+        cout << ans << endl;
+    }
 
 }

@@ -33,7 +33,31 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        vector<long long> a(n);
+        deque<ll> deq;
+        for(long long i = 0; i < n; i ++){
+            cin >> a[i]; deq.push_back(a[i]);
+        }
+        ll ans = 0;
+        ll l = 0, r = 0;
+        while(!deq.empty()){
+            if(l < r){
+                l += deq.front();
+                deq.pop_front();
+            }else{
+                r += deq.back();
+                deq.pop_back();
+            }
+            if(l == r){
+                ans = n - deq.size();
+            }
+        }
+        cout << ans << endl;
+
+
+    }
 
 }

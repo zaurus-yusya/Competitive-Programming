@@ -33,7 +33,42 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        string s; cin >> s; s += 'W';
+
+        vector<string> vec;
+        string now = "";
+        rep(i, s.size()){
+            if(s[i] == 'W' && now != ""){
+                vec.push_back(now);
+                now = "";
+            }else if(s[i] != 'W'){
+                now += s[i];
+            }
+        }
+
+        bool f = true;
+        rep(i, vec.size()){
+            if(vec[i].size() == 1){
+                f = false; break;
+            }else if(vec[i].size() == 2){
+                if(vec[i] == "RR" || vec[i] == "BB"){
+                    f = false; break;
+                }
+            }else{
+                bool tmp = false;
+                rep(j, vec[i].size() - 1){
+                    if(vec[i][j] != vec[i][j+1]) tmp = true;
+                }
+                if(!tmp){
+                    f = false; break;
+                }
+            } 
+        }
+
+        f ? cout << "YES" << endl : cout << "NO" << endl;
+    }
 
 }

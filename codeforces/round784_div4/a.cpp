@@ -33,7 +33,17 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
-
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        if(n >= 1900){
+            cout << "Division 1" << endl;
+        }else if(1600 <= n && n <= 1899){
+            cout << "Division 2" << endl;
+        }else if(1400 <= n && n <= 1599){
+            cout << "Division 3" << endl;
+        }else{
+            cout << "Division 4" << endl;
+        }
+    }
 }

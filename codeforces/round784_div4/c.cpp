@@ -33,7 +33,27 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
+    ll t; cin >> t;
+    rep(T, t){
+        ll n; cin >> n;
+        vector<long long> a(n);
+        for(long long i = 0; i < n; i ++){
+            cin >> a[i];
+        }
+        bool f = true;
+        for(ll i = 0; i < n; i += 2){
+            if(i == 0) continue;
+            if(a[i] % 2 != a[i-2] % 2){
+                f = false;
+            }
+        }
+        for(ll i = 1; i < n; i += 2){
+            if(i == 1) continue;
+            if(a[i] % 2 != a[i-2] % 2){
+                f = false;
+            }
+        }
+        f ? cout << "YES" << endl : cout << "NO" << endl;
+    }
 
 }

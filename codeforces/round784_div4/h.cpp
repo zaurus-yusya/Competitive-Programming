@@ -33,7 +33,26 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, m; cin >> n >> m;
-    
-
+    ll t; cin >> t;
+    rep(T, t){
+        ll n, k; cin >> n >> k;
+        vector<long long> a(n);
+        map<ll, ll> mp;
+        for(long long i = 0; i < n; i ++){
+            cin >> a[i];
+            for(ll j = 0; j <= 30; j++){
+                if((a[i] >> j) & 1){
+                    mp[j]++;
+                }
+            }
+        }
+        ll ans = 0;
+        for(ll i = 30; i >= 0; i--){
+            if(n - mp[i] <= k){
+                k -= (n - mp[i]);
+                ans += POW(2, i);
+            }
+        }
+        cout << ans << endl;
+    }
 }

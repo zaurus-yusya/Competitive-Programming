@@ -31,30 +31,40 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-vector<ll> res(1000010, 0);
-void dfs(ll now, ll sum, ll cnt){
-    res[sum] = max(res[sum], cnt);
-
-    for(ll i = 2; i <= 1000000; i++){
-        if(sum + now*i <= 1000000){
-            dfs(now * i, sum + now*i, cnt + 1);
-        }else{
-            break;
+vector<ll> topo_sort(vector<vector<ll>> &g){
+    vector<ll> res;
+    ll n = g.size();
+    vector<ll> ind(n);
+    rep(i, n){
+        for(auto next: g[i]){
+            ind[next]++;
         }
     }
+    queue<ll> que;
+    rep(i, n){
+        if(ind[i] == 0) que.push(i);
+    }
+    while(!que.empty()){
+        ll now = que.front();
+        res.push_back(now);
+        que.pop();
+        for(auto next: g[now]){
+            ind[next]--;
+            if(ind[next] == 0){
+                que.push(next);
+            }
+        }
+    }
+    return res;
+    //res.size()がnだったらトポジカルソートできた(DAG)、nじゃなかったらDAGじゃない(閉路あり)
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
+    ll n; cin >> n;
+    vector<vector<ll>> g(n);
+    vector<ll> res = topo_sort(g);
+    cout << res.size() << endl;
+    
 
-    for(ll i = 3; i <= 1000000; i++){
-        dfs(i, i, 1);
-    }
-    
-    rep(T, t){
-        ll n; cin >> n;
-        cout << "Case #" << T+1 << ": " << res[n] << '\n';
-    } 
-    
 }

@@ -31,30 +31,36 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-vector<ll> res(1000010, 0);
-void dfs(ll now, ll sum, ll cnt){
-    res[sum] = max(res[sum], cnt);
-
-    for(ll i = 2; i <= 1000000; i++){
-        if(sum + now*i <= 1000000){
-            dfs(now * i, sum + now*i, cnt + 1);
-        }else{
-            break;
-        }
-    }
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll t; cin >> t;
-
-    for(ll i = 3; i <= 1000000; i++){
-        dfs(i, i, 1);
-    }
-    
     rep(T, t){
-        ll n; cin >> n;
-        cout << "Case #" << T+1 << ": " << res[n] << '\n';
-    } 
-    
+        ll n, k; cin >> n >> k;
+        vector<long long> e(n);
+        ll sum = 0;
+        ll mul = 0;
+        for(long long i = 0; i < n; i ++){
+            cin >> e[i]; sum += e[i];
+        }
+        for(ll i = 0; i < n; i++){
+            for(ll j = i+1; j < n; j++){
+                mul += e[i] * e[j];
+            }
+        }
+
+
+        if(sum == 0 && mul == 0){
+            cout << "Case #" << T+1 << ": " << 0 << '\n'; continue;
+        }else if(sum == 0 && mul != 0){
+            cout << "Case #" << T+1 << ": " << "IMPOSSIBLE" << '\n'; continue;
+        }else{
+            if(mul % sum != 0){
+                cout << "Case #" << T+1 << ": " << "IMPOSSIBLE" << '\n';
+            }else{
+                cout << "Case #" << T+1 << ": " << (-1) * mul / sum << '\n';
+            }
+        }
+
+    }
+
 }

@@ -338,6 +338,11 @@ for (auto itr = st.begin(); itr != st.end(); ++itr) {
         cout << *itr;
 }
 //setの二分探索
+auto itr = st.lower_bound(n);
+if(itr == st.end()){ // 条件を満たすものがない
+    cout << "in" << endl;
+}
+cout << *itr << endl; // setの要素にアクセス
 
 // multiset
 ms.erase(ms.find(5)); //１つだけ削除

@@ -140,35 +140,12 @@ typedef ModInt<MOD> mint;
 MComb<MOD> com(510000);
 MPow<MOD> mpow;
 
-mint ans = 1;
-vector<long long> v;
-vector<set<ll>> st(100010);
-
-// [l, r)で考える
-void dfs(ll l, ll r, ll num){
-    // 最大の場所を探す
-    auto itr = 
-
-
-}
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll t; cin >> t;
-    rep(T, t){
-        ll n; cin >> n;
-        v.assign(n, 0);
-        rep(i, n){
-            st[i].clear();
-        }
-        for(long long i = 0; i < n; i ++){
-            cin >> v[i]; st[v[i]].insert(i);
-        }
+    ll n; cin >> n;
+    cout << com.ncr(0, 1) << endl;
+    cout << com.ncr(3, 0) << endl;
+    cout << com.ncr(3, 4) << endl;
 
-        ans = 1;
-        dfs(0, n, 1);
-
-    }
-    
 
 }

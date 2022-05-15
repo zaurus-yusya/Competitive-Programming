@@ -1,0 +1,159 @@
+{
+  "contest": {
+    "id": "past202112-open",
+    "title": "第九回 アルゴリズム実技検定",
+    "url": "https://atcoder.jp/contests/past202112-open"
+  },
+  "tasks": [
+    {
+      "id": "past202112_a",
+      "label": "A",
+      "title": "Attractions",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_b",
+      "label": "B",
+      "title": "Perforated Coin",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_c",
+      "label": "C",
+      "title": "Fastest Answer",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_d",
+      "label": "D",
+      "title": "Examination",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_e",
+      "label": "E",
+      "title": "Keyboard",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_f",
+      "label": "F",
+      "title": "Like As Shogi",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_g",
+      "label": "G",
+      "title": "Connectivity",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_g",
+      "directory": {
+        "path": "g",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_h",
+      "label": "H",
+      "title": "Longest Non-common Subsequence",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_h",
+      "directory": {
+        "path": "h",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_i",
+      "label": "I",
+      "title": "Direct Elevator",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_i",
+      "directory": {
+        "path": "i",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_j",
+      "label": "J",
+      "title": "Rotate and Reverse",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_j",
+      "directory": {
+        "path": "j",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_k",
+      "label": "K",
+      "title": "Gas Station",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_k",
+      "directory": {
+        "path": "k",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_l",
+      "label": "L",
+      "title": "Honest students",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_l",
+      "directory": {
+        "path": "l",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_m",
+      "label": "M",
+      "title": "Deadnames",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_m",
+      "directory": {
+        "path": "m",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_n",
+      "label": "N",
+      "title": "Intersection",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_n",
+      "directory": {
+        "path": "n",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "past202112_o",
+      "label": "O",
+      "title": "Pair Score",
+      "url": "https://atcoder.jp/contests/past202112-open/tasks/past202112_o",
+      "directory": {
+        "path": "o",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

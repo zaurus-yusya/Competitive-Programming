@@ -1,0 +1,69 @@
+{
+  "contest": {
+    "id": "arc140",
+    "title": "AtCoder Regular Contest 140",
+    "url": "https://atcoder.jp/contests/arc140"
+  },
+  "tasks": [
+    {
+      "id": "arc140_a",
+      "label": "A",
+      "title": "Right String",
+      "url": "https://atcoder.jp/contests/arc140/tasks/arc140_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc140_b",
+      "label": "B",
+      "title": "Shorten ARC",
+      "url": "https://atcoder.jp/contests/arc140/tasks/arc140_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc140_c",
+      "label": "C",
+      "title": "ABS Permutation (LIS ver.)",
+      "url": "https://atcoder.jp/contests/arc140/tasks/arc140_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc140_d",
+      "label": "D",
+      "title": "One to One",
+      "url": "https://atcoder.jp/contests/arc140/tasks/arc140_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc140_e",
+      "label": "E",
+      "title": "Not Equal Rectangle",
+      "url": "https://atcoder.jp/contests/arc140/tasks/arc140_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc140_f",
+      "label": "F",
+      "title": "ABS Permutation (Count ver.)",
+      "url": "https://atcoder.jp/contests/arc140/tasks/arc140_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

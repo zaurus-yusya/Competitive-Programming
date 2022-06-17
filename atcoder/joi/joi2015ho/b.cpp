@@ -31,46 +31,50 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
-ll calc(vector<ll> &w, vector<vector<ll>> &dp, ll l, ll r){
-
+ll n;
+ll calc(vector<ll> &a, vector<vector<ll>> &dp, ll l, ll r){ // [l, r)
     if(dp[l][r] != -1){
         return dp[l][r];
     }
-    if(r - l <= 1){
-        return dp[l][r] = 0;
-    }
-    if(r - l == 0){
-        if(abs(w[l] - w[l+1]) <= 1) return 2;
-        else return 0;
-    }
-
-    if(abs(w[l] - w[r-1]) <= 1 && calc(w, dp, l+1, r-1) == r - l - 2){
-        dp[l][r] = max(dp[l][r], r - l);
-    }
-    
-    for(ll i = l+1; i < r; i++){
-        dp[l][r] = max(dp[l][r], calc(w, dp, l, i) + calc(w, dp, i, r));
+    if(r - l == 1){
+        if((n - 1) % 2 == 0){
+            return a[l];
+        }else{
+            return 0;
+        }
     }
 
-    return dp[l][r];
+    if( (n - (r - l)) % 2 == 0){
+        // JOI
+        ll left = calc(a, dp, l+1, r) + a[l];
+        ll right = calc(a, dp, l, r-1) + a[r-1];
+        return dp[l][r] = max(left, right);
+    }else{
+        // IOI
+        if(a[l] > a[r-1]){
+            return dp[l][r] = calc(a, dp, l+1, r);
+        }else{
+            return dp[l][r] = calc(a, dp, l, r-1);
+        }
+    }
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    while(true){
-        ll n; cin >> n;
-        if(n == 0) break;
+    cin >> n; // 2000
 
-        vector<long long> w(n);
-        for(long long i = 0; i < n; i ++){
-            cin >> w[i];
-        }
-
-        vector<vector<ll>> dp(n+10, vector<ll>(n+10, -1));
-
-        cout << calc(w, dp, 0, n) << endl;
-
-
+    vector<long long> a(2 * n);
+    for(long long i = 0; i < n; i ++){
+        cin >> a[i];
+        a[i + n] = a[i];
     }
+
+    vector<vector<ll>> dp(4010, vector<ll>(4010, -1));
+
+    ll ans = 0;
+    rep(i, n){
+        ans = max(ans, calc(a, dp, i, n+i));
+    }
+    cout << ans << endl;
 
 }

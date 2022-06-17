@@ -30,47 +30,17 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-
-ll calc(vector<ll> &w, vector<vector<ll>> &dp, ll l, ll r){
-
-    if(dp[l][r] != -1){
-        return dp[l][r];
-    }
-    if(r - l <= 1){
-        return dp[l][r] = 0;
-    }
-    if(r - l == 0){
-        if(abs(w[l] - w[l+1]) <= 1) return 2;
-        else return 0;
-    }
-
-    if(abs(w[l] - w[r-1]) <= 1 && calc(w, dp, l+1, r-1) == r - l - 2){
-        dp[l][r] = max(dp[l][r], r - l);
-    }
-    
-    for(ll i = l+1; i < r; i++){
-        dp[l][r] = max(dp[l][r], calc(w, dp, l, i) + calc(w, dp, i, r));
-    }
-
-    return dp[l][r];
-}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    while(true){
-        ll n; cin >> n;
-        if(n == 0) break;
-
-        vector<long long> w(n);
-        for(long long i = 0; i < n; i ++){
-            cin >> w[i];
+    ll r, c; cin >> r >> c; r--; c--;
+    vector<vector<ll>> vec(2, vector<ll>(2));
+    rep(i, 2){
+        rep(j, 2){
+            cin >> vec[i][j];
         }
-
-        vector<vector<ll>> dp(n+10, vector<ll>(n+10, -1));
-
-        cout << calc(w, dp, 0, n) << endl;
-
-
     }
+    cout << vec[r][c] << endl;
 
 }

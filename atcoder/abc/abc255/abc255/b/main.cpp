@@ -30,47 +30,47 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
-
-ll calc(vector<ll> &w, vector<vector<ll>> &dp, ll l, ll r){
-
-    if(dp[l][r] != -1){
-        return dp[l][r];
-    }
-    if(r - l <= 1){
-        return dp[l][r] = 0;
-    }
-    if(r - l == 0){
-        if(abs(w[l] - w[l+1]) <= 1) return 2;
-        else return 0;
-    }
-
-    if(abs(w[l] - w[r-1]) <= 1 && calc(w, dp, l+1, r-1) == r - l - 2){
-        dp[l][r] = max(dp[l][r], r - l);
-    }
-    
-    for(ll i = l+1; i < r; i++){
-        dp[l][r] = max(dp[l][r], calc(w, dp, l, i) + calc(w, dp, i, r));
-    }
-
-    return dp[l][r];
-}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    while(true){
-        ll n; cin >> n;
-        if(n == 0) break;
-
-        vector<long long> w(n);
-        for(long long i = 0; i < n; i ++){
-            cin >> w[i];
-        }
-
-        vector<vector<ll>> dp(n+10, vector<ll>(n+10, -1));
-
-        cout << calc(w, dp, 0, n) << endl;
-
-
+    ll n, k; cin >> n >> k;
+    map<ll, ll> mp;
+    vector<long long> a(k);
+    for(long long i = 0; i < k; i ++){
+        cin >> a[i]; a[i]--;
+        mp[a[i]]++;
     }
+    vector<ll> x(n);
+    vector<ll> y(n);
+    rep(i, n){
+        cin >> x[i] >> y[i];
+    }
+
+    vector<ll> tuyosa(n, INF);
+
+    for(ll i = 0; i < n; i++){ // i番目の人
+        if(mp[i] > 0){
+            tuyosa[i] = 0;
+            // cerr << "i = " << i << endl;
+            for(ll j = 0; j < n; j++){
+                if(mp[j] > 0) continue;
+
+                ll dis = abs(x[i] - x[j]) * abs(x[i] - x[j]) + abs(y[i] - y[j]) * abs(y[i] - y[j]);
+                // cerr << "j = " << j << endl;
+                // cerr << "dis = " << dis << endl;
+                tuyosa[j] = min(tuyosa[j], dis);
+            }
+        }
+    }
+
+    ll ans = -1;
+    rep(i, n){
+        if(mp[i] > 0) continue;
+        ans = max(ans, tuyosa[i]);
+    }
+
+    ld ans2 = ans;
+    cout << sqrt(ans2) << endl;
 
 }

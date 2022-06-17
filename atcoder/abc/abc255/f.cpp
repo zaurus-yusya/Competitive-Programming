@@ -17,7 +17,6 @@ ll get_digit(ll a) {ll digit = 0; while(a != 0){a /= 10; digit++;} return digit;
 template<typename T> void vecdbg(vector<T>& v){ rep(i, v.size()){cerr << v[i] << ' ';} cerr << '\n';}
 template<typename T> void vecvecdbg(vector<vector<T>>& v){ rep(i, v.size()){rep(j, v[i].size()){cerr << v[i][j] << ' ';} cerr << '\n';}}
 ll POW(ll a, ll n){ ll res = 1; while(n > 0){ if(n & 1){ res = res * a; } a *= a; n >>= 1; } return res; }
-using P = pair<ll, ll>;
 const double PI = acos(-1);
 
 // 0 false, 1 true 
@@ -30,47 +29,74 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
-ll calc(vector<ll> &w, vector<vector<ll>> &dp, ll l, ll r){
+ll n;
+vector<ll> P;
+vector<ll> I;
+map<ll, ll> mpP;
+map<ll, ll> mpI;
+vector<pair<ll, ll>> ans;
 
-    if(dp[l][r] != -1){
-        return dp[l][r];
-    }
-    if(r - l <= 1){
-        return dp[l][r] = 0;
-    }
-    if(r - l == 0){
-        if(abs(w[l] - w[l+1]) <= 1) return 2;
-        else return 0;
-    }
 
-    if(abs(w[l] - w[r-1]) <= 1 && calc(w, dp, l+1, r-1) == r - l - 2){
-        dp[l][r] = max(dp[l][r], r - l);
-    }
-    
-    for(ll i = l+1; i < r; i++){
-        dp[l][r] = max(dp[l][r], calc(w, dp, l, i) + calc(w, dp, i, r));
+void calc(ll P_l, ll P_r, ll I_l, ll I_r){ // [l, r) PとIの部分木の左端と右端
+    ll P_root_node = P[P_l];
+    ll I_root_index = mpI[P_root_node];
+
+    if(P_r - P_l == 1){
+        ans[P_root_node] = {0, 0};
+        return;
     }
 
-    return dp[l][r];
+    // Iのrootが [l, r)外だったらダメ
+    if(I_root_index < I_l || I_r <= I_root_index){
+        cout << -1 << endl; exit(0);
+    }
+
+    ll left_tree_length = I_root_index - I_l;
+    ll right_tree_length = I_r - I_root_index - 1;
+
+
+    // Pの左の部分木
+    if(left_tree_length > 0){
+        calc(P_l+1, P_l+1 + left_tree_length, I_l, I_root_index);
+        ans[P_root_node].first = P[P_l+1] + 1;
+    }else{
+        ans[P_root_node].first = 0;
+    }
+
+    // Pの右の部分木
+    if(right_tree_length > 0){
+        calc(P_l+1 + left_tree_length, P_r, I_root_index + 1, I_r);
+        ans[P_root_node].second = P[P_l+1 + left_tree_length] + 1;
+    }else{
+        ans[P_root_node].second = 0;
+    }
 }
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    while(true){
-        ll n; cin >> n;
-        if(n == 0) break;
+    cin >> n;
+    P.assign(n, 0); I.assign(n, 0);
 
-        vector<long long> w(n);
-        for(long long i = 0; i < n; i ++){
-            cin >> w[i];
-        }
-
-        vector<vector<ll>> dp(n+10, vector<ll>(n+10, -1));
-
-        cout << calc(w, dp, 0, n) << endl;
-
-
+    rep(i, n){
+        cin >> P[i]; P[i]--;
+        mpP[P[i]] = i;
+    }
+    rep(i, n){
+        cin >> I[i]; I[i]--;
+        mpI[I[i]] = i;
     }
 
+    if(P[0] != 0){
+        cout << -1 << endl; return 0;
+    }
+
+    ans.assign(n, {-1, -1});
+
+    calc(0, n, 0, n);
+
+    rep(i, n){
+        cout << ans[i].first << " " << ans[i].second << '\n';
+    }
 }

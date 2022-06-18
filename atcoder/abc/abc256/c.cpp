@@ -103,9 +103,5 @@ int main() {
     calc_1();
 
     cout << ans << endl;
-
-    
-
-
     
 }

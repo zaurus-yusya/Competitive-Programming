@@ -30,30 +30,20 @@ const double PI = acos(-1);
 // The type of GRID is CHAR. DONT USE STRING
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
+// for(auto& i: mp) &&&&&&&&&&&&&
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll l, r; cin >> l >> r;
+    ll n, x; cin >> n >> x;
+    string s = "";
 
-    map<ll, ll> mp;
-    for(ll i = l; i <= r; i++){
-        if(mp.count(i % 2019) == 0){
-            mp[i % 2019]++;
-        }else{
-            break;
+    for(char c = 'A'; c <= 'Z'; c++){
+
+        for(ll i = 0; i < n; i++){
+            s += c;
         }
     }
 
-    ll ans = INF;
-
-    for(auto&i: mp){
-        for(auto&j : mp){
-            if(i.first == j.first) continue;
-
-            ans = min(ans, (i.first * j.first) % 2019);
-        }
-    }
-
-    cout << ans << endl;
+    cout << s[x-1] << endl;
 
 }

@@ -8,7 +8,7 @@ typedef long double ld;
 #define all(x) x.begin(),x.end()
 #define br cout << '\n';
 using namespace std;
-const long long INF = 1e18;
+const long long INF = 8e18;
 using Graph = vector<vector<ll>>;
 template<class T> inline bool chmin(T &a, T b) { if(a > b){ a = b; return true;} return false;}
 template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;} return false;}
@@ -32,49 +32,27 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
 
-
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n; cin >> n;
-    vector<long long> a(n);
-    for(long long i = 0; i < n; i ++){
-        cin >> a[i];
+    vector<ll> vec(3);
+    rep(i, 3) cin >> vec[i];
+
+    sort(all(vec));
+
+    ll ans = 0;
+    ll tmp = vec[1] - vec[0];
+    ans += tmp;
+    vec[1] -= tmp;
+    vec[2] -= tmp;
+
+    ll sa = vec[2] - vec[0];
+
+    if(sa > vec[0]){
+        cout << -1 << endl;
+    }else{
+        vec[0] -= sa;
+        ans += sa * 2;
+        ans += vec[0];
+        cout << ans << endl;
     }
-
-    // Anを払う場合と払わない場合でDP
-    vector<vector<ll>> dp(300010, vector<ll>(2, INF));
-
-    // Anを払わない場合
-    dp[0][1] = 0;
-
-    for(ll i = 0; i < n; i++){
-        
-        // i番目を見た時に払わなくていい
-        chmin(dp[i+1][0], dp[i][0] + a[i]);
-        chmin(dp[i+1][0], dp[i][1] + a[i]);
-
-        // i番目を見た時に払わなくてはならない
-        chmin(dp[i+1][1], dp[i][0]);
-    }
-
-    ll ans = min(dp[n][0], dp[n][1]);
-
-    dp.assign(300010, vector<ll>(2, INF));
-
-    // Anを払う場合
-    dp[0][0] = 0;
-
-    for(ll i = 0; i < n-1; i++){
-        // i番目を見た時に払わなくていい
-        chmin(dp[i+1][0], dp[i][0] + a[i]);
-        chmin(dp[i+1][0], dp[i][1] + a[i]);
-
-        // i番目を見た時に払わなくてはならない
-        chmin(dp[i+1][1], dp[i][0]);
-    }
-
-    ll ans2 = min(dp[n-1][0] + a[n-1], dp[n-1][1] + a[n-1]);
-
-    cout << min(ans, ans2) << endl;
-
 }

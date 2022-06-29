@@ -1,0 +1,69 @@
+{
+  "contest": {
+    "id": "arc143",
+    "title": "AtCoder Regular Contest 143",
+    "url": "https://atcoder.jp/contests/arc143"
+  },
+  "tasks": [
+    {
+      "id": "arc143_a",
+      "label": "A",
+      "title": "Three Integers",
+      "url": "https://atcoder.jp/contests/arc143/tasks/arc143_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc143_b",
+      "label": "B",
+      "title": "Counting Grids",
+      "url": "https://atcoder.jp/contests/arc143/tasks/arc143_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc143_c",
+      "label": "C",
+      "title": "Piles of Pebbles",
+      "url": "https://atcoder.jp/contests/arc143/tasks/arc143_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc143_d",
+      "label": "D",
+      "title": "Bridges",
+      "url": "https://atcoder.jp/contests/arc143/tasks/arc143_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc143_e",
+      "label": "E",
+      "title": "Reversi",
+      "url": "https://atcoder.jp/contests/arc143/tasks/arc143_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc143_f",
+      "label": "F",
+      "title": "Counting Subsets",
+      "url": "https://atcoder.jp/contests/arc143/tasks/arc143_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

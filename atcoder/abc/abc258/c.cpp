@@ -135,63 +135,29 @@ template<long long mod> struct MPow {
     }
 };
 
-#define MOD 998244353
 
-typedef ModInt<MOD> mint;
-MComb<MOD> com(510000);
-MPow<MOD> mpow;
+
+
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    ll n, l; cin >> n >> l;
+    ll n, q; cin >> n >> q;
+    string s; cin >> s;
 
-    vector<string> s(n);
-    vector<map<char, ll>> mpv(n);
-    rep(i, n){
-        cin >> s[i];
-        rep(j, s[i].size()){
-            mpv[i][s[i][j]]++;
-        }
-    }
 
-    vector<mint> res(30);
-    for(ll i = 1; i <= 26; i++){
-        res[i] = mpow.modpow(i, l);
-    }
-
-    vector<ll> syurui((1<< n) + 10);
-
-    for(ll i = 0; i < (1<<n); i++){
-        ll pop = __builtin_popcount(i);
-        map<ll, ll> tmp;
-        for(ll j = 0; j < n; j++){
-            if(1 & (i >> j)){
-                for(ll k = 0; k < s[j].size(); k++){
-                    ll num = s[j][k] - 'a';
-                    tmp[num]++;
-                }
-            }
-        }
-
-        ll cnt = 0;
-        for(auto& i: tmp){
-            if(i.second == pop) cnt++;
-        }
-        syurui[i] = cnt;
-    }
-
-    mint ans = 0;
-
-    for(ll i = 1; i < (1 << n); i++){
-        ll pop = __builtin_popcount(i);
-        if(pop % 2 == 1){
-            ans += res[syurui[i]];
+    ll start = 0;
+    rep(i, q){
+        ll t, x; cin >> t >> x;
+        if(t == 1){
+            start = (start - x + n) % n;
+            // cerr << start << endl;
         }else{
-            ans -= res[syurui[i]];
+            x--;
+
+            cout << s[(start + x) % n] << '\n';
+
         }
+
     }
 
-    cout << ans << endl;
-
-    // vecdbg(syurui);
 }

@@ -167,6 +167,7 @@ sort(配列変数.begin(), 配列変数.end(), cmp); //自作関数でソート(
 sort(all(vec),greater<ll>());  //sort 降順
 
 // pair sort 降順
+// pairの要素がdoubleだと何故かsortできないのでstructを作って同じ方法でソートする
 bool cmp(pair<ll, ll> a, pair<ll, ll> b){
     if(a.first != b.first){
         return a.first > b.first;

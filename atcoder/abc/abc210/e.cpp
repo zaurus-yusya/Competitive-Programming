@@ -31,16 +31,45 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
 
-    vector<P> vec(m);
+    vector<pair<ll, ll>> vec(m);
     rep(i, m){
         ll a, c; cin >> a >> c;
-        vec[i] = {c, i};
+        vec[i] = {c, a};
     }
     sort(all(vec));
+
+    /*
+    1 2 3 4
+    a = 2
+    1-3
+    2-4
+
+    a = 3
+    1-4
+    2-1
+    3-2
+
+    1 2 3 4 5
+    a = 2
+    1-3
+    2-4
+    3-5
+    4-1
+    5-2
+
+    a = 3
+    1-4
+    2-5
+    3-1
+    4-2
+    5-3
+    
+    */
 
     
 

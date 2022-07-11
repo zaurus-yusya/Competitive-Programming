@@ -31,8 +31,82 @@ using P = pair<ll, ll>;
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+struct UnionFind
+{
+    vector<long long> d;
+    UnionFind(long long n = 0) : d(n, -1)
+    {
+    }
+
+    //root : -size, not root: root
+    long long root(long long x){
+        if(d[x] < 0){
+            return x; 
+        }
+        return d[x] = root(d[x]);
+    }
+
+    bool unite(long long x, long long y){
+        x = root(x);
+        y = root(y);
+        if(x == y){
+            return false;
+        }
+        if(d[x] > d[y]){
+            swap(x, y);
+        }
+        d[x] += d[y];
+        d[y] = x;
+        return true;
+    }
+
+    long long size(long long x){
+        return -d[root(x)];
+    }
+
+    bool issame(long long a, long long b){
+        return root(a) == root(b);
+    }
+};
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n, m; cin >> n >> m;
+
+    vector<P> vec(m);
+    rep(i, m){
+        ll a, c; cin >> a >> c;
+        vec[i] = {c, a};
+    }
+    sort(all(vec));
+
+    UnionFind uf(n);
+
+    ll ans = 0;
+    for(ll i = 0; i < m; i++){
+
+        ll cost = vec[i].first;
+        ll mm = vec[i].second;
+        // cerr << vec[i].first << " " << vec[i].second << endl;
+        for(ll j = 0; j < n; j++){
+            if(uf.issame(j, ((j+mm) % n)) ){
+                break;
+            }else{
+                uf.unite(j, ((j+mm) % n) );
+                // cerr << j << " " << (j+mm) % n << " " << cost << endl;
+                ans += cost;
+            }
+        }
+        if(uf.size(0) == n){
+            break;
+        }
+    }
+
+    if(ans == 0 || uf.size(0) != n){
+        cout << -1 << endl; return 0;
+    }
+    cout << ans << endl;
+
     
 
 }

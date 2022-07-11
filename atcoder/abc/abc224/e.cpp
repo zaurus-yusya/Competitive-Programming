@@ -32,8 +32,66 @@ const double PI = acos(-1);
 // If the result in local and judge is different, USE CODETEST!!
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 
+
+struct Node
+{
+    ll r, c, a;
+    Node(ll r = 0, ll c = 0, ll a = 0) : r(r), c(c), a(a) {}
+};
+
+bool cmp(Node a, Node b){
+    if(a.a != b.a){
+        return a.a > b.a;
+    }else{
+        if(a.r != b.r){
+            return a.r < b.r;
+        }else{
+            return a.c < b.c;
+        }
+    }
+}
+
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    
+    ll h, w, n; cin >> h >> w >> n;
+    vector<Node> vec;
+
+    map<ll, vector<ll>> mp;
+    rep(i, n){
+        ll r, c, a; cin >> r >> c >> a;
+        vec.emplace_back(r, c, a);
+        mp[a].push_back(i);
+    }
+
+    map<ll, ll> row;
+    map<ll, ll> column;
+
+    vector<ll> res(n);
+
+    for(auto itr = mp.rbegin(); itr != mp.rend(); itr++){
+        
+        // 同じ a の値
+        for(ll i = 0; i < itr->second.size(); i++){
+            ll x = itr->second[i]; // x番目のマス
+            ll nowr = vec[x].r;
+            ll nowc = vec[x].c;
+            
+            res[x] = max(row[nowr], column[nowc]);
+        }
+
+        // 同じ a の値
+        for(ll i = 0; i < itr->second.size(); i++){
+            ll x = itr->second[i]; // x番目のマス
+            ll nowr = vec[x].r;
+            ll nowc = vec[x].c;
+
+            row[nowr] = max(row[nowr], (res[x]+1));
+            column[nowc] = max(column[nowc], (res[x]+1));
+        }
+    }
+
+    rep(i, n){
+        cout << res[i] << '\n';
+    }
 
 }

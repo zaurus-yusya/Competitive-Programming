@@ -1,0 +1,179 @@
+{
+  "contest": {
+    "id": "joisc2010",
+    "title": "2010年 日本情報オリンピック春合宿OJ",
+    "url": "https://atcoder.jp/contests/joisc2010"
+  },
+  "tasks": [
+    {
+      "id": "joisc2010_poster",
+      "label": "poster",
+      "title": "JOIポスター (JOI Poster)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_poster",
+      "directory": {
+        "path": "poster",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_sengoku",
+      "label": "sengoku",
+      "title": "戦国時代 (Sengoku)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_sengoku",
+      "directory": {
+        "path": "sengoku",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_stairs",
+      "label": "stairs",
+      "title": "階段 (Stairs)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_stairs",
+      "directory": {
+        "path": "stairs",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_aplusb",
+      "label": "aplusb",
+      "title": "足し算 (a + b problem)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_aplusb",
+      "directory": {
+        "path": "aplusb",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_dna",
+      "label": "dna",
+      "title": "DNAの合成 (DNA Synthesizer)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_dna",
+      "directory": {
+        "path": "dna",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_regions",
+      "label": "regions",
+      "title": "地域 (Regions)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_regions",
+      "directory": {
+        "path": "regions",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_finals",
+      "label": "finals",
+      "title": "本選会場 (Finals)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_finals",
+      "directory": {
+        "path": "finals",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_hideseek",
+      "label": "hideseek",
+      "title": "かくれんぼ (Hide-and-seek)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_hideseek",
+      "directory": {
+        "path": "hideseek",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_simroad1",
+      "label": "simroad1",
+      "title": "シムロード (SimRoad)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_simroad1",
+      "directory": {
+        "path": "simroad1",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_simroad2",
+      "label": "simroad2",
+      "title": "シムロード (SimRoad)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_simroad2",
+      "directory": {
+        "path": "simroad2",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_simroad3",
+      "label": "simroad3",
+      "title": "シムロード (SimRoad)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_simroad3",
+      "directory": {
+        "path": "simroad3",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_simroad4",
+      "label": "simroad4",
+      "title": "シムロード (SimRoad)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_simroad4",
+      "directory": {
+        "path": "simroad4",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_simroad5",
+      "label": "simroad5",
+      "title": "シムロード (SimRoad)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_simroad5",
+      "directory": {
+        "path": "simroad5",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_contest",
+      "label": "contest",
+      "title": "コンテスト (Contest)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_contest",
+      "directory": {
+        "path": "contest",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_highway",
+      "label": "highway",
+      "title": "高速道路 (Highway)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_highway",
+      "directory": {
+        "path": "highway",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_lake",
+      "label": "lake",
+      "title": "湖 (Lake)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_lake",
+      "directory": {
+        "path": "lake",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joisc2010_plugs",
+      "label": "plugs",
+      "title": "プラグ (Plugs)",
+      "url": "https://atcoder.jp/contests/joisc2010/tasks/joisc2010_plugs",
+      "directory": {
+        "path": "plugs",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

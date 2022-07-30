@@ -1,0 +1,69 @@
+{
+  "contest": {
+    "id": "joi2016yo",
+    "title": "第１５回日本情報オリンピック 予選（過去問）",
+    "url": "https://atcoder.jp/contests/joi2016yo"
+  },
+  "tasks": [
+    {
+      "id": "joi2016yo_a",
+      "label": "A",
+      "title": "科目選択 (Selecting Subjects)",
+      "url": "https://atcoder.jp/contests/joi2016yo/tasks/joi2016yo_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joi2016yo_b",
+      "label": "B",
+      "title": "ゼッケンの交換 (Swapping Bibs)",
+      "url": "https://atcoder.jp/contests/joi2016yo/tasks/joi2016yo_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joi2016yo_c",
+      "label": "C",
+      "title": "ロシアの旗 (Russian Flag)",
+      "url": "https://atcoder.jp/contests/joi2016yo/tasks/joi2016yo_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joi2016yo_d",
+      "label": "D",
+      "title": "JOI国のお散歩事情 (Walking in JOI Kingdom)",
+      "url": "https://atcoder.jp/contests/joi2016yo/tasks/joi2016yo_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joi2016yo_e",
+      "label": "E",
+      "title": "ゾンビ島 (Zombie Island)",
+      "url": "https://atcoder.jp/contests/joi2016yo/tasks/joi2016yo_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "joi2016yo_f",
+      "label": "F",
+      "title": "屋台 (Food stalls)",
+      "url": "https://atcoder.jp/contests/joi2016yo/tasks/joi2016yo_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

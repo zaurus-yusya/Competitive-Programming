@@ -1,0 +1,69 @@
+{
+  "contest": {
+    "id": "arc144",
+    "title": "AtCoder Regular Contest 144",
+    "url": "https://atcoder.jp/contests/arc144"
+  },
+  "tasks": [
+    {
+      "id": "arc144_a",
+      "label": "A",
+      "title": "Digit Sum of 2x",
+      "url": "https://atcoder.jp/contests/arc144/tasks/arc144_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc144_b",
+      "label": "B",
+      "title": "Gift Tax",
+      "url": "https://atcoder.jp/contests/arc144/tasks/arc144_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc144_c",
+      "label": "C",
+      "title": "K Derangement",
+      "url": "https://atcoder.jp/contests/arc144/tasks/arc144_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc144_d",
+      "label": "D",
+      "title": "AND OR Equation",
+      "url": "https://atcoder.jp/contests/arc144/tasks/arc144_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc144_e",
+      "label": "E",
+      "title": "GCD of Path Weights",
+      "url": "https://atcoder.jp/contests/arc144/tasks/arc144_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "arc144_f",
+      "label": "F",
+      "title": "Arithmetic Sequence Nim",
+      "url": "https://atcoder.jp/contests/arc144/tasks/arc144_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

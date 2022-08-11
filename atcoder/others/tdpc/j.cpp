@@ -33,9 +33,20 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
-    vector<ll> vec = {1, 3, 5, 7, 9};
-    ll x; cin >> x;
-    ll dis = lower_bound(vec.begin()+1, vec.end(), x) - vec.begin();
-    cout << dis << endl;
+    ll n; cin >> n;
+    vector<long long> x(n);
+    map<ll, ll> mp;
+    for(long long i = 0; i < n; i ++){
+        cin >> x[i]; mp[x[i]]++;
+    }
+
+    //hinagata 引数は適宜追加する
+    //https://atcoder.jp/contests/past201912-open/submissions/18980789
+    vector<ld> dp((1<<16) + 10, 0);
+    dp[0] = 0;
+    
+    for(ll i = 0; i < (1<<16); i++){
+
+    }
 
 }

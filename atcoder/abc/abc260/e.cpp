@@ -1,6 +1,4 @@
 #include <bits/stdc++.h>
-#include <atcoder/all>
-using namespace atcoder;
 typedef long long ll;
 typedef long double ld;
 #define rep(i,n) for(ll i=0;i<(n);i++)
@@ -31,40 +29,12 @@ const double PI = acos(-1);
 // (a * b)over flow?   if(a > INF / b){ /* overflow */}
 // for(auto& i: mp) &&&&&&&&&&&&&
 
-using S = long long;
-using F = long long;
-
-const S INF = 8e18;
-
-S op(S a, S b){ return std::min(a, b); }
-S e(){ return INF; }
-S mapping(F f, S x){ return f+x; }
-F composition(F f, F g){ return f+g; }
-F id(){ return 0; }
-
-//宣言
-//lazy_segtree<S, op, e, F, mapping, composition, id> seg(n); //e()で初期化
-//lazy_segtree<S, op, e, F, mapping, composition, id> seg(vec); //vecの値で初期化
-//seg.set(i, x); //i番目の値をxに更新
-//seg.get(i); //i番目の要素を取得
-//seg.prod(l, r); //[l, r)の区間のopを計算
-//seg.all_prod(); //[0, n)の区間のopを計算
-//seg.apply(l, r, f) //[l, r)に対してmappingを実施
-//単位元 e()
-//min: INF, max: -INF, 和: 0, 積: 1, xor: 0, gcd: 0, lcm: 1
-//1点取得のとき、getじゃなくてprod(x, x+1)した方がいいかも
-//区間和求める時は宣言方法が違うので「acl segtree チートシートでググる」
-
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     ll n, m; cin >> n >> m;
     vector<ll> a(n);
     vector<ll> b(n);
-    lazy_segtree<S, op, e, F, mapping, composition, id> seg(m+10);
-    rep(i, m+10){
-        seg.set(i, 0);
-    }
 
     map<ll, ll> mpa;
     map<ll, ll> mpb;
@@ -78,8 +48,6 @@ int main() {
     ll right = 1;
     ll sum = 0;
 
-    sum += mpa[1];
-    sum += mpb[1];
     for(ll left = 1; left <= m; left++){
         cerr << "start " << left << " " << right << " " << sum << endl;
 
@@ -96,7 +64,6 @@ int main() {
         cerr << "l = " << l << " r = " << r << endl;
         if(sum >= n){
             cerr << "ok" << endl;
-            seg.apply(l, r+1, 1);
         }
 
 
@@ -110,8 +77,5 @@ int main() {
 
         
     }
-    for(ll i = 1; i <= m; i++){
-        cout << seg.get(i) << ' ';
-    }br;
 
 }

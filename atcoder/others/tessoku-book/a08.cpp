@@ -49,7 +49,7 @@ int main() {
 
     ll q; cin >> q;
     rep(i, q){
-        ll a, b, c, d; cin >> a >> b >> c >> d;
+        ll a, b, c, d; cin >> a >> b >> c >> d; a--; b--;
         cout << sum[c][d] - sum[a][d] - sum[c][b] + sum[a][b] << endl;
     }
 

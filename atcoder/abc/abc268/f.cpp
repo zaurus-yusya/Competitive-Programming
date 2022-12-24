@@ -34,6 +34,12 @@ const double PI = acos(-1);
 
 int main() {
     std::cout << std::fixed << std::setprecision(15);
+    ll n; cin >> n;
+    vector<ll> vec(s);
+    rep(i, n){
+        cin >> s[i];
+    }
+
     
 
 }

@@ -1,0 +1,69 @@
+{
+  "contest": {
+    "id": "agc059",
+    "title": "AtCoder Grand Contest 059",
+    "url": "https://atcoder.jp/contests/agc059"
+  },
+  "tasks": [
+    {
+      "id": "agc059_a",
+      "label": "A",
+      "title": "My Last ABC Problem",
+      "url": "https://atcoder.jp/contests/agc059/tasks/agc059_a",
+      "directory": {
+        "path": "a",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "agc059_b",
+      "label": "B",
+      "title": "Arrange Your Balls",
+      "url": "https://atcoder.jp/contests/agc059/tasks/agc059_b",
+      "directory": {
+        "path": "b",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "agc059_c",
+      "label": "C",
+      "title": "Guessing Permutation for as Long as Possible",
+      "url": "https://atcoder.jp/contests/agc059/tasks/agc059_c",
+      "directory": {
+        "path": "c",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "agc059_d",
+      "label": "D",
+      "title": "Distinct Elements on Subsegments",
+      "url": "https://atcoder.jp/contests/agc059/tasks/agc059_d",
+      "directory": {
+        "path": "d",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "agc059_e",
+      "label": "E",
+      "title": "Grid 3-coloring",
+      "url": "https://atcoder.jp/contests/agc059/tasks/agc059_e",
+      "directory": {
+        "path": "e",
+        "testdir": "tests"
+      }
+    },
+    {
+      "id": "agc059_f",
+      "label": "F",
+      "title": "LIDS",
+      "url": "https://atcoder.jp/contests/agc059/tasks/agc059_f",
+      "directory": {
+        "path": "f",
+        "testdir": "tests"
+      }
+    }
+  ]
+}

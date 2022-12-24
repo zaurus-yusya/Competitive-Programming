@@ -21,20 +21,13 @@ template<class T> inline bool chmax(T &a, T b) { if(a < b){ a = b; return true;}
 int main() {
     std::cout << std::fixed << std::setprecision(15);
     string s, t; cin >> s >> t;
-    ll s_size = s.size();
-    ll t_size = t.size();
+    vector<vector<ll>> dp(s.size()+1, vector<ll>(t.size()+1));
 
-    vector<vector<ll>> dp(s_size+1, vector<ll>(t_size+1));
+    rep(i, s.size()+1) dp[i][0] = i;
+    rep(i, t.size()+1) dp[0][i] = i;
 
-    rep(i, s_size+1){
-        dp[i][0] = i;
-    }
-    rep(i, t_size+1){
-        dp[0][i] = i;
-    }
-
-    rep(i, s_size){
-        rep(j, t_size){
+    rep(i, s.size()){
+        rep(j, t.size()){
             if(s[i] == t[j]){
                 dp[i+1][j+1] = dp[i][j];
             }else{
@@ -45,7 +38,7 @@ int main() {
         }
     }
 
-    cout << dp[s_size][t_size] << endl;
+    cout << dp[s.size()][t.size()] << endl;
     
 
 }
